@@ -43,4 +43,5 @@ Mutacja jest losowa podczas tworzenia dziecka
 - Kliknąć na zwierzątko i wyświetlić jego parametry, 
 - Chcemy to zapisywać do pliku CSV, 
 
-Możemy stworzyć 
+Możemy stworzyć od nowa nie bazując na poprzednim
+
