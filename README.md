@@ -1,4 +1,6 @@
 # java-project
+
+# Oba warianty mapy + Toksyczne trupy + Lekka korekta + Nieco szaleństwa 
  
 # Punktacja 16/16
 
