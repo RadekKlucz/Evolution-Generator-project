@@ -1,5 +1,8 @@
 # java-project
 
+Treść:
+[strona projektu](https://github.com/apohllo/obiektowe-lab/tree/master/proj1)
+
 # Oba warianty mapy + Toksyczne trupy + Lekka korekta + Nieco szaleństwa 
  
 # Punktacja 16/16
