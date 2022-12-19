@@ -93,6 +93,54 @@ przycisk wczytaj  i uruchamia się mapa
 uruchom n symulacji
 każdą symulacje możemy zatrzymać i podglądnąć co się dzieje (np statystyki) 
 można kliknąć w zwierzątko i wyświetlić atrybuty informacje
-można zapisać zrzut z każdej symulacji w pliku csv
+można zapisać zrzut z każdej symulacji w pliku 
+
+
+# Plan projektu 
+
+## Pytania 
+
+1. Jak zrealizować te warianty mapy? Możliwości wybory, czy jakoś połączone? 
+2. Jaka liczba roślin odrasta w następnym dniu? Czy to ma być z góry ustalona wartość, czy losowo wybrana?  
+3. Jaka początkowa liczba zwierząt ma być? Też losowa? 
+4. Kto zjada roślinę jak jest kilka zwirząt na jednej kratce? 
+
+# Szkic ogólny 
+
+Aplikacja będzie wyświetlała nam albo barwy zwierząt (i i ch energii) i roślin lub będzie wyświatlała za pomocą obrazków, które będą się zmieniać w zależności od warunków istnienia. 
+
+## Klasa Plant 
+
+Bedzie zawiarała getery, które pobiorą pozycję rośliny oraz jej energię (jeśli się na nią zdecydujemy). Klasa będzie posiadała również wyświetlanie na mapie
+
+## Klasa animal 
+
+Bedzie posiadała: 
+- energię,
+- pozycję, 
+- geny,
+- informaję z którego geny skorzysta w następnym dniu, 
+- listę aktualnych genów dla zwierzęcia,
+- bedzie posiadała obserwatora, 
+- ile czasu żyje zwierzątko,
+
+
+## Klasa Genes
+
+Ta klasa będzie odpowiadała za pobranie genów rodziców oraz zwrócenie nowego zwierzątka na mapę. Dodatkowo klasa bęzie odpowiedzialna za mutację nowo narodzonego zwierzątka. 
+
+## Klasa Vector2d 
+
+Odpowiada za porusznie się zwierzęcia. Podobnie zdefiniowania jak na zajęciach, 
+
+## Klasa Map 
+
+Tutaj będą dwa warianty mapy, które będą wybierane podczas startu symulacji (jeśli ma tak być jak myślimy, patrz pytanie)
+
+Bezdzie również klasa Engine, która będzie odpowadała za symulacje danego dnia (podobnie jak na laboratoriach)
+W foldrze world będą klasy odpowiedzialne za wyświetlenie menu aplikacji (GUI), wczytywanie konfiguracji oraz zapis istniejącej konfiguracji mapy do pliku CSV. 
+
+
+
 
 
