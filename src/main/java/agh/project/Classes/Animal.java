@@ -18,16 +18,24 @@ public class Animal extends AbstractMapElement {
         this.map = map;
     }
 
+    public int getActiveGenIndex(){ // tu trzeba się zastanowić
+        return this.genes.getActiveGenIndex();
+    }
+
+    //move function
 
 
     @Override
     public Vector2d getPosition() {
-        return null;
+        return position;
     }
 
     public int getEnergy() {
         return energy;
     }
+
+    public Genes getGenes(){return genes;}
+
 
     // Czy na pewno bawić się z obrazkami ?
     @Override
