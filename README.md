@@ -141,6 +141,13 @@ Bezdzie również klasa Engine, która będzie odpowadała za symulacje danego d
 W foldrze world będą klasy odpowiedzialne za wyświetlenie menu aplikacji (GUI), wczytywanie konfiguracji oraz zapis istniejącej konfiguracji mapy do pliku CSV. 
 
 
+# Wskazówki 
 
+## Trello do projektu w celu organizacji 
 
+## eXtreme programing 
+ 
+ Takie fizyczne lub discordowe programowanie 
+ 
+ Jeden klepie drugi się patrzy.
 
