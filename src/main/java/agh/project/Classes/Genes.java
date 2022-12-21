@@ -52,4 +52,21 @@ public class Genes {
 
         return next;
     }
+
+    public void mutation(){
+        for(int gen: this.genes){
+            Random random = new Random();
+            int[] values = {-1,1};
+            int index = random.nextInt(values.length);
+            int v = values[index];
+
+            gen = gen + v;
+            if (gen < 0){
+                gen = 7;
+            }
+            else if(gen > 7){
+                gen = 0;
+            }
+        }
+    }
 }
