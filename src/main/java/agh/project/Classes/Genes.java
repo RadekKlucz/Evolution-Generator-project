@@ -12,8 +12,72 @@ public class Genes {
         this.genes = new ArrayList<>();
     }
 
+    public void setStartGenes(int gensNumber){
+        Random random = new Random();
+        for(int i=0; i<gensNumber; i++){
+            this.genes.add(random.nextInt(0,8));
+        }
+    }
+
+    public void setChildGens(Animal fatherAnimal, Animal matherAnimal){
+        int fatherEnergy = fatherAnimal.getEnergy();
+        int matherEnergy = matherAnimal.getEnergy();
+        int sumEnergy = fatherEnergy + matherEnergy;
+        int gensSize = fatherAnimal.getGenes().lenght();
+
+        float percentFatherAnimalGenes = (fatherEnergy / sumEnergy) * gensSize;
+        float percentMatherAnimalGenes = (matherEnergy / sumEnergy) * gensSize;
+        int strongAnimal;
+        int weakAnimal;
+
+        ArrayList<Integer> fatherGens =  fatherAnimal.getGenes().getGenes();
+        ArrayList<Integer> matherGens =  fatherAnimal.getGenes().getGenes();
+
+
+
+        if(fatherEnergy > matherEnergy){
+            strongAnimal = fatherEnergy;
+            weakAnimal = matherEnergy;
+        }else {
+            strongAnimal = matherEnergy;
+            weakAnimal = fatherEnergy;
+        }
+
+
+        Random random = new Random();
+        int side = random.nextInt(0,2);
+        if (side == 0){
+            if(fatherEnergy > matherEnergy){
+                for(int i=0; i<percentFatherAnimalGenes; i++){
+                    //pobież od ojca
+                    this.genes.add(fatherGens.get(i));
+
+                }
+                for(int i=gensSize; i>percentMatherAnimalGenes; i--){
+                    //pobież od matki
+                    this.genes.add(matherGens.get(i));
+                }
+            }
+        }else {
+            if (matherEnergy > fatherEnergy) {
+                for (int i = 0; i < percentFatherAnimalGenes; i++) {
+                    //pobież od matki
+                    this.genes.add(matherGens.get(i));
+
+                }
+                for (int i = gensSize; i > percentMatherAnimalGenes; i--) {
+                    //pobież od ojca
+                    this.genes.add(fatherGens.get(i));
+                }
+            }
+        }
+    }
     public int getActiveGenIndex() { /// to chyba jednak w animal
         return activeGenIndex;
+    }
+
+    public ArrayList<Integer> getGenes() {
+        return genes;
     }
 
     private void changeActiveGenInex(int newIndex){ /// to chyba jednak w animal

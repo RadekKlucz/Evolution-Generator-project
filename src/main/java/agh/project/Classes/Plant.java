@@ -12,7 +12,6 @@ public class Plant extends AbstractMapElement {
     @Override
     public Vector2d getPosition() {
         return position;
-        // czy energie trawy tez zdefiniować?
     }
 
     @Override
