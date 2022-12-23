@@ -2,6 +2,8 @@ package agh.project.Classes;
 
 import agh.project.AbstractClasses.AbstractMapElement;
 
+import java.awt.*;
+
 public class Plant extends AbstractMapElement {
     private final Vector2d position;
 
@@ -16,11 +18,11 @@ public class Plant extends AbstractMapElement {
 
     @Override
     public String toString() {
-        return "P" + position.toString();
+        return "Position" + position.toString();
     }
 
     @Override
-    public String getPath() {
-        return "src/main/resources/grass.png";
+    public Color getColor() {
+        return new Color(47, 241, 6);
     }
 }
