@@ -1,21 +1,20 @@
 package agh.project.Classes;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Genes {
     protected ArrayList<Integer> genes;
     public int activeGenIndex = 0;
 
-    public Genes(ArrayList<Integer> genes){
+    public Genes(){
         this.genes = new ArrayList<>();
     }
 
     public void setStartGenes(int gensNumber){
         Random random = new Random();
         for(int i=0; i<gensNumber; i++){
-            this.genes.add(random.nextInt(0,8));
+            this.genes.add(random.nextInt(8));
         }
     }
 
@@ -45,7 +44,7 @@ public class Genes {
 
 
         Random random = new Random();
-        int side = random.nextInt(0,2);
+        int side = random.nextInt(2);
         if (side == 0){
             if(fatherEnergy > matherEnergy){
                 for(int i=0; i<percentFatherAnimalGenes; i++){
@@ -107,7 +106,6 @@ public class Genes {
         Random random = new Random();
         if (random.nextDouble() < 0.2){
             nextIndex = random.nextInt(this.genes.size());
-//            next =  this.genes.get(random.nextInt(this.genes.size())); // czy tutaj trzeba dodac 1 do size i odjąć 1 od całości???
             next = this.genes.get(nextIndex);
         }
 

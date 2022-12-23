@@ -12,20 +12,22 @@ import java.util.ArrayList;
 public class Animal extends AbstractMapElement {
     private IWorldMap map;
     private MapDirection direction = MapDirection.getRandomPosition();
-
-    private int grassEaten = 0;
-
-    private int kids = 0;
-
-    private int age = 0;
     private Vector2d position;
-    private int energy;
-
     private int startEnergy;
-//    private ArrayList<IPositionChangeObserver> observerList = new ArrayList<>();
+    private int energy;
+    private int energyToCopulate;
     private Genes genes;
-    public Animal(IWorldMap map) {
+    private int grassEaten = 0;
+    private int kids = 0;
+    private int age = 0;
+
+    //    private ArrayList<IPositionChangeObserver> observerList = new ArrayList<>();
+
+    public Animal(IWorldMap map, Vector2d position, int energy) {
         this.map = map;
+        this.position = position;
+        this.energy = energy;
+        this.genes = new Genes();
     }
 
     public int getActiveGenIndex(){ // tu trzeba się zastanowić
@@ -95,8 +97,17 @@ public class Animal extends AbstractMapElement {
     public Genes getGenes(){return genes;}
 
     //copulation
-    public Animal population(Animal animal){
-        //
+    public Animal copulation(Animal secondParent){
+        int childEnergy;
+        if ((this.energyToCopulate < this.energy) && (this.energyToCopulate < secondParent.energy)) {
+            childEnergy = 2 * this.energyToCopulate;
+            this.energy -= this.energyToCopulate;
+            secondParent.energy -= this.energyToCopulate;
+
+            Animal child = new Animal(this.map, this.position, childEnergy);
+            child.genes.setChildGens(this, secondParent);
+            return child;
+        }
         return null;
     }
 
@@ -109,9 +120,6 @@ public class Animal extends AbstractMapElement {
         energy += value;
     }
 
-
-
-    // Czy na pewno bawić się z obrazkami ?
     @Override
     public Color getColor() {
         if(energy == 0) {

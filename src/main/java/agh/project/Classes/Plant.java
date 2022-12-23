@@ -2,7 +2,7 @@ package agh.project.Classes;
 
 import agh.project.AbstractClasses.AbstractMapElement;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class Plant extends AbstractMapElement {
     private final Vector2d position;
