@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class Animal extends AbstractMapElement {
     private IWorldMap map;
-    private MapDirection direction = MapDirection.getRandomPosition();
-    private Vector2d position;
+    public MapDirection direction = MapDirection.getRandomPosition();
+    public Vector2d position;
     private int startEnergy;
     private int energy;
     private int energyToCopulate;

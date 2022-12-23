@@ -29,6 +29,7 @@ public interface IWorldMap {
      */
     boolean place(Animal animal);
 
+    //zmień opis
     /**
      * Return true if given position on the map is occupied. Should not be
      * confused with canMove since there might be empty positions where the animal
@@ -38,7 +39,7 @@ public interface IWorldMap {
      *            Position to check.
      * @return True if the position is occupied.
      */
-    boolean isOccupied(Vector2d position);
+    boolean isOccupiedByPlant(Vector2d position);
 
     /**
      * Return an object at a given position.
@@ -47,4 +48,7 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     IMapElement objectAt(Vector2d position);
+
+    //dodaj opis
+    void specialMoves(Animal animal, Vector2d checkVector);
 }

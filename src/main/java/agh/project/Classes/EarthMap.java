@@ -1,5 +1,6 @@
 package agh.project.Classes;
 
+import agh.project.EnumClasses.MapDirection;
 import agh.project.Interfaces.IMapElement;
 import agh.project.Interfaces.IWorldMap;
 
@@ -72,7 +73,22 @@ public class EarthMap implements IWorldMap {
     }
 
     public void specialMoves(Animal animal, Vector2d checkVector) {
-        a
+        if(checkVector.y < 0){
+            animal.direction = MapDirection.NORTH;
+        }
+        if(checkVector.y > height){
+            animal.direction = MapDirection.SOUTH;
+        }
+        if(checkVector.x < 0){
+            int y = animal.position.y;
+            animal.position = new Vector2d(width, y);
+        }
+        if(checkVector.x > width){
+            int y = animal.position.y;
+            animal.position = new Vector2d(0, y);
+        }
+        //sprawdź przypadki kiedy jest w rogach
+
     }
 
 
@@ -88,8 +104,8 @@ public class EarthMap implements IWorldMap {
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) {
-        return false;
+    public boolean isOccupiedByPlant(Vector2d position) {
+        return this.plants.containsKey(position);
     }
 
     @Override
