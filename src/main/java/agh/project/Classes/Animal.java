@@ -5,6 +5,8 @@ import agh.project.EnumClasses.MapDirection;
 import agh.project.Interfaces.IPositionChangeObserver;
 import agh.project.Interfaces.IWorldMap;
 
+import javax.swing.plaf.ColorUIResource;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Animal extends AbstractMapElement {
@@ -18,6 +20,8 @@ public class Animal extends AbstractMapElement {
     private int age = 0;
     private Vector2d position;
     private int energy;
+
+    private int startEnergy;
 //    private ArrayList<IPositionChangeObserver> observerList = new ArrayList<>();
     private Genes genes;
     public Animal(IWorldMap map) {
@@ -109,16 +113,20 @@ public class Animal extends AbstractMapElement {
 
     // Czy na pewno bawić się z obrazkami ?
     @Override
-    public String getPath() {
-        return switch (this.direction) {
-            case NORTH -> "src/main/resources/up.png";
-            case NORTH_EAST -> "src/main/resources/up-right.png";
-            case EAST -> "src/main/resources/right.png";
-            case SOUTH_EAST -> "src/main/resources/down-right.png";
-            case SOUTH -> "src/main/resources/down.png";
-            case SOUTH_WEST -> "src/main/resources/down-left.png";
-            case WEST -> "src/main/resources/left.png";
-            case NORTH_WEST -> "src/main/resources/up-left.png";
-        };
+    public Color getColor() {
+        if(energy == 0) {
+            return new Color(0x8C040A); // very dark red
+        } else if (energy <= startEnergy * 0.3) {
+            return new Color(0xFF0008); // red
+        } else if ((energy <= startEnergy * 0.5) && (energy > startEnergy * 0.3)) {
+            return new Color(0xFD6801); // orange
+        } else if ((energy <= startEnergy *0.7) && (energy > startEnergy * 0.5)) {
+            return new Color(0xE59E6C); // light orange
+        } else if ((energy <= startEnergy) && (energy > startEnergy * 0.7)) {
+            return new Color(0xC1C94F); // gold
+        } else if (energy > startEnergy) {
+            return new Color(0x3F1010); // brown
+        }
+        return new Color(0x000000); // dark
     }
 }

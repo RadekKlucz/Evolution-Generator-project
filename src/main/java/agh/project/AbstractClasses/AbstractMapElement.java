@@ -3,6 +3,8 @@ package agh.project.AbstractClasses;
 import agh.project.Classes.Vector2d;
 import agh.project.Interfaces.IMapElement;
 
+import java.awt.*;
+
 public abstract class AbstractMapElement implements IMapElement {
     protected Vector2d position;
     protected int energy;
@@ -13,7 +15,7 @@ public abstract class AbstractMapElement implements IMapElement {
     }
 
     @Override
-    public String getPath() {
+    public Color getColor() {
         return null;
     }
 
