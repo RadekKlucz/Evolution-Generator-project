@@ -5,7 +5,7 @@ Treść:
 
 # Oba warianty mapy + Toksyczne trupy + Lekka korekta + Nieco szaleństwa 
  
-# Punktacja 16/16
+# Punktacja 14/14 + 1.6 pkt 
 
 Punkty przyznawana na końcu w tym dwa punkty przed świętami 
 
