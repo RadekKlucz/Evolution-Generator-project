@@ -39,39 +39,63 @@ public class Animal extends AbstractMapElement {
         ArrayList genesList =  genes.getGenes();
         int gen = (int) genesList.get(genes.getActiveGenIndex());
 
+        //temporary position
+        Vector2d tempPosition = this.position;
+
         switch (gen){
             case 0 -> position.add(this.direction.toUnitVector());
             case 1 -> {
                 direction.next();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
+
             }
             case 2 -> {
                 direction.next().next();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 3 -> {
                 direction.next().next().next();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 4 -> {
-                position.subtract(this.direction.toUnitVector());
+//                position.subtract(this.direction.toUnitVector());
+                tempPosition = tempPosition.subtract(this.direction.toUnitVector());
             }
             case 5 -> {
                 direction.previous().previous().previous();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 6 -> {
                 direction.previous().previous();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 7 -> {
                 direction.previous();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
         }
-        // bez sprawdzania czy można się ruszyć
+        // bez sprawdzania czy można się ruszyć(było)
+
+        //dodaje nowy mechanizm
+        //jeżeli nie może się ruczyć w dane miejsce(chce wyjść poza mapę)
+        if(!this.map.canMoveTo(this.position)){
+
+            //wtedy użyj spejalnej metody poruszania (w zależności od wariantu mapy)
+            this.map.specialMoves(this, tempPosition);
+
+        }else { // wprzeciwnym przypadku zwierzę rusza się w obrębie mapy więc ruch jest poprawny
+            this.position = tempPosition;
+        }
+
 
         this.ageIncrement();
+        //trzeba gdzieś uruchomić funkcję aktywującą nowy gen na następny dzień
     }
 
     public void incrementGrassEaten(){
@@ -101,8 +125,8 @@ public class Animal extends AbstractMapElement {
         int childEnergy;
         if ((this.energyToCopulate < this.energy) && (this.energyToCopulate < secondParent.energy)) {
             childEnergy = 2 * this.energyToCopulate;
-            this.energy -= this.energyToCopulate;
-            secondParent.energy -= this.energyToCopulate;
+            this.energy -= this.energyToCopulate; // można za pomocą funkcji remove energy
+            secondParent.energy -= this.energyToCopulate; // można za pomocą funkcji remove energy
 
             Animal child = new Animal(this.map, this.position, childEnergy);
             child.genes.setChildGens(this, secondParent);
@@ -118,6 +142,12 @@ public class Animal extends AbstractMapElement {
 
     public void addEnergy(int value){
         energy += value;
+    }
+    public void removeEnergy(int value){
+        energy -= value;
+        if (energy < 0){
+            energy = 0;
+        }
     }
 
     @Override

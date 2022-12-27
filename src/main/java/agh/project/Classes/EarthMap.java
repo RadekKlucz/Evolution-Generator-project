@@ -18,6 +18,8 @@ public class EarthMap implements IWorldMap {
     private int startAnimals;
     private int startEnergy;
 
+    private int dailyPlants;
+
     public EarthMap(int width, int height) {
         if (width < 0 || height < 0) {
             try {
@@ -91,6 +93,44 @@ public class EarthMap implements IWorldMap {
 
     }
 
+    public void generateDailyPlants(){
+        for(int i = 0; i < dailyPlants; i++){
+            Random random = new Random();
+            int xRandom;
+            int yRandom;
+
+            //random place
+            if(random.nextDouble() < 0.2){
+                while (true) {
+                    boolean repeat = false;
+                    xRandom = random.nextInt(this.width);
+                    yRandom = random.nextInt(this.height);
+
+                    Vector2d newRandomVector = new Vector2d(xRandom, yRandom);
+
+                    for (Vector2d position : plants.keySet())
+                        if (position.equals(newRandomVector)) {
+                            repeat = true;
+                        }
+
+                    if (!repeat) {
+                        Plant newPlant = new Plant(newRandomVector);
+                        this.plants.put(newRandomVector, newPlant);
+//                    /////////////////////////////////////////////////////////////////
+//                    newGrass.addObserver(boundary);
+//                    boundary.put(newRandomVector);
+                        break;
+                    }
+                }
+            }else { //prefer places
+                //potrzebujemy listę z punktami gdzie zwierzęta umierają najczęściej
+                continue;
+            }
+
+
+        }
+    }
+
 
 
     @Override
@@ -104,12 +144,25 @@ public class EarthMap implements IWorldMap {
     }
 
     @Override
-    public boolean isOccupiedByPlant(Vector2d position) {
+    public boolean isOccupiedByPlant(Vector2d position) { //można użyć tej funkcji do generowania roślin
         return this.plants.containsKey(position);
     }
 
     @Override
     public IMapElement objectAt(Vector2d position) {
         return null;
+    }
+
+    @Override
+    public boolean isOccupiedByAnimal(Vector2d position) {
+        return this.animals.containsKey(position);
+    }
+
+    @Override
+    public boolean isOccupiedByAnimals(Vector2d position) {
+        //być może lepiej będzie przechowywać zwierzęta w mapie gdzie kluczem
+        //będzie vektor a wartowścią będzie jakaś lisata (w tedy możemy przechowywać
+        //w jednym kluczu kilka zwierząt)
+        return false;
     }
 }

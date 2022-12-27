@@ -99,6 +99,9 @@ public class HellMap implements IWorldMap {
         Vector2d newPosotion = new Vector2d(newRandomX, newRandomY);
 
         animal.position = newPosotion;
+        animal.removeEnergy(5); //// tutaj wartość równa energi potrzebnej do rozmnażania (mamy private w animalu)
+
+
     }
 }
 

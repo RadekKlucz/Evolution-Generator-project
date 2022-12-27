@@ -51,4 +51,8 @@ public interface IWorldMap {
 
     //dodaj opis
     void specialMoves(Animal animal, Vector2d checkVector);
+
+    //dodaj opis
+    boolean isOccupiedByAnimal(Vector2d position);
+    boolean isOccupiedByAnimals(Vector2d position);
 }
