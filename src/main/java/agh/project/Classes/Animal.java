@@ -22,9 +22,6 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private int grassEaten = 0;
     private int kids = 0;
     private int age = 0;
-    private Genes genes;
-    public Animal(IWorldMap map) {
-    public Animal(IWorldMap map, Vector2d position, int energy) {
 
     private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
 
