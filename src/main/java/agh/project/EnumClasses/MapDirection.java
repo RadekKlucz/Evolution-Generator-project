@@ -17,16 +17,7 @@ public enum MapDirection {
     @Override
     public String toString() {
         return switch (this) {
-<<<<<<< Updated upstream
-            case NORTH -> "↑";
-            case NORTH_EAST -> "↗";
-            case NORTH_WEST -> "↖";
-            case SOUTH -> "↓";
-            case SOUTH_EAST -> "↘";
-            case SOUTH_WEST -> "↙";
-            case WEST -> "←";
-            case EAST -> "→";
-=======
+
             case NORTH -> "^|";
             case NORTH_EAST -> "/^";
             case NORTH_WEST -> "^\\";
@@ -35,7 +26,6 @@ public enum MapDirection {
             case SOUTH_WEST -> "v/";
             case WEST -> "<-";
             case EAST -> "->";
->>>>>>> Stashed changes
         };
     }
 

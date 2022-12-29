@@ -1,4 +1,4 @@
-package org.example;
+package agh.project.GUI;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -126,7 +126,8 @@ public class App extends Application {
                 pathFile = selectedFile.getPath();
                 out.println(pathFile); // ok pobiera
 
-                // to jest do poprawy
+                // to jest do poprawy, nie chce dzialac :(
+
 //                JSONParser parser = new JSONParser();
 //                try {
 //                    //Read JSON file
@@ -161,3 +162,4 @@ public class App extends Application {
         return controls;
     }
 }
+
