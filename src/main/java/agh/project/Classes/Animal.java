@@ -11,6 +11,7 @@ public class Animal extends AbstractMapElement {
     private IWorldMap map;
     private MapDirection direction = MapDirection.getRandomPosition();
 
+<<<<<<< Updated upstream
     private int grassEaten = 0;
 
     private int kids = 0;
@@ -21,6 +22,10 @@ public class Animal extends AbstractMapElement {
 //    private ArrayList<IPositionChangeObserver> observerList = new ArrayList<>();
     private Genes genes;
     public Animal(IWorldMap map) {
+=======
+    private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
+    public Animal(IWorldMap map, Vector2d position, int energy) {
+>>>>>>> Stashed changes
         this.map = map;
     }
 
@@ -121,4 +126,9 @@ public class Animal extends AbstractMapElement {
             case NORTH_WEST -> "src/main/resources/up-left.png";
         };
     }
+
+    public int getKids() {
+        return kids;
+    }
+
 }
