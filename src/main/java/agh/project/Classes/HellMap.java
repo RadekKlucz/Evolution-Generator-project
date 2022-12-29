@@ -183,6 +183,11 @@ public class HellMap implements IWorldMap {
         }
     }
 
+    @Override
+    public void addDeadPosition(Vector2d position) {
+
+    }
+
     private TreeSet<Vector2d> oX = new TreeSet<>(Comparator.comparing(Vector2d -> Vector2d.x));
     private TreeSet<Vector2d> oY = new TreeSet<>(Comparator.comparing(Vector2d -> Vector2d.y));
     public void add(Vector2d vector){
@@ -194,6 +199,3 @@ public class HellMap implements IWorldMap {
         this.oY.remove(vector);
     }
 }
-
-
-

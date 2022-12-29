@@ -138,31 +138,24 @@ public class EarthMap implements IWorldMap, IPositionChangeObserver {
 
                 }
             }
-            the entries with the “sort()” method, we must first create a list with the set of entries returned by the “entrySet()” method:
 
-            List<Entry<Integer, Integer>> nlist = new ArrayList<>(map.entrySet());
-
-
-            Now, we will call the sort() method by passing the “comparingByValue()” method as an argument to allow comparison of the entry’s values:
-
-            nlist.sort(Entry.comparingByValue());
-
-            public class MapUtil {
-                public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-                    List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
-                    list.sort(Entry.comparingByValue());
-
-                    Map<K, V> result = new LinkedHashMap<>();
-                    for (Entry<K, V> entry : list) {
-                        result.put(entry.getKey(), entry.getValue());
-                    }
-
-                    return result;
-                }
-            }
+//            public void MapUtil {
+//                public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+//                    List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+//                    list.sort(Map.Entry.comparingByValue());
+//
+//                    Map<K, V> result = new LinkedHashMap<>();
+//                    for (Map.Entry<K, V> entry : list) {
+//                        result.put(entry.getKey(), entry.getValue());
+//                    }
+//
+//                    return result;
+//                }
+//            }
 
         }
-    }
+
+
 
 
 
@@ -200,6 +193,22 @@ public class EarthMap implements IWorldMap, IPositionChangeObserver {
     }
 
     @Override
+    public List<Animal> animalsAt(Vector2d position) {
+        return null;
+    }
+
+    @Override
+    public List<Animal> copulation() {
+        return null;
+    }
+
+    @Override
+    public Animal priority(List<Animal> animalsList) {
+        return null;
+    }
+
+    @Override
+
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         remove(oldPosition);
         add(newPosition);

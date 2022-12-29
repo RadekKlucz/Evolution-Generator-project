@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private IWorldMap map;
+
+
     public MapDirection direction = MapDirection.getRandomPosition();
     public Vector2d position;
     private int startEnergy;
@@ -20,12 +22,11 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private int grassEaten = 0;
     private int kids = 0;
     private int age = 0;
+    private Genes genes;
+    public Animal(IWorldMap map) {
+    public Animal(IWorldMap map, Vector2d position, int energy) {
 
     private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
-
-    public int getKids() {
-        return kids;
-    }
 
     public Animal(IWorldMap map, Vector2d position, int energy) {
         this.map = map;
@@ -194,4 +195,9 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
         }
         return new Color(0x000000); // dark
     }
+
+    public int getKids() {
+        return kids;
+    }
+
 }
