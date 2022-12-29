@@ -2,23 +2,25 @@ package agh.project.Classes;
 
 import agh.project.EnumClasses.MapDirection;
 import agh.project.Interfaces.IMapElement;
+import agh.project.Interfaces.IPositionChangeObserver;
 import agh.project.Interfaces.IWorldMap;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Stream;
 
-public class EarthMap implements IWorldMap {
+public class EarthMap implements IWorldMap, IPositionChangeObserver {
 
     private int width;
     private int height;
-    private Map<Vector2d, Animal> animals;
+    private Map<Vector2d, List<Animal>> animals;
     private Map<Vector2d, Plant> plants;
     private int startPlants;
     private int startAnimals;
     private int startEnergy;
 
     private int dailyPlants;
+
+    private Map<Vector2d, Integer> deadPosition;
 
     public EarthMap(int width, int height) {
         if (width < 0 || height < 0) {
@@ -92,6 +94,12 @@ public class EarthMap implements IWorldMap {
         //sprawdź przypadki kiedy jest w rogach
 
     }
+    public void addDeadPosition(Vector2d position) {
+        int value = this.deadPosition.get(position);
+        value ++;
+        this.deadPosition.put(position, value);
+    }
+
 
     public void generateDailyPlants(){
         for(int i = 0; i < dailyPlants; i++){
@@ -124,9 +132,34 @@ public class EarthMap implements IWorldMap {
                 }
             }else { //prefer places
                 //potrzebujemy listę z punktami gdzie zwierzęta umierają najczęściej
-                continue;
-            }
+                Stream<Map.Entry<Vector2d, Integer>> sorted = deadPosition.entrySet().stream().sorted((Collections.reverseOrder(Map.Entry.comparingByValue())));
+                sorted.toArray();
 
+
+                }
+            }
+            the entries with the “sort()” method, we must first create a list with the set of entries returned by the “entrySet()” method:
+
+            List<Entry<Integer, Integer>> nlist = new ArrayList<>(map.entrySet());
+
+
+            Now, we will call the sort() method by passing the “comparingByValue()” method as an argument to allow comparison of the entry’s values:
+
+            nlist.sort(Entry.comparingByValue());
+
+            public class MapUtil {
+                public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+                    List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+                    list.sort(Entry.comparingByValue());
+
+                    Map<K, V> result = new LinkedHashMap<>();
+                    for (Entry<K, V> entry : list) {
+                        result.put(entry.getKey(), entry.getValue());
+                    }
+
+                    return result;
+                }
+            }
 
         }
     }
@@ -164,5 +197,22 @@ public class EarthMap implements IWorldMap {
         //będzie vektor a wartowścią będzie jakaś lisata (w tedy możemy przechowywać
         //w jednym kluczu kilka zwierząt)
         return false;
+    }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        remove(oldPosition);
+        add(newPosition);
+    }
+
+    private TreeSet<Vector2d> oX = new TreeSet<>(Comparator.comparing(Vector2d -> Vector2d.x));
+    private TreeSet<Vector2d> oY = new TreeSet<>(Comparator.comparing(Vector2d -> Vector2d.y));
+    public void add(Vector2d vector){
+        this.oX.add(vector);
+        this.oY.add(vector);
+    }
+    public void remove(Vector2d vector){
+        this.oX.remove(vector);
+        this.oY.remove(vector);
     }
 }

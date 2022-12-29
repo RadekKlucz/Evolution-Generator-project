@@ -3,6 +3,8 @@ package agh.project.Interfaces;
 import agh.project.Classes.Animal;
 import agh.project.Classes.Vector2d;
 
+import java.util.List;
+
 /**
  * The interface responsible for interacting with the map of the world.
  * Assumes that Vector2d and MoveDirection classes are defined.
@@ -55,4 +57,11 @@ public interface IWorldMap {
     //dodaj opis
     boolean isOccupiedByAnimal(Vector2d position);
     boolean isOccupiedByAnimals(Vector2d position);
+
+    List<Animal> animalsAt(Vector2d position);
+
+    List<Animal> copulation();
+    Animal priority(List<Animal> animalsList);
+
+    void addDeadPosition(Vector2d position);
 }

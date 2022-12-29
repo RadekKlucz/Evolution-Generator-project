@@ -9,7 +9,7 @@ import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Animal extends AbstractMapElement {
+public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private IWorldMap map;
     public MapDirection direction = MapDirection.getRandomPosition();
     public Vector2d position;
@@ -21,7 +21,11 @@ public class Animal extends AbstractMapElement {
     private int kids = 0;
     private int age = 0;
 
-    //    private ArrayList<IPositionChangeObserver> observerList = new ArrayList<>();
+    private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
+
+    public int getKids() {
+        return kids;
+    }
 
     public Animal(IWorldMap map, Vector2d position, int energy) {
         this.map = map;
@@ -93,11 +97,20 @@ public class Animal extends AbstractMapElement {
             this.position = tempPosition;
         }
 
-
+        int activeGenIndex = this.getActiveGenIndex();
+        this.genes.nextGen(activeGenIndex);
         this.ageIncrement();
         //trzeba gdzieś uruchomić funkcję aktywującą nowy gen na następny dzień
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public int compareTo(Animal other) {
+        return this.energy - other.energy;
+    }
     public void incrementGrassEaten(){
         this.grassEaten += 1;
     }
@@ -147,6 +160,20 @@ public class Animal extends AbstractMapElement {
         energy -= value;
         if (energy < 0){
             energy = 0;
+        }
+    }
+
+    public void addObserver(IPositionChangeObserver observer){
+        observers.add(observer);
+    }
+
+    public void removeObserver(IPositionChangeObserver observer){
+        observers.remove(observer);
+    }
+
+    public void positionChanged(Vector2d oldPosition){
+        for (IPositionChangeObserver observer: observers){
+            observer.positionChanged(oldPosition,this.position);
         }
     }
 
