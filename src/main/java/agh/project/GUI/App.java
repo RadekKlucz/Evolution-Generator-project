@@ -127,6 +127,7 @@ public class App extends Application {
                 out.println(pathFile); // ok pobiera
 
                 // to jest do poprawy, nie chce dzialac :(
+
 //                JSONParser parser = new JSONParser();
 //                try {
 //                    //Read JSON file
@@ -161,3 +162,4 @@ public class App extends Application {
         return controls;
     }
 }
+

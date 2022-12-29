@@ -158,6 +158,7 @@ public class EarthMap implements IWorldMap, IPositionChangeObserver {
 
 
 
+
     @Override
     public boolean canMoveTo(Vector2d position) {
         return (position.x >= 0 && position.x <= this.width && position.y >= 0 && position.y <= this.height);
@@ -207,6 +208,7 @@ public class EarthMap implements IWorldMap, IPositionChangeObserver {
     }
 
     @Override
+
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         remove(oldPosition);
         add(newPosition);

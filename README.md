@@ -5,7 +5,7 @@ Treść:
 
 # Oba warianty mapy + Toksyczne trupy + Lekka korekta + Nieco szaleństwa 
  
-# Punktacja 16/16
+# Punktacja 14/14 + 1.6 pkt 
 
 Punkty przyznawana na końcu w tym dwa punkty przed świętami 
 
@@ -141,6 +141,13 @@ Bezdzie również klasa Engine, która będzie odpowadała za symulacje danego d
 W foldrze world będą klasy odpowiedzialne za wyświetlenie menu aplikacji (GUI), wczytywanie konfiguracji oraz zapis istniejącej konfiguracji mapy do pliku CSV. 
 
 
+# Wskazówki 
 
+## Trello do projektu w celu organizacji 
 
+## eXtreme programing 
+ 
+ Takie fizyczne lub discordowe programowanie 
+ 
+ Jeden klepie drugi się patrzy.
 

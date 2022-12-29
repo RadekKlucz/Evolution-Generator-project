@@ -5,28 +5,34 @@ import agh.project.EnumClasses.MapDirection;
 import agh.project.Interfaces.IPositionChangeObserver;
 import agh.project.Interfaces.IWorldMap;
 
+import javax.swing.plaf.ColorUIResource;
+import java.awt.*;
 import java.util.ArrayList;
 
-public class Animal extends AbstractMapElement {
+public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private IWorldMap map;
-    private MapDirection direction = MapDirection.getRandomPosition();
 
-<<<<<<< Updated upstream
-    private int grassEaten = 0;
 
-    private int kids = 0;
-
-    private int age = 0;
-    private Vector2d position;
+    public MapDirection direction = MapDirection.getRandomPosition();
+    public Vector2d position;
+    private int startEnergy;
     private int energy;
-//    private ArrayList<IPositionChangeObserver> observerList = new ArrayList<>();
+    private int energyToCopulate;
+    private Genes genes;
+    private int grassEaten = 0;
+    private int kids = 0;
+    private int age = 0;
     private Genes genes;
     public Animal(IWorldMap map) {
-=======
-    private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
     public Animal(IWorldMap map, Vector2d position, int energy) {
->>>>>>> Stashed changes
+
+    private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
+
+    public Animal(IWorldMap map, Vector2d position, int energy) {
         this.map = map;
+        this.position = position;
+        this.energy = energy;
+        this.genes = new Genes();
     }
 
     public int getActiveGenIndex(){ // tu trzeba się zastanowić
@@ -38,41 +44,74 @@ public class Animal extends AbstractMapElement {
         ArrayList genesList =  genes.getGenes();
         int gen = (int) genesList.get(genes.getActiveGenIndex());
 
+        //temporary position
+        Vector2d tempPosition = this.position;
+
         switch (gen){
             case 0 -> position.add(this.direction.toUnitVector());
             case 1 -> {
                 direction.next();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
+
             }
             case 2 -> {
                 direction.next().next();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 3 -> {
                 direction.next().next().next();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 4 -> {
-                position.subtract(this.direction.toUnitVector());
+//                position.subtract(this.direction.toUnitVector());
+                tempPosition = tempPosition.subtract(this.direction.toUnitVector());
             }
             case 5 -> {
                 direction.previous().previous().previous();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 6 -> {
                 direction.previous().previous();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 7 -> {
                 direction.previous();
-                position.add(this.direction.toUnitVector());
+//                position.add(this.direction.toUnitVector());
+                tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
         }
-        // bez sprawdzania czy można się ruszyć
+        // bez sprawdzania czy można się ruszyć(było)
 
+        //dodaje nowy mechanizm
+        //jeżeli nie może się ruczyć w dane miejsce(chce wyjść poza mapę)
+        if(!this.map.canMoveTo(this.position)){
+
+            //wtedy użyj spejalnej metody poruszania (w zależności od wariantu mapy)
+            this.map.specialMoves(this, tempPosition);
+
+        }else { // wprzeciwnym przypadku zwierzę rusza się w obrębie mapy więc ruch jest poprawny
+            this.position = tempPosition;
+        }
+
+        int activeGenIndex = this.getActiveGenIndex();
+        this.genes.nextGen(activeGenIndex);
         this.ageIncrement();
+        //trzeba gdzieś uruchomić funkcję aktywującą nowy gen na następny dzień
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public int compareTo(Animal other) {
+        return this.energy - other.energy;
+    }
     public void incrementGrassEaten(){
         this.grassEaten += 1;
     }
@@ -96,8 +135,17 @@ public class Animal extends AbstractMapElement {
     public Genes getGenes(){return genes;}
 
     //copulation
-    public Animal population(Animal animal){
-        //
+    public Animal copulation(Animal secondParent){
+        int childEnergy;
+        if ((this.energyToCopulate < this.energy) && (this.energyToCopulate < secondParent.energy)) {
+            childEnergy = 2 * this.energyToCopulate;
+            this.energy -= this.energyToCopulate; // można za pomocą funkcji remove energy
+            secondParent.energy -= this.energyToCopulate; // można za pomocą funkcji remove energy
+
+            Animal child = new Animal(this.map, this.position, childEnergy);
+            child.genes.setChildGens(this, secondParent);
+            return child;
+        }
         return null;
     }
 
@@ -109,22 +157,43 @@ public class Animal extends AbstractMapElement {
     public void addEnergy(int value){
         energy += value;
     }
+    public void removeEnergy(int value){
+        energy -= value;
+        if (energy < 0){
+            energy = 0;
+        }
+    }
 
+    public void addObserver(IPositionChangeObserver observer){
+        observers.add(observer);
+    }
 
+    public void removeObserver(IPositionChangeObserver observer){
+        observers.remove(observer);
+    }
 
-    // Czy na pewno bawić się z obrazkami ?
+    public void positionChanged(Vector2d oldPosition){
+        for (IPositionChangeObserver observer: observers){
+            observer.positionChanged(oldPosition,this.position);
+        }
+    }
+
     @Override
-    public String getPath() {
-        return switch (this.direction) {
-            case NORTH -> "src/main/resources/up.png";
-            case NORTH_EAST -> "src/main/resources/up-right.png";
-            case EAST -> "src/main/resources/right.png";
-            case SOUTH_EAST -> "src/main/resources/down-right.png";
-            case SOUTH -> "src/main/resources/down.png";
-            case SOUTH_WEST -> "src/main/resources/down-left.png";
-            case WEST -> "src/main/resources/left.png";
-            case NORTH_WEST -> "src/main/resources/up-left.png";
-        };
+    public Color getColor() {
+        if(energy == 0) {
+            return new Color(0x8C040A); // very dark red
+        } else if (energy <= startEnergy * 0.3) {
+            return new Color(0xFF0008); // red
+        } else if ((energy <= startEnergy * 0.5) && (energy > startEnergy * 0.3)) {
+            return new Color(0xFD6801); // orange
+        } else if ((energy <= startEnergy *0.7) && (energy > startEnergy * 0.5)) {
+            return new Color(0xE59E6C); // light orange
+        } else if ((energy <= startEnergy) && (energy > startEnergy * 0.7)) {
+            return new Color(0xC1C94F); // gold
+        } else if (energy > startEnergy) {
+            return new Color(0x3F1010); // brown
+        }
+        return new Color(0x000000); // dark
     }
 
     public int getKids() {

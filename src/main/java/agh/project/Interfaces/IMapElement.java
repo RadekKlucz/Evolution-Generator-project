@@ -2,6 +2,8 @@ package agh.project.Interfaces;
 
 import agh.project.Classes.Vector2d;
 
+import java.awt.*;
+
 
 public interface IMapElement {
     /*
@@ -16,7 +18,7 @@ public interface IMapElement {
      * Description in progress
      */
 
-    String getPath();
+    Color getColor();
     /*
      * Description in progress
      */
