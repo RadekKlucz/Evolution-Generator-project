@@ -143,6 +143,7 @@ public class EarthMap implements IWorldMap, IPositionChangeObserver {
             List<Entry<Integer, Integer>> nlist = new ArrayList<>(map.entrySet());
 
 
+<<<<<<< Updated upstream
             Now, we will call the sort() method by passing the “comparingByValue()” method as an argument to allow comparison of the entry’s values:
 
             nlist.sort(Entry.comparingByValue());
@@ -166,6 +167,8 @@ public class EarthMap implements IWorldMap, IPositionChangeObserver {
 
 
 
+=======
+>>>>>>> Stashed changes
     @Override
     public boolean canMoveTo(Vector2d position) {
         return (position.x >= 0 && position.x <= this.width && position.y >= 0 && position.y <= this.height);

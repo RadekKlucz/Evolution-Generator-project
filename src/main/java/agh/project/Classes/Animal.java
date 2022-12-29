@@ -194,4 +194,11 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
         }
         return new Color(0x000000); // dark
     }
+<<<<<<< Updated upstream
+=======
+
+    public int getKids() {
+        return kids;
+    }
+>>>>>>> Stashed changes
 }
