@@ -199,5 +199,4 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
     public int getKids() {
         return kids;
     }
-
 }

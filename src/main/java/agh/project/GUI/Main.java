@@ -1,4 +1,4 @@
-package org.example;
+package agh.project.GUI;
 
 import javafx.application.Application;
 
