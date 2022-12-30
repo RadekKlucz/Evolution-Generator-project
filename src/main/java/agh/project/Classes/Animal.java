@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private IWorldMap map;
-
-
     public MapDirection direction = MapDirection.getRandomPosition();
     public Vector2d position;
     private int startEnergy;

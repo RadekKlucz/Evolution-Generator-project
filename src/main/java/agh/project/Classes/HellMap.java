@@ -1,19 +1,13 @@
 package agh.project.Classes;
 
+import agh.project.AbstractClasses.AbstractMapElement;
+import agh.project.AbstractClasses.AbstractWorldMap;
 import agh.project.Interfaces.IMapElement;
 import agh.project.Interfaces.IWorldMap;
 
 import java.util.*;
 
-public class HellMap implements IWorldMap {
-    private int width;
-    private int height;
-    private Map<Vector2d, List<Animal>> animals;
-    private Map<Vector2d, Plant> plants;
-    private int startPlants;
-    private int startAnimals;
-    private int startEnergy;
-
+public class HellMap extends AbstractWorldMap implements IWorldMap {
 
     public HellMap(int width, int height) {
         if (width < 0 || height < 0) {
@@ -23,73 +17,9 @@ public class HellMap implements IWorldMap {
                 throw new RuntimeException(e);
             }
         }
-        this.width = width;
-        this.height = height;
+        this.lowerLeftCorner = new Vector2d(0, 0);
+        this.upperRightCorner = new Vector2d(width, height);
     }
-
-    public void addPlant() {
-//        int maxValue = (int) Math.sqrt(this.startPlants * 10);
-        Random rand = new Random();
-        int xRandom;
-        int yRandom;
-
-        for (int i = 0; i < this.startPlants; i++) {
-            while (true) {
-                boolean repeat = false;
-                xRandom = rand.nextInt(this.width);
-                yRandom = rand.nextInt(this.height);
-
-                Vector2d newRandomVector = new Vector2d(xRandom, yRandom);
-
-                for (Vector2d position : plants.keySet())
-                    if (position.equals(newRandomVector)) {
-                        repeat = true;
-                    }
-
-                if (!repeat) {
-                    Plant newPlant = new Plant(newRandomVector);
-                    this.plants.put(newRandomVector, newPlant);
-//                    /////////////////////////////////////////////////////////////////
-//                    newGrass.addObserver(boundary);
-//                    boundary.put(newRandomVector);
-                    break;
-                }
-            }
-        }
-    }
-
-    public void addAnimal() {
-        Random random = new Random();
-        for (int i = 0; i < this.startAnimals; i++) {
-            Vector2d newRandomVector = new Vector2d(random.nextInt(this.width), random.nextInt(this.height));
-
-            Animal newAnimal = new Animal(this, newRandomVector, this.startEnergy);
-            // zrobic pozniej klase z wczytywanymi parametrami gdzie dostep bedzie za pomoca geterow
-
-        }
-    }
-
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        return (position.x >= 0 && position.x <= this.width && position.y >= 0 && position.y <= this.height);
-    }
-
-    @Override
-    public boolean place(Animal animal) {
-        return false;
-    }
-
-    @Override
-    public boolean isOccupiedByPlant(Vector2d position) {
-        return this.plants.containsKey(position);
-    }
-
-    @Override
-    public IMapElement objectAt(Vector2d position) {
-        return null;
-    }
-
-
 
     @Override
     public void specialMoves(Animal animal, Vector2d checkVector) {
@@ -97,9 +27,7 @@ public class HellMap implements IWorldMap {
         int newRandomX = random.nextInt(width);
         int newRandomY = random.nextInt(height);
 
-        Vector2d newPosotion = new Vector2d(newRandomX, newRandomY);
-
-        animal.position = newPosotion;
+        animal.position = new Vector2d(newRandomX, newRandomY);
         animal.removeEnergy(5); //// tutaj wartość równa energi potrzebnej do rozmnażania (mamy private w animalu)
     }
 
@@ -119,29 +47,6 @@ public class HellMap implements IWorldMap {
             return this.animals.get(position);
         }
         return null;
-    }
-
-    public List<Animal> copulation(){
-        List<Animal> newAnimals = new ArrayList<>();
-        for (List<Animal> animalList: animals.values()){
-            if(animalList.size() > 1){
-                List<Animal> temporary = new ArrayList<>();
-                for(Animal animal : animalList){
-                    if(animal.getEnergy() > 5){//wartość wczytana z pliku (energia konieczna do rozmnażania)
-                        temporary.add(animal);
-
-                    }
-                }
-                Animal animal1 = this.priority(temporary);
-                temporary.remove(animal1);
-                Animal animal2 = this.priority(temporary);
-
-                Animal newAnimal =  animal1.copulation(animal2);
-                newAnimals.add(newAnimal);
-            }
-
-        }
-        return newAnimals;
     }
 
     public Animal priority(List<Animal> animalsList){
@@ -186,6 +91,11 @@ public class HellMap implements IWorldMap {
     @Override
     public void addDeadPosition(Vector2d position) {
 
+    }
+
+    @Override
+    public Vector2d[] getCorners() {
+        return new Vector2d[]{this.lowerLeftCorner, this.upperRightCorner};
     }
 
     private TreeSet<Vector2d> oX = new TreeSet<>(Comparator.comparing(Vector2d -> Vector2d.x));

@@ -64,4 +64,10 @@ public interface IWorldMap {
     Animal priority(List<Animal> animalsList);
 
     void addDeadPosition(Vector2d position);
+    void addPlant(int numberOfPlants);
+
+    void addAnimal();
+
+    Vector2d[] getCorners();
+
 }

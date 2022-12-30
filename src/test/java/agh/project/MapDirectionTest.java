@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MapDirectionTest {
-    // dodac testy dla wszystkich kierunkow zarowno dla next jak i previous
+
     @Test
     void checkIfNextIsOkForNorth() {
         // given
@@ -14,7 +14,19 @@ public class MapDirectionTest {
         // when
         var northEast = north.next();
         // test
-        assertEquals(northEast, expected); }
+        assertEquals(northEast, expected);
+    }
+
+    @Test
+    void checkIfNextIsOkForNorthEast() {
+        // given
+        var northEast = MapDirection.NORTH_EAST;
+        var expected = MapDirection.EAST;
+        //when
+        var east = northEast.next();
+        // test
+        assertEquals(east, expected);
+    }
 
     @Test
     void checkIfNextIsOkForEast() {
@@ -28,14 +40,14 @@ public class MapDirectionTest {
     }
 
     @Test
-    void checkIfNextIsOkForWest() {
+    void checkIfNextIsOkForSouthEast() {
         // given
-        var west = MapDirection.WEST;
-        var expected = MapDirection.NORTH_WEST;
+        var southEast = MapDirection.SOUTH_EAST;
+        var expected = MapDirection.SOUTH;
         // when
-        var northWest = west.next();
+        var south = southEast.next();
         // test
-        assertEquals(northWest, expected);
+        assertEquals(south, expected);
     }
 
     @Test
@@ -50,25 +62,36 @@ public class MapDirectionTest {
     }
 
     @Test
-    void checkIfPreviousIsOkForWest() {
+    void checkIfNextIsOkForSouthWest() {
         // given
-        var west = MapDirection.WEST;
-        var expected = MapDirection.SOUTH_WEST;
+        var southWest = MapDirection.SOUTH_WEST;
+        var expected = MapDirection.WEST;
         // when
-        var southWest = west.previous();
+        var west = southWest.next();
         // test
-        assertEquals(southWest, expected);
+        assertEquals(west, expected);
     }
 
     @Test
-    void checkIfPreviousIsOkForEast() {
+    void checkIfNextIsOkForWest() {
         // given
-        var east = MapDirection.EAST;
-        var expeceted = MapDirection.NORTH_EAST;
+        var west = MapDirection.WEST;
+        var expected = MapDirection.NORTH_WEST;
         // when
-        var northEast = east.previous();
+        var northWest = west.next();
         // test
-        assertEquals(northEast, expeceted);
+        assertEquals(northWest, expected);
+    }
+
+    @Test
+    void checkIfNextIsOkForNorthWest() {
+        // given
+        var northWest = MapDirection.NORTH_WEST;
+        var expected = MapDirection.NORTH;
+        // when
+        var north = northWest.next();
+        // test
+        assertEquals(north, expected);
     }
 
     @Test
@@ -83,6 +106,39 @@ public class MapDirectionTest {
     }
 
     @Test
+    void checkIfPreviousIsOkForNorthWest() {
+        // given
+        var northWest = MapDirection.NORTH_WEST;
+        var expected = MapDirection.WEST;
+        // when
+        var south = northWest.previous();
+        // test
+        assertEquals(south, expected);
+    }
+
+    @Test
+    void checkIfPreviousIsOkForWest() {
+        // given
+        var west = MapDirection.WEST;
+        var expected = MapDirection.SOUTH_WEST;
+        // when
+        var southWest = west.previous();
+        // test
+        assertEquals(southWest, expected);
+    }
+
+    @Test
+    void checkIfPreviousIsOkForSouthWest() {
+        // given
+        var southWest = MapDirection.SOUTH_WEST;
+        var expected = MapDirection.SOUTH;
+        // when
+        var south = southWest.previous();
+        // test
+        assertEquals(south, expected);
+    }
+
+    @Test
     void checkIfPreviousIsOkForSouth() {
         // given
         var south = MapDirection.SOUTH;
@@ -91,5 +147,27 @@ public class MapDirectionTest {
         var southEast = south.previous();
         // test
         assertEquals(southEast, expected);
+    }
+
+    @Test
+    void checkIfPreviousIsOkForSouthEast() {
+        // given
+        var southEast = MapDirection.SOUTH_EAST;
+        var expected = MapDirection.EAST;
+        // when
+        var east = southEast.previous();
+        // test
+        assertEquals(east, expected);
+    }
+
+    @Test
+    void checkIfPreviousIsOkForEast() {
+        // given
+        var east = MapDirection.EAST;
+        var expeceted = MapDirection.NORTH_EAST;
+        // when
+        var northEast = east.previous();
+        // test
+        assertEquals(northEast, expeceted);
     }
 }

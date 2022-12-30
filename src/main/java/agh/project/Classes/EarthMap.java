@@ -76,6 +76,11 @@ public class EarthMap implements IWorldMap, IPositionChangeObserver {
         }
     }
 
+    @Override
+    public Vector2d[] getCorners() {
+        return new Vector2d[0];
+    }
+
     public void specialMoves(Animal animal, Vector2d checkVector) {
         if(checkVector.y < 0){
             animal.direction = MapDirection.NORTH;
@@ -98,6 +103,11 @@ public class EarthMap implements IWorldMap, IPositionChangeObserver {
         int value = this.deadPosition.get(position);
         value ++;
         this.deadPosition.put(position, value);
+    }
+
+    @Override
+    public void addPlant(int numberOfPlants) {
+
     }
 
 
