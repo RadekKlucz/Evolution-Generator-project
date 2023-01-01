@@ -28,8 +28,9 @@ public class engine {
 
                  if (eatingAnimals != null){
                     Animal eatingAnimal = this.map.priority(eatingAnimals);
-                    eatingAnimal.addEnergy(5); //wczytywane z pliku na początku
+                    eatingAnimal.addEnergy(5); //wczytywane z pliku na początku//
                     plants.remove(plant);
+                    eatingAnimal.incrementGrassEaten();
                  }
             }
         }
