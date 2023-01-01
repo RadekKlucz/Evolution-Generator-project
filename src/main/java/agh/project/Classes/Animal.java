@@ -143,6 +143,7 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
 
             Animal child = new Animal(this.map, this.position, childEnergy);
             child.genes.setChildGens(this, secondParent);
+            child.genes.mutation();
 
             this.kidsIncrement();
             secondParent.kidsIncrement();

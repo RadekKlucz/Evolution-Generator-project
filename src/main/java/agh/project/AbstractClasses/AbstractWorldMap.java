@@ -161,6 +161,7 @@ public abstract class AbstractWorldMap  implements IWorldMap {
             Vector2d newRandomVector = new Vector2d(random.nextInt(this.width), random.nextInt(this.height));
 
             Animal newAnimal = new Animal(this, newRandomVector, this.startEnergy);
+            newAnimal.getGenes().setStartGenes(7);////////////////////////////////////////////////zamienić ilość genów na wczytywane z pliku
 
             animals.put(newRandomVector, new ArrayList<>());
             animals.get(newRandomVector).add(newAnimal);
