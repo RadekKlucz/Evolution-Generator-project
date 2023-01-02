@@ -18,8 +18,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import javax.swing.*;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import static java.lang.System.out;
 
@@ -190,7 +197,33 @@ public class App extends Application implements IMapUpdateObserver {
 
         //Button to open file
         Button loadData = new Button("Load data from file");
-        loadData.setOnAction(event -> {loadDataForButton(actualStage);});
+        loadData.setOnAction(event -> {
+            JFileChooser fileChooser = new JFileChooser();
+            File plik = fileChooser.getSelectedFile();
+            String nazwaPliku = plik.getAbsolutePath();
+
+            // Wczytaj plik JSON i przetwórz go
+            try {
+                // Utwórz obiekt reader, który będzie odczytywał dane z pliku
+                BufferedReader reader = new BufferedReader(new FileReader(nazwaPliku));
+
+                // Utwórz obiekt JSONParser
+                JSONParser parser = new JSONParser();
+
+                // Odczytaj plik JSON za pomocą obiektu JSONParser i przetwórz go na obiekt JSONObject
+                JSONObject json = (JSONObject) parser.parse(reader);
+                // Możesz teraz odczytywać poszczególne wartości z obiektu JSONObject według potrzeb
+                long szerokosc = (long) json.get("width");
+                out.println(szerokosc);
+                widthText.setText(String.valueOf(szerokosc));
+//
+//                    heightText.setText((String) json.get("height"));
+//                    amountOfAnimalsText.setText((String) json.get("amountOfAnimals"));
+//                    startEnergyText.setText((String) json.get("startEnergy"));
+//                    moveEnergyText.setText((String) json.get("moveEnergy"));
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
+            }});
 
         VBox controls = new VBox(new HBox(widthLabel, widthText), new HBox(heightLabel, heightText),
                 new HBox(amountOfAnimalsLabel, amountOfAnimalsText), new HBox(amountOfPlantsLabel, amountOfPlantsText),
@@ -199,43 +232,6 @@ public class App extends Application implements IMapUpdateObserver {
         return controls;
     }
 
-    private void loadDataForButton(Stage actualStage) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("./src/main/resources"));
-        fileChooser.setTitle("Open CSV configuration file");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-        File selectedFile = fileChooser.showOpenDialog(actualStage);
-
-        if (selectedFile != null) {
-            pathFile = "file:" + selectedFile.getPath().toString();
-            out.println(pathFile); // ok pobiera
-
-            // to jest do poprawy, nie chce dzialac :(
-
-//                JSONParser parser = new JSONParser();
-//                try {
-//                    //Read JSON file
-//                    Object object =  parser.parse(new FileReader(pathFile));
-//                    JSONObject jsonObject = (JSONObject) object;
-//                    // set new values
-//                    int asas = (int) jsonObject.get("width");
-//                    out.println(asas);
-//
-//                    widthText.setText((String) ((JSONObject) object).get("width"));
-//                    heightText.setText((String) ((JSONObject) object).get("height"));
-//                    amountOfAnimalsText.setText((String) ((JSONObject) object).get("amountOfAnimals"));
-//                    startEnergyText.setText((String) ((JSONObject) object).get("startEnergy"));
-//                    moveEnergyText.setText((String) ((JSONObject) object).get("moveEnergy"));
-//                } catch (ParseException | FileNotFoundException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    throw new RuntimeException(e);
-//                }
-        } else {
-            out.println("Error");
-        }
-    }
-    /// to jest do poprawy
     public void createGrid() {
 
         Vector2d[] corners = this.map.getCorners();

@@ -156,6 +156,7 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
             this.kidsIncrement();
             secondParent.kidsIncrement();
             System.out.println("DZIECKO SIE RODZI");
+            System.out.println("DZIECKO SIe RODZI");
             return child;
         }
         return null;
