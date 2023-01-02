@@ -8,12 +8,13 @@ import agh.project.Interfaces.IWorldMap;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private IWorldMap map;
     public MapDirection direction = MapDirection.getRandomPosition();
     public Vector2d position;
-    private int startEnergy;
+    private int startEnergy = 100;
     private int energy;
     private int energyToCopulate;
     private Genes genes;
@@ -37,8 +38,12 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
 
     //move function
     public void move(){
-        ArrayList genesList =  genes.getGenes();
-        int gen = (int) genesList.get(genes.getActiveGenIndex());
+        List<Integer> genesList =  genes.getGenes();
+        int genIndex = this.genes.getActiveGenIndex();
+        int gen = genesList.get(genIndex);
+//        int gen = (int) genesList.get(genes.getActiveGenIndex());
+//        System.out.println("INDEX");
+//        System.out.println(genes.getActiveGenIndex());
 
         //temporary position
         Vector2d tempPosition = this.position;
@@ -97,10 +102,13 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
             this.position = tempPosition;
         }
 
-        positionChanged(oldPosition);
+//        System.out.println("MOVED!!!");
+//        positionChanged(oldPosition);
         int activeGenIndex = this.getActiveGenIndex();
         this.genes.nextGen(activeGenIndex);
         this.ageIncrement();
+        this.removeEnergy(10); ////// wartość z pliku
+
     }
 
     public int getAge() {
@@ -147,6 +155,7 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
 
             this.kidsIncrement();
             secondParent.kidsIncrement();
+            System.out.println("DZIECKO SIĘ RODZI");
             return child;
         }
         return null;

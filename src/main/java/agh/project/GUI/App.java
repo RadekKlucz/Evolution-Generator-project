@@ -2,10 +2,11 @@ package agh.project.GUI;
 
 import agh.project.Classes.Animal;
 import agh.project.Classes.HellMap;
+import agh.project.Classes.SimulationEngine;
 import agh.project.Classes.Vector2d;
-import agh.project.Interfaces.IMapElement;
-import agh.project.Interfaces.IWorldMap;
+import agh.project.Interfaces.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -22,7 +23,7 @@ import java.io.File;
 
 import static java.lang.System.out;
 
-public class App extends Application {
+public class App extends Application implements IMapUpdateObserver {
     private String pathFile;
     private Image backgroundImage = new Image("file:src/main/resources/backgroundImage.jpg");
     private IWorldMap map;
@@ -30,11 +31,17 @@ public class App extends Application {
     private GuiElement elementCreator;
     private int cellSize;
 
+    private IEngine engine;
+
     @Override
     public void init() throws Exception {
         this.map = new HellMap(15, 20);
         this.elementCreator = new GuiElement();
-        this.cellSize = 45;
+        this.cellSize = 21;
+        this.engine = new SimulationEngine(this.map);
+        this.engine.addObserver(this);
+        int moveDelay = 100;
+        this.engine.setMoveDelay(moveDelay);
     }
 
     @Override
@@ -145,6 +152,8 @@ public class App extends Application {
 //                GridPane grid = createGrid();
                 Stage hellGridWindow = new Stage();
                 createGrid();
+                Thread eThread = new Thread(engine);
+                eThread.start();
                 Scene secondScene = new Scene(grid, 500, 500);
                 hellGridWindow.setScene(secondScene);
 
@@ -262,9 +271,9 @@ public class App extends Application {
 
         for (int i = 1; i <= up - down + 1; i++) {
             for (int j = 1; j <= right - left + 1; j++) {
-                out.println("test");
+//                out.println("test");
                 IMapElement object = map.objectAt(new Vector2d(left + j - 1, up - i + 1));
-                out.println(object);
+//                out.println(object);
                 if(object != null) {
                     VBox element = elementCreator.showElement(object);
                     GridPane.setHalignment(element, HPos.CENTER);
@@ -275,5 +284,14 @@ public class App extends Application {
                 }
             }
         }
+    }
+
+    @Override
+    public void positionChanged() {
+        Platform.runLater(() -> {
+                    grid.getChildren().clear();
+                    createGrid();
+                }
+        );
     }
 }

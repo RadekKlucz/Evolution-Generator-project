@@ -9,18 +9,18 @@ import agh.project.Interfaces.IWorldMap;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class AbstractWorldMap  implements IWorldMap {
+public abstract class AbstractWorldMap extends AbstractMapElement implements IWorldMap {
     protected int width;
     protected int height;
-    protected Map<Vector2d, List<Animal>> animals;
-    protected Map<Vector2d, Plant> plants;
-    protected int startPlants;
-    protected int startAnimals;
-    protected int startEnergy;
+    protected Map<Vector2d, List<Animal>> animals = new HashMap<>();
+    protected Map<Vector2d, Plant> plants = new HashMap<>();
+    protected int startPlants = 30;
+    protected int startAnimals = 200;
+//    protected int startEnergy = 100;
     protected Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
     protected Vector2d upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
-    private Map<Vector2d, Integer> deadPosition;
-    private int dailyPlants;
+    private Map<Vector2d, Integer> deadPosition = new HashMap<>();
+    private int dailyPlants = 10;
 
 
     @Override
@@ -40,11 +40,29 @@ public abstract class AbstractWorldMap  implements IWorldMap {
 
     @Override /////////tutaj trzeba się zastanowić może być wiele obiektów
     public IMapElement objectAt(Vector2d position) {
-        List objects = (List) animals.get(position);
 
-        if(objects != null){
-            return (IMapElement) objects.get(0);
+        if (this.isOccupiedByAnimal(position)){
+            List<Animal> animalsList = animals.get(position);
+            return animalsList.get(0);
+        } else if (this.isOccupiedByPlant(position)) {
+            return plants.get(position);
+        }else {
+            return null;
         }
+
+
+//        if(animalsList != null){
+//
+//        }else {
+//            return null;
+//        }
+
+//        List objects = (List) animals.get(position);
+//
+//        if(objects != null){
+//            return (IMapElement) objects.get(0);
+//        }
+
 //        else {
 //            List objects = (List) plants.get(position);
 //            if(objects != null){
@@ -53,7 +71,6 @@ public abstract class AbstractWorldMap  implements IWorldMap {
 //                return null;
 //            }
 //        }
-        return null;
     }
 
     @Override
@@ -90,9 +107,19 @@ public abstract class AbstractWorldMap  implements IWorldMap {
                         temporary.add(animal);
                     }
                 }
-                Animal animal1 = this.priority(temporary);
-                temporary.remove(animal1);
-                Animal animal2 = this.priority(temporary);
+                Animal animal1;
+                Animal animal2;
+                if(temporary.size()>2){
+                    animal1 = this.priority(temporary);
+                    temporary.remove(animal1);
+                    animal2 = this.priority(temporary);
+                }else {
+                    animal1 = temporary.get(0);
+                    animal2 = temporary.get(1);
+                }
+//                Animal animal1 = this.priority(temporary);
+//                temporary.remove(animal1);
+//                Animal animal2 = this.priority(temporary);
 
                 Animal newAnimal =  animal1.copulation(animal2);
                 newAnimals.add(newAnimal);
@@ -104,6 +131,8 @@ public abstract class AbstractWorldMap  implements IWorldMap {
     @Override
     public Animal priority(List<Animal> animalsList) {
         Collections.sort(animalsList);
+        System.out.println("SORTED ANIMALS LIST");
+        System.out.println(animalsList);
         if (animalsList.get(0).getEnergy() == animalsList.get(1).getEnergy()){
             Collections.sort(animalsList, new Comparator<Animal>() {
                 @Override
@@ -150,31 +179,43 @@ public abstract class AbstractWorldMap  implements IWorldMap {
 
     @Override
     public void addPlant() {
+        System.out.println("ADDPLANT FUNCTION");
         Random random = new Random();
         int start = 0;
 
         while (start < startPlants) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
-
+            System.out.println("środek while");
             Vector2d newRandomPositionForPlant = new Vector2d(x, y);
-
+            System.out.println("NEW PLANT POSITON");
+            System.out.println(newRandomPositionForPlant);
             if (!isOccupiedByPlant(newRandomPositionForPlant)) {
+                System.out.println("Nowy plant");
                 start++;
                 Plant newPlant = new Plant(newRandomPositionForPlant);
+                System.out.println("PLANT");
+                System.out.println(newPlant);
                 plants.put(newRandomPositionForPlant, newPlant);
             }
         }
+        System.out.println(plants);
     }
 
     @Override
     public void addAnimal() {
+//        System.out.println("ADD ANIMAL FUNCTION");
         Random random = new Random();
         for (int i = 0; i < this.startAnimals; i++) {
+//            System.out.println("WIDTH and HEIGHT: ");
+//            System.out.println(this.width);
+//            System.out.println(this.height);
             Vector2d newRandomVector = new Vector2d(random.nextInt(this.width), random.nextInt(this.height));
 
-            Animal newAnimal = new Animal(this, newRandomVector, this.startEnergy);
+            Animal newAnimal = new Animal(this, newRandomVector, 70);
             newAnimal.getGenes().setStartGenes(7);////////////////////////////////////////////////zamienić ilość genów na wczytywane z pliku
+            System.out.println("GENY:");
+            System.out.println(newAnimal.getGenes().toString());
 
             animals.put(newRandomVector, new ArrayList<>());
             animals.get(newRandomVector).add(newAnimal);
@@ -252,6 +293,27 @@ public abstract class AbstractWorldMap  implements IWorldMap {
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         Plant plant = plants.remove(oldPosition);
         plants.put(newPosition, plant);
+    }
+
+
+    public List<Animal> listOfAnimals(){
+        List<Animal> allAnimals = animals.values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        System.out.println("All ANIMALS");
+        System.out.println(allAnimals);
+        return allAnimals;
+    }
+
+    public List<Plant> listOfPlants(){
+        List<Plant> allPlants = new ArrayList<>(plants.values());
+//        Collection<Plant> values = plants.values();
+//        List<Plant> allPlants = new ArrayList<>(values);
+        System.out.println("ALL PLANTS");
+        System.out.println(allPlants);
+
+        return allPlants;
     }
 
 

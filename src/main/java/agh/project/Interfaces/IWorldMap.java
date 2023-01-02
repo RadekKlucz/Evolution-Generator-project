@@ -1,6 +1,7 @@
 package agh.project.Interfaces;
 
 import agh.project.Classes.Animal;
+import agh.project.Classes.Plant;
 import agh.project.Classes.Vector2d;
 
 import java.util.List;
@@ -71,5 +72,9 @@ public interface IWorldMap extends IPositionChangeObserver{
     void generateDailyPlants();
 
     Vector2d[] getCorners();
+
+    List<Animal> listOfAnimals();
+
+    List<Plant> listOfPlants();
 
 }

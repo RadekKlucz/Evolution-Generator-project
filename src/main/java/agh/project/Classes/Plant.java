@@ -35,10 +35,10 @@ public class Plant extends AbstractMapElement {
         return position;
     }
 
-    @Override
-    public String toString() {
-        return "Position" + position.toString();
-    }
+//    @Override
+//    public String toString() {
+//        return "Position" + position.toString();
+//    }
 
 //    @Override
 //    public Color getColor() {

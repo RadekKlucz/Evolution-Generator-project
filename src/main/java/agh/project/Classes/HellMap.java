@@ -10,15 +10,19 @@ import java.util.*;
 
 public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
+//    int width;
+//    int height;
 
     public HellMap(int width, int height) {
-        if (width < 0 || height < 0) {
+        if (width <= 0 || height <= 0) {
             try {
                 throw new IllegalAccessException("Width and height cannot be negative");
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
+        this.width = width;
+        this.height = height;
         this.lowerLeftCorner = new Vector2d(0, 0);
         this.upperRightCorner = new Vector2d(width, height);
     }

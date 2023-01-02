@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class Genes {
     protected ArrayList<Integer> genes;
-    public int activeGenIndex = 0;
+    public int activeGenIndex = 1;
 
     public Genes(){
         this.genes = new ArrayList<>();
@@ -19,6 +19,13 @@ public class Genes {
         for(int i=0; i<gensNumber; i++){
             this.genes.add(random.nextInt(8));
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Genes{" +
+                "genes=" + genes +
+                '}';
     }
 
     public void setChildGens(Animal fatherAnimal, Animal matherAnimal){
@@ -94,7 +101,7 @@ public class Genes {
     private int nextIndex(int activeGenIndex){
         int lenght = this.genes.size();
         int next = activeGenIndex + 1;
-        if (next > lenght){
+        if (next >= lenght){
             return 0;
         }
         else {
@@ -103,7 +110,11 @@ public class Genes {
     }
     public int nextGen(int activeGenIndex){
         int nextIndex = nextIndex(activeGenIndex);
+//        System.out.println("GEN INDEX:");
+//        System.out.println(nextIndex);
         int next = this.genes.get(nextIndex);
+//        System.out.println("NEXT GEN:");
+//        System.out.println(next);
 
         //in 20% of uses return random gen
         Random random = new Random();
@@ -120,7 +131,7 @@ public class Genes {
 
     public void mutation(){
         Random random = new Random();
-        int n = random.nextInt(this.lenght());
+        int n = random.nextInt(8);  /// wczytywane z pliku
         int min = 0;
         int max = 7;
 
@@ -134,6 +145,8 @@ public class Genes {
             int index = random.nextInt(values.length);
             int v = values[index];
 
+            System.out.println("GENES LENGHT");
+            System.out.println(this.genes.size());
             this.genes.set(i, this.genes.get(i) + v);
             if (this.genes.get(i) < 0){
                 this.genes.set(i, 7);

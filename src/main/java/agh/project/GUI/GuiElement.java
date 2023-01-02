@@ -42,7 +42,10 @@ public class GuiElement {
         ImageView imageView;
         if(element instanceof Animal) {
             var energy = ((Animal) element).getEnergy();
-            var startEnergy = ((Animal) element).getStartEnergy();
+            var startEnergy =        ((Animal) element).getStartEnergy();
+            out.println("ENERGY:");
+            out.println(energy);
+            out.println(startEnergy);
             if (energy == 0) {
                 imageView = new ImageView(imageDarkRed);
             } else if (energy <= startEnergy * 0.3) {
