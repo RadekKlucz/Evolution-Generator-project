@@ -1,5 +1,7 @@
 package agh.project.GUI;
 
+import agh.project.Classes.Animal;
+import agh.project.Classes.HellMap;
 import agh.project.Classes.Vector2d;
 import agh.project.Interfaces.IMapElement;
 import agh.project.Interfaces.IWorldMap;
@@ -7,19 +9,16 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.Collections;
 
 import static java.lang.System.out;
 
@@ -28,10 +27,14 @@ public class App extends Application {
     private Image backgroundImage = new Image("file:src/main/resources/backgroundImage.jpg");
     private IWorldMap map;
     private final GridPane grid = new GridPane();
+    private GuiElement elementCreator;
+    private int cellSize;
 
     @Override
     public void init() throws Exception {
-        super.init();
+        this.map = new HellMap(15, 20);
+        this.elementCreator = new GuiElement();
+        this.cellSize = 45;
     }
 
     @Override
@@ -139,6 +142,16 @@ public class App extends Application {
                 /* tutaj napisac do do odpalenia map jakis warunek
                 * np jesli actualStage is equal Hell Map run Hell map i odwrotnie
                  */
+//                GridPane grid = createGrid();
+                Stage hellGridWindow = new Stage();
+                createGrid();
+                Scene secondScene = new Scene(grid, 500, 500);
+                hellGridWindow.setScene(secondScene);
+
+                // Set position of second window, related to primary window.
+                hellGridWindow.setX(actualStage.getX() );
+                hellGridWindow.setY(actualStage.getY());
+                hellGridWindow.show();
             }
         });
         Label widthLabel = new Label("Width of map: ");
@@ -214,12 +227,13 @@ public class App extends Application {
         }
     }
     /// to jest do poprawy
-    private void createGrid() {
+    public void createGrid() {
+
         Vector2d[] corners = this.map.getCorners();
-        int leftX = corners[0].x;
-        int leftY = corners[0].y;
-        int rightX = corners[1].x;
-        int rightY = corners[1].y;
+        int left = corners[0].x;
+        int right = corners[1].x;
+        int down = corners[0].y;
+        int up = corners[1].y;
 
         grid.setGridLinesVisible(false);
         grid.getRowConstraints().clear();
@@ -228,32 +242,37 @@ public class App extends Application {
 
         Label yx = new Label("y \\ x");
         grid.add(yx, 0, 0, 1, 1);
-        grid.getColumnConstraints().add(new ColumnConstraints(1));
-        grid.getRowConstraints().add(new RowConstraints(1));
+        grid.getColumnConstraints().add(new ColumnConstraints(cellSize));
+        grid.getRowConstraints().add(new RowConstraints(cellSize));
+        GridPane.setHalignment(yx, HPos.CENTER);
 
-        for (int i = 1; i <= rightX - leftX + 1; i++) {
-            grid.getColumnConstraints().add(new ColumnConstraints(1));
-            Label label = new Label(String.format("%d", leftX + i - 1));
+        for (int i = 1; i <= right - left + 1; i++) {
+            grid.getColumnConstraints().add(new ColumnConstraints(cellSize));
+            Label label = new Label(String.format("%d", left + i - 1));
             GridPane.setHalignment(label, HPos.CENTER);
             grid.add(label, i, 0, 1, 1);
         }
 
-        for (int i = 1; i <= rightY - leftY + 1; i++) {
-            grid.getRowConstraints().add(new RowConstraints(1));
-            Label label = new Label(String.format("%d", rightY - i + 1));
+        for (int i = 1; i <= up - down + 1; i++) {
+            grid.getRowConstraints().add(new RowConstraints(cellSize));
+            Label label = new Label(String.format("%d", up - i + 1));
             GridPane.setHalignment(label, HPos.CENTER);
             grid.add(label, 0, i, 1, 1);
         }
 
-        for (int i = 1; i <= rightY - leftY + 1; i++) {
-            for (int j = 1; j <= rightX - leftX + 1; j++) {
-                IMapElement object = map.objectAt(new Vector2d(leftX + j - 1, rightY - i + 1));
-                Label label;
-//                if(object != null) {
-////                    VBox element = elementCreator.showElement(object);
-//                    GridPane.setHalignment(element, HPos.CENTER);
-//                    grid.add(element, j, i, 1, 1);
-//                }
+        for (int i = 1; i <= up - down + 1; i++) {
+            for (int j = 1; j <= right - left + 1; j++) {
+                out.println("test");
+                IMapElement object = map.objectAt(new Vector2d(left + j - 1, up - i + 1));
+                out.println(object);
+                if(object != null) {
+                    VBox element = elementCreator.showElement(object);
+                    GridPane.setHalignment(element, HPos.CENTER);
+                    grid.add(element, j, i, 1, 1);
+                } else {
+                    Label label = new Label("");
+                    grid.add(label,  j, i, 1, 1);
+                }
             }
         }
     }

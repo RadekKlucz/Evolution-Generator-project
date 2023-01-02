@@ -40,6 +40,19 @@ public abstract class AbstractWorldMap  implements IWorldMap {
 
     @Override /////////tutaj trzeba się zastanowić może być wiele obiektów
     public IMapElement objectAt(Vector2d position) {
+        List objects = (List) animals.get(position);
+
+        if(objects != null){
+            return (IMapElement) objects.get(0);
+        }
+//        else {
+//            List objects = (List) plants.get(position);
+//            if(objects != null){
+//                return (IMapElement) object;
+//            }else {
+//                return null;
+//            }
+//        }
         return null;
     }
 

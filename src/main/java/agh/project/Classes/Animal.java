@@ -181,25 +181,29 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
         }
     }
 
-    @Override
-    public Color getColor() {
-        if(energy == 0) {
-            return new Color(0x8C040A); // very dark red
-        } else if (energy <= startEnergy * 0.3) {
-            return new Color(0xFF0008); // red
-        } else if ((energy <= startEnergy * 0.5) && (energy > startEnergy * 0.3)) {
-            return new Color(0xFD6801); // orange
-        } else if ((energy <= startEnergy *0.7) && (energy > startEnergy * 0.5)) {
-            return new Color(0xE59E6C); // light orange
-        } else if ((energy <= startEnergy) && (energy > startEnergy * 0.7)) {
-            return new Color(0xC1C94F); // gold
-        } else if (energy > startEnergy) {
-            return new Color(0x3F1010); // brown
-        }
-        return new Color(0x000000); // dark
-    }
+//    @Override
+//    public Color getColor() {
+//        if(energy == 0) {
+//            return new Color(0x8C040A); // very dark red
+//        } else if (energy <= startEnergy * 0.3) {
+//            return new Color(0xFF0008); // red
+//        } else if ((energy <= startEnergy * 0.5) && (energy > startEnergy * 0.3)) {
+//            return new Color(0xFD6801); // orange
+//        } else if ((energy <= startEnergy *0.7) && (energy > startEnergy * 0.5)) {
+//            return new Color(0xE59E6C); // light orange
+//        } else if ((energy <= startEnergy) && (energy > startEnergy * 0.7)) {
+//            return new Color(0xC1C94F); // gold
+//        } else if (energy > startEnergy) {
+//            return new Color(0x3F1010); // brown
+//        }
+//        return new Color(0x000000); // dark
+//    }
 
     public int getKids() {
         return kids;
+    }
+
+    public int getStartEnergy() {
+        return startEnergy;
     }
 }

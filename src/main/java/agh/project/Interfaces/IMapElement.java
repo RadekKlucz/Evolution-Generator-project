@@ -18,7 +18,7 @@ public interface IMapElement {
      * Description in progress
      */
 
-    Color getColor();
+//    Color getColor();
     /*
      * Description in progress
      */

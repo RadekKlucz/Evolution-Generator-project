@@ -40,8 +40,8 @@ public class Plant extends AbstractMapElement {
         return "Position" + position.toString();
     }
 
-    @Override
-    public Color getColor() {
-        return new Color(47, 241, 6);
-    }
+//    @Override
+//    public Color getColor() {
+//        return new Color(47, 241, 6);
+//    }
 }

@@ -14,10 +14,10 @@ public abstract class AbstractMapElement implements IMapElement {
         return position;
     }
 
-    @Override
-    public Color getColor() {
-        return null;
-    }
+//    @Override
+//    public Color getColor() {
+//        return null;
+//    }
 
     public int getEnergy() {
         return energy;
