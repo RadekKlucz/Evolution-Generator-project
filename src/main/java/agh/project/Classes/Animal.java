@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private IWorldMap map;
-
-
     public MapDirection direction = MapDirection.getRandomPosition();
     public Vector2d position;
     private int startEnergy;
@@ -30,6 +28,7 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
         this.position = position;
         this.energy = energy;
         this.genes = new Genes();
+        addObserver(this.map);
     }
 
     public int getActiveGenIndex(){ // tu trzeba się zastanowić
@@ -43,6 +42,9 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
 
         //temporary position
         Vector2d tempPosition = this.position;
+
+        //old position
+        Vector2d oldPosition = this.position;
 
         switch (gen){
             case 0 -> position.add(this.direction.toUnitVector());
@@ -95,10 +97,10 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
             this.position = tempPosition;
         }
 
+        positionChanged(oldPosition);
         int activeGenIndex = this.getActiveGenIndex();
         this.genes.nextGen(activeGenIndex);
         this.ageIncrement();
-        //trzeba gdzieś uruchomić funkcję aktywującą nowy gen na następny dzień
     }
 
     public int getAge() {
@@ -141,6 +143,10 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
 
             Animal child = new Animal(this.map, this.position, childEnergy);
             child.genes.setChildGens(this, secondParent);
+            child.genes.mutation();
+
+            this.kidsIncrement();
+            secondParent.kidsIncrement();
             return child;
         }
         return null;
@@ -171,7 +177,7 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
 
     public void positionChanged(Vector2d oldPosition){
         for (IPositionChangeObserver observer: observers){
-            observer.positionChanged(oldPosition,this.position);
+            observer.animalPositionChanged(oldPosition,this.position, this);
         }
     }
 

@@ -1,7 +1,10 @@
 package agh.project.Classes;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Genes {
     protected ArrayList<Integer> genes;
@@ -116,19 +119,43 @@ public class Genes {
     }
 
     public void mutation(){
-        for(int gen: this.genes){
-            Random random = new Random();
+        Random random = new Random();
+        int n = random.nextInt(this.lenght());
+        int min = 0;
+        int max = 7;
+
+        IntStream stream = IntStream.generate(() -> new Random().nextInt((max - min) + 1)+min)
+                .distinct()
+                .limit(n);
+        List<Integer> indexesList = stream.boxed().toList();
+
+        for( int i: indexesList){
             int[] values = {-1,1};
             int index = random.nextInt(values.length);
             int v = values[index];
 
-            gen = gen + v;
-            if (gen < 0){
-                gen = 7;
+            this.genes.set(i, this.genes.get(i) + v);
+            if (this.genes.get(i) < 0){
+                this.genes.set(i, 7);
             }
-            else if(gen > 7){
-                gen = 0;
+            else if(this.genes.get(i) > 7){
+                this.genes.set(i, 0);
             }
         }
+
+//        for(int gen: this.genes){
+//            Random random = new Random();
+//            int[] values = {-1,1};
+//            int index = random.nextInt(values.length);
+//            int v = values[index];
+//
+//            gen = gen + v;
+//            if (gen < 0){
+//                gen = 7;
+//            }
+//            else if(gen > 7){
+//                gen = 0;
+//            }
+//        }
     }
 }

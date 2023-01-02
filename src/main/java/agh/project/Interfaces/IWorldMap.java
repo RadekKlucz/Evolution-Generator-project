@@ -12,7 +12,7 @@ import java.util.List;
  * @author apohllo
  *
  */
-public interface IWorldMap {
+public interface IWorldMap extends IPositionChangeObserver{
     /**
      * Indicate if any object can move to the given position.
      *
@@ -64,4 +64,12 @@ public interface IWorldMap {
     Animal priority(List<Animal> animalsList);
 
     void addDeadPosition(Vector2d position);
+    void addPlant();
+
+    void addAnimal();
+
+    void generateDailyPlants();
+
+    Vector2d[] getCorners();
+
 }

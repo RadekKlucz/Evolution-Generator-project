@@ -28,20 +28,20 @@ public class engine {
 
                  if (eatingAnimals != null){
                     Animal eatingAnimal = this.map.priority(eatingAnimals);
-                    eatingAnimal.addEnergy(5); //wczytywane z pliku na początku
+                    eatingAnimal.addEnergy(5); //wczytywane z pliku na początku//
                     plants.remove(plant);
+                    eatingAnimal.incrementGrassEaten();
                  }
             }
         }
         //rozmnażanie się najedzonych zwierząt znajdujących się na tym samym polu,
         List<Animal> newAnimals =  this.map.copulation();
-        for(Animal animal : newAnimals){
-            animals.add(animal);
-        }
-        //wzrastanie nowych roślin na wybranych polach mapy.
-        //trzeba dokończyć(w mapie jest funkcja)
+        animals.addAll(newAnimals);
 
-        //usunięcie martwych zwierząt z mapy,
+        //wzrastanie nowych roślin na wybranych polach mapy.
+        this.map.generateDailyPlants();
+
+        //usunięcie martwych zwierząt z mapy,         ///////////////nie jestem pewny tego (czy to napewno iteruje po wszystkich zwierzętach?) trzeba jeszcze przemyśleć tą funkcję czy ona żeczywiście aktualizuje zwierzęta na mapie czy tylko lokalnie (listę animals)
         for (Animal animal: animals){
             if(animal.getEnergy() <= 0){
                 animals.remove(animal);

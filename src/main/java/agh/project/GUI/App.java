@@ -1,30 +1,47 @@
 package agh.project.GUI;
 
+import agh.project.Classes.Vector2d;
+import agh.project.Interfaces.IMapElement;
+import agh.project.Interfaces.IWorldMap;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Collections;
 
 import static java.lang.System.out;
 
 public class App extends Application {
     private String pathFile;
+    private Image backgroundImage = new Image("file:src/main/resources/backgroundImage.jpg");
+    private IWorldMap map;
+    private final GridPane grid = new GridPane();
+
+    @Override
+    public void init() throws Exception {
+        super.init();
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        HBox hBoxFirstWindow = new HBox();
-        hBoxFirstWindow.setSpacing(20);
+
+        // Setting for buttons on the first window
+        HBox bottomsInFirstWindow = new HBox();
+        bottomsInFirstWindow.setSpacing(20);
+
+        // Earth Map button
         Button buttonStartMap1 = new Button("Earth Map");
         buttonStartMap1.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
@@ -33,20 +50,22 @@ public class App extends Application {
                 Stage EarthMapWindow = new Stage();
                 EarthMapWindow.setTitle("Earth Map");
 
+                // New Layout and button
                 StackPane secondaryLayout  = new StackPane();
                 secondaryLayout.getChildren().add(buttonsForMaps(EarthMapWindow));
 
-                Scene secondScene = new Scene(secondaryLayout, 300, 200);
-
+                // New Scene
+                Scene secondScene = new Scene(secondaryLayout, 500, 500);
                 EarthMapWindow.setScene(secondScene);
 
                 // Set position of second window, related to primary window.
-                EarthMapWindow.setX(primaryStage.getX() + 200);
-                EarthMapWindow.setY(primaryStage.getY() + 100);
+                EarthMapWindow.setX(primaryStage.getX() + 300);
+                EarthMapWindow.setY(primaryStage.getY() + 200);
                 EarthMapWindow.show();
             }
         });
 
+        // Hell Map button
         Button buttonStartMap2 = new Button("Hell Map");
         buttonStartMap2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -55,38 +74,63 @@ public class App extends Application {
                 Stage HellMapWindow = new Stage();
                 HellMapWindow.setTitle("Hell Map");
 
-                // dodanie pierwszej powloki do nowej sceny
+                // New Layout and button
                 StackPane secondaryLayout  = new StackPane();
                 secondaryLayout.getChildren().add(buttonsForMaps(HellMapWindow));
 
-                Scene secondScene = new Scene(secondaryLayout, 300, 200);
-
-                // zatwierdzenie zmian
+                // New Scene
+                Scene secondScene = new Scene(secondaryLayout, 500, 500);
                 HellMapWindow.setScene(secondScene);
 
                 // Set position of second window, related to primary window.
-                HellMapWindow.setX(primaryStage.getX() - 200);
-                HellMapWindow.setY(primaryStage.getY() - 100);
-
+                HellMapWindow.setX(primaryStage.getX() - 300);
+                HellMapWindow.setY(primaryStage.getY() - 200);
                 HellMapWindow.show();
             }
         });
-        Label label = new Label("Please, select a map variant");
-        hBoxFirstWindow.getChildren().addAll(buttonStartMap1, buttonStartMap2);
-        hBoxFirstWindow.getChildren().add(label);
+        Label label = new Label("Welcome to Evolution Generator. This project was created by\n" +
+                "Radoslaw Kluczewski and Szczepan Polak.\n" +
+                "In the first step, please select a map variant");
 
+
+
+        // Add all new bottoms, label and image to first window
+        bottomsInFirstWindow.getChildren().addAll(buttonStartMap1, buttonStartMap2, label);
+
+        // Set border plane and add the first bottoms
         BorderPane borderPane = new BorderPane();
-        borderPane.setTop(hBoxFirstWindow);
+        borderPane.setTop(bottomsInFirstWindow);
 
-        Scene scene = new Scene(borderPane, 400, 400);
+        // Set background Image
+        BackgroundSize backgroundSize = new BackgroundSize(
+                BackgroundSize.AUTO,
+                BackgroundSize.AUTO,
+                false,
+                false,
+                true,
+                false);
+
+        borderPane.setBackground(new Background(new BackgroundImage(
+                backgroundImage,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                backgroundSize)));
+
+        // New main scene
+        Scene scene = new Scene(borderPane, 500, 270);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Evolution Simulator");
         primaryStage.show();
-        primaryStage.show();
     }
 
+    /**
+     * The function to control maps in the gui
+     *
+     * @param actualStage Actual stage for specified map
+     * @return all controls needed to control maps
+     */
     private VBox buttonsForMaps(Stage actualStage) {
-        // ta funkcja jest do wpisywania wartosci poczatkowych
 
         Button startSimulation = new Button("Start Simulation");
         startSimulation.setOnAction(new EventHandler<ActionEvent>() {
@@ -97,36 +141,54 @@ public class App extends Application {
                  */
             }
         });
-        Label widthLabel = new Label("Width: ");
+        Label widthLabel = new Label("Width of map: ");
         TextField widthText = new TextField();
-        widthText.setText("30");
-        Label heightLabel = new Label("Height: ");
+        widthText.setText("100");
+        Label heightLabel = new Label("Height of map: ");
         TextField heightText = new TextField();
-        heightText.setText("30");
+        heightText.setText("100");
+        Label amountOfPlantsLabel = new Label("Amount of plants: ");
+        TextField amountOfPlantsText = new TextField();
+        amountOfPlantsText.setText("20");
         Label amountOfAnimalsLabel = new Label("Amount of animals: ");
         TextField amountOfAnimalsText = new TextField();
-        amountOfAnimalsText.setText("10");
+        amountOfAnimalsText.setText("30");
         Label startEnergyLabel = new Label("Start energy: ");
         TextField startEnergyText = new TextField();
-        startEnergyText.setText("2");
+        startEnergyText.setText("15");
         Label moveEnergyLabel = new Label("Move energy: ");
         TextField moveEnergyText = new TextField();
         moveEnergyText.setText("2");
+        Label jungleRatioLabel = new Label("Jungle Ratio: ");
+        TextField jungleRatioText = new TextField();
+        jungleRatioText.setText("0.25");
+        Button stop = new Button("Stop");
+        Button resume = new Button("Resume");
+        Button save = new Button("Save stats");
 
         //Button to open file
-        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setInitialDirectory(new File("./gui"));
         Button loadData = new Button("Load data from file");
-        loadData.setOnAction(event -> {
-            fileChooser.setTitle("Open JSON configuration file");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
-            File selectedFile = fileChooser.showOpenDialog(actualStage);
+        loadData.setOnAction(event -> {loadDataForButton(actualStage);});
 
-            if (selectedFile != null) {
-                pathFile = selectedFile.getPath();
-                out.println(pathFile); // ok pobiera
+        VBox controls = new VBox(new HBox(widthLabel, widthText), new HBox(heightLabel, heightText),
+                new HBox(amountOfAnimalsLabel, amountOfAnimalsText), new HBox(amountOfPlantsLabel, amountOfPlantsText),
+                new HBox(startEnergyLabel, startEnergyText), new HBox(moveEnergyLabel, moveEnergyText),
+                new HBox(jungleRatioLabel, jungleRatioText), startSimulation, loadData, stop, resume, save);
+        return controls;
+    }
 
-                // to jest do poprawy, nie chce dzialac :(
+    private void loadDataForButton(Stage actualStage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("./src/main/resources"));
+        fileChooser.setTitle("Open CSV configuration file");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File selectedFile = fileChooser.showOpenDialog(actualStage);
+
+        if (selectedFile != null) {
+            pathFile = "file:" + selectedFile.getPath().toString();
+            out.println(pathFile); // ok pobiera
+
+            // to jest do poprawy, nie chce dzialac :(
 
 //                JSONParser parser = new JSONParser();
 //                try {
@@ -147,19 +209,52 @@ public class App extends Application {
 //                } catch (IOException e) {
 //                    throw new RuntimeException(e);
 //                }
-            } else {
-                out.println("Error");
+        } else {
+            out.println("Error");
+        }
+    }
+    /// to jest do poprawy
+    private void createGrid() {
+        Vector2d[] corners = this.map.getCorners();
+        int leftX = corners[0].x;
+        int leftY = corners[0].y;
+        int rightX = corners[1].x;
+        int rightY = corners[1].y;
+
+        grid.setGridLinesVisible(false);
+        grid.getRowConstraints().clear();
+        grid.getColumnConstraints().clear();
+        grid.setGridLinesVisible(true);
+
+        Label yx = new Label("y \\ x");
+        grid.add(yx, 0, 0, 1, 1);
+        grid.getColumnConstraints().add(new ColumnConstraints(1));
+        grid.getRowConstraints().add(new RowConstraints(1));
+
+        for (int i = 1; i <= rightX - leftX + 1; i++) {
+            grid.getColumnConstraints().add(new ColumnConstraints(1));
+            Label label = new Label(String.format("%d", leftX + i - 1));
+            GridPane.setHalignment(label, HPos.CENTER);
+            grid.add(label, i, 0, 1, 1);
+        }
+
+        for (int i = 1; i <= rightY - leftY + 1; i++) {
+            grid.getRowConstraints().add(new RowConstraints(1));
+            Label label = new Label(String.format("%d", rightY - i + 1));
+            GridPane.setHalignment(label, HPos.CENTER);
+            grid.add(label, 0, i, 1, 1);
+        }
+
+        for (int i = 1; i <= rightY - leftY + 1; i++) {
+            for (int j = 1; j <= rightX - leftX + 1; j++) {
+                IMapElement object = map.objectAt(new Vector2d(leftX + j - 1, rightY - i + 1));
+                Label label;
+//                if(object != null) {
+////                    VBox element = elementCreator.showElement(object);
+//                    GridPane.setHalignment(element, HPos.CENTER);
+//                    grid.add(element, j, i, 1, 1);
+//                }
             }
-        });
-
-
-
-
-        VBox controls = new VBox(startSimulation, new HBox(widthLabel, widthText), new HBox(heightLabel, heightText),
-                new HBox(amountOfAnimalsLabel, amountOfAnimalsText), new HBox(startEnergyLabel, startEnergyText),
-                new HBox(moveEnergyLabel, moveEnergyText), loadData);
-
-        return controls;
+        }
     }
 }
-

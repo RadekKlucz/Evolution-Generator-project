@@ -68,7 +68,14 @@ public enum MapDirection {
         };
     }
 
+
+    /**
+     * The function given random direction on map
+     *
+     * @return random direction
+     */
     public static MapDirection getRandomPosition() {
+
         Random random = new Random();
         return switch (random.nextInt(8)) {
             case 0 -> NORTH;
