@@ -15,7 +15,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     protected Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected Map<Vector2d, Plant> plants = new HashMap<>();
     protected int startPlants = 30;
-    protected int startAnimals = 200;
+    protected int startAnimals = 70;
 //    protected int startEnergy = 100;
     protected Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
     protected Vector2d upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
@@ -179,27 +179,24 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 
     @Override
     public void addPlant() {
-        System.out.println("ADDPLANT FUNCTION");
+
         Random random = new Random();
         int start = 0;
 
         while (start < startPlants) {
             int x = random.nextInt(width);
             int y = random.nextInt(height);
-            System.out.println("środek while");
+
             Vector2d newRandomPositionForPlant = new Vector2d(x, y);
-            System.out.println("NEW PLANT POSITON");
-            System.out.println(newRandomPositionForPlant);
+
             if (!isOccupiedByPlant(newRandomPositionForPlant)) {
-                System.out.println("Nowy plant");
+
                 start++;
                 Plant newPlant = new Plant(newRandomPositionForPlant);
-                System.out.println("PLANT");
-                System.out.println(newPlant);
+
                 plants.put(newRandomPositionForPlant, newPlant);
             }
         }
-        System.out.println(plants);
     }
 
     @Override

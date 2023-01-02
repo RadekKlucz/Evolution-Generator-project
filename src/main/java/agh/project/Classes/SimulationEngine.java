@@ -76,12 +76,14 @@ public class SimulationEngine implements IEngine {
             this.map.generateDailyPlants();
 
             //usunięcie martwych zwierząt z mapy,         ///////////////nie jestem pewny tego (czy to napewno iteruje po wszystkich zwierzętach?) trzeba jeszcze przemyśleć tą funkcję czy ona żeczywiście aktualizuje zwierzęta na mapie czy tylko lokalnie (listę animals)
-            for (Animal animal : animals) {
+            List<Animal> animalListCopy = List.copyOf(animals);
+            for (Animal animal : animalListCopy) {
                 if (animal.getEnergy() <= 0) {
                     animals.remove(animal);
 //                    this.map.addDeadPosition(animal.position);
                 }
             }
+
             try {
                 Thread.sleep(moveDelay);
             } catch (InterruptedException error) {
