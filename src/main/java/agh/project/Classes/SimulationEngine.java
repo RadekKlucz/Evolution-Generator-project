@@ -32,6 +32,7 @@ public class SimulationEngine implements IEngine {
         this.map.addAnimal();
         out.println("TEST2");
         animals = this.map.listOfAnimals();
+
         out.println("TEST3");
     }
     private void addPlantToMap(){
@@ -44,11 +45,13 @@ public class SimulationEngine implements IEngine {
     public void run(){
         //skręt i przemieszczenie każdego zwierzęcia,
         while (true) {
+            out.println("LICZBA ANIMALI NA POCZĄTEK DNIA::");
+            out.println(animals.size());
             for (Animal animal : animals) {
                 animal.move();
-                for (IMapUpdateObserver observer : this.observers) {
-                    observer.positionChanged();
-                }
+//                for (IMapUpdateObserver observer : this.observers) {
+//                    observer.positionChanged();
+//                }
 //                try {
 //                    Thread.sleep(moveDelay);
 //                } catch (InterruptedException error) {
@@ -68,14 +71,14 @@ public class SimulationEngine implements IEngine {
 
                     if (eatingAnimals != null && eatingAnimals.size() >= 2) {
                         Animal eatingAnimal = this.map.priority(eatingAnimals);
-                        eatingAnimal.addEnergy(500); //wczytywane z pliku na początku//
+                        eatingAnimal.addEnergy(10); //wczytywane z pliku na początku//
                         plants.remove(plant);
                         this.map.removePlant(plantPosition);
                         plant.positionChanged(plantPosition);
                         eatingAnimal.incrementGrassEaten();
                     }else {
                         Animal eatingAnimal = eatingAnimals.get(0);
-                        eatingAnimal.addEnergy(500); //wczytywane z pliku na początku//
+                        eatingAnimal.addEnergy(10); //wczytywane z pliku na początku//
                         plants.remove(plant);
                         this.map.removePlant(plantPosition);
                         plant.positionChanged(plantPosition);
@@ -90,9 +93,22 @@ public class SimulationEngine implements IEngine {
             }
             out.println("LICZBA PLANTÓW NA KONIEC FUKCJI JEDZENIA");
             out.println(plants.size());
+
+
             //rozmnażanie się najedzonych zwierząt znajdujących się na tym samym polu,
             List<Animal> newAnimals = this.map.copulation();
-            animals.addAll(newAnimals);
+            if(newAnimals.size()>0){
+                for(Animal animal: newAnimals){
+                    animals.add(animal);
+                }
+                this.map.AddNewAnimalToMap(newAnimals);
+                for (IMapUpdateObserver observer : this.observers) {
+                    observer.positionChanged();
+                }
+            }
+
+            out.println("LICZBA ANIMALI W ŚRODKU DNIA");
+            out.println(animals.size());
 
             //wzrastanie nowych roślin na wybranych polach mapy.
             List<Plant> generetedPlantList = this.map.generateDailyPlants();
@@ -106,6 +122,7 @@ public class SimulationEngine implements IEngine {
             for (Animal animal : animalListCopy) {
                 if (animal.getEnergy() <= 0) {
                     animals.remove(animal);
+                    this.map.removeAnimal(animal.position, animal);
 //                    this.map.addDeadPosition(animal.position);
                 }
             }
@@ -117,6 +134,11 @@ public class SimulationEngine implements IEngine {
             }
             for (IMapUpdateObserver observer : this.observers) {
                 observer.positionChanged();
+            }
+            out.println("LICZBA ANIMALI NA KONIEC DNIA");
+            out.println(animals.size());
+            if(animals.size() <= 0){
+                break;
             }
         }
     }

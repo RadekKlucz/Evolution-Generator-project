@@ -47,7 +47,7 @@ public class App extends Application implements IMapUpdateObserver {
         this.cellSize = 21;
         this.engine = new SimulationEngine(this.map);
         this.engine.addObserver(this);
-        int moveDelay = 500;
+        int moveDelay = 3000;
         this.engine.setMoveDelay(moveDelay);
     }
 

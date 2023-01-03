@@ -16,7 +16,7 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
     public Vector2d position;
     private int startEnergy = 100;
     private int energy;
-    private int energyToCopulate;
+    private int energyToCopulate = 10;
     private Genes genes;
     private int grassEaten = 0;
     private int kids = 0;

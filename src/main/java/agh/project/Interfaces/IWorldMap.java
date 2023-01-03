@@ -78,5 +78,8 @@ public interface IWorldMap extends IPositionChangeObserver{
     List<Plant> listOfPlants();
 
     void removePlant(Vector2d position);
+    void AddNewAnimalToMap(List<Animal> animalsList);
+
+    void removeAnimal(Vector2d position, Animal animal);
 
 }

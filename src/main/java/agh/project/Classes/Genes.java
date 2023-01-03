@@ -227,7 +227,7 @@ public class Genes {
         Random random = new Random();
         int n = random.nextInt(1,8);
         int min = 0;
-        int max = this.lenght();
+        int max = this.lenght()-1;
 
         IntStream stream = IntStream.generate(() -> random.nextInt((max - min) + 1) + min)
                 .distinct()
@@ -236,7 +236,7 @@ public class Genes {
 
         System.out.println("INDEX LIST:");
         System.out.println(indexesList);
-        for( int i: indexesList){
+        for(int i: indexesList){
             int[] values = {-1,1};
             int index = random.nextInt(values.length);
             int v = values[index];
