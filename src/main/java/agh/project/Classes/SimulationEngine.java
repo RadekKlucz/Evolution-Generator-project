@@ -126,6 +126,11 @@ public class SimulationEngine implements IEngine {
 //                    this.map.addDeadPosition(animal.position);
                 }
             }
+            if(animals.size() <= 0){
+                break;
+            }
+            out.println("LICZBA ZWIERZAT PO USUNIECIU ZWIERZAT");
+            out.println(animals.size());
 
             try {
                 Thread.sleep(moveDelay);
@@ -137,9 +142,7 @@ public class SimulationEngine implements IEngine {
             }
             out.println("LICZBA ANIMALI NA KONIEC DNIA");
             out.println(animals.size());
-            if(animals.size() <= 0){
-                break;
-            }
+
         }
     }
 

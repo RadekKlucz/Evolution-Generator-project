@@ -39,9 +39,4 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
 
     }
 
-    @Override
-    public Vector2d[] getCorners() {
-        return new Vector2d[]{this.lowerLeftCorner, this.upperRightCorner};
-    }
-
 }

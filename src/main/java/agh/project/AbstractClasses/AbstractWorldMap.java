@@ -14,8 +14,8 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     protected int height;
     protected Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected Map<Vector2d, Plant> plants = new HashMap<>();
-    protected int startPlants = 10;
-    protected int startAnimals = 5;
+    protected int startPlants = 40;
+    protected int startAnimals = 3;
     protected int startEnergy = 100;
     protected Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
     protected Vector2d upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
@@ -40,9 +40,12 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 
     @Override /////////tutaj trzeba się zastanowić może być wiele obiektów
     public IMapElement objectAt(Vector2d position) {
-
+//        System.out.println("POSITION OBJECT AT:");
+//        System.out.println(position);
         if (this.isOccupiedByAnimal(position)){
             List<Animal> animalsList = animals.get(position);
+//            System.out.println("ANIMALS LIST ABJECT AT");
+//            System.out.println(animalsList);
             return animalsList.get(0);
         } else if (this.isOccupiedByPlant(position)) {
             return plants.get(position);
@@ -375,6 +378,13 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 
     public void removeAnimal(Vector2d position, Animal animal){
         this.animals.get(position).remove(animal);
+        if(animals.get(position).size() == 0){
+            animals.remove(position);
+        }
     }
 
+    @Override
+    public Vector2d[] getCorners() {
+        return new Vector2d[]{this.lowerLeftCorner, this.upperRightCorner};
+    }
 }

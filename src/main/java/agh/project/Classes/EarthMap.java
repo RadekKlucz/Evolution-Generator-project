@@ -12,16 +12,8 @@ import java.util.stream.Stream;
 
 public class EarthMap extends AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
-    private int width;
-    private int height;
-    private Map<Vector2d, List<Animal>> animals;
-    private Map<Vector2d, Plant> plants;
-    private int startPlants;
-    private int startAnimals;
-    private int startEnergy;
-
-    private int dailyPlants;
-    private Map<Vector2d, Integer> deadPosition;
+//    private int width;
+//    private int height;
 
     public EarthMap(int width, int height) {
         if (width < 0 || height < 0) {
@@ -33,21 +25,19 @@ public class EarthMap extends AbstractWorldMap implements IWorldMap, IPositionCh
         }
         this.width = width;
         this.height = height;
+        this.lowerLeftCorner = new Vector2d(0, 0);
+        this.upperRightCorner = new Vector2d(width, height);
         this.generateDeadPosition();
-    }
-
-
-    @Override
-    public Vector2d[] getCorners() {
-        return new Vector2d[0];
     }
 
     public void specialMoves(Animal animal, Vector2d checkVector) {
         if(checkVector.y < 0){
             animal.direction = MapDirection.NORTH;
+            animal.position = new Vector2d(checkVector.x, checkVector.y+2);
         }
         if(checkVector.y > height){
             animal.direction = MapDirection.SOUTH;
+            animal.position = new Vector2d(checkVector.x, checkVector.y-2);
         }
         if(checkVector.x < 0){
             int y = animal.position.y;

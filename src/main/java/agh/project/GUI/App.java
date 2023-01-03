@@ -1,9 +1,6 @@
 package agh.project.GUI;
 
-import agh.project.Classes.Animal;
-import agh.project.Classes.HellMap;
-import agh.project.Classes.SimulationEngine;
-import agh.project.Classes.Vector2d;
+import agh.project.Classes.*;
 import agh.project.Interfaces.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -42,7 +39,7 @@ public class App extends Application implements IMapUpdateObserver {
 
     @Override
     public void init() throws Exception {
-        this.map = new HellMap(15, 20);
+        this.map = new EarthMap(15, 5);
         this.elementCreator = new GuiElement();
         this.cellSize = 21;
         this.engine = new SimulationEngine(this.map);
