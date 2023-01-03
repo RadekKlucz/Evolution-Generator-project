@@ -69,7 +69,7 @@ public interface IWorldMap extends IPositionChangeObserver{
 
     void addAnimal();
 
-    void generateDailyPlants();
+    List<Plant> generateDailyPlants();
 
     Vector2d[] getCorners();
 

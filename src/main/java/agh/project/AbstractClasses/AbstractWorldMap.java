@@ -14,7 +14,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     protected int height;
     protected Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected Map<Vector2d, Plant> plants = new HashMap<>();
-    protected int startPlants = 20;
+    protected int startPlants = 50;
     protected int startAnimals = 10;
 //    protected int startEnergy = 100;
     protected Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -234,7 +234,8 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
             }
         }
     }
-    public void generateDailyPlants(){
+    public List<Plant> generateDailyPlants(){
+        List<Plant> generetedPlantsList = new ArrayList<>();
         //sorting deadPostion map to use in prefer places
         Map<Vector2d, Integer> sortedMap = deadPosition.entrySet()
                 .stream()
@@ -267,6 +268,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
                     if (!repeat) {
                         Plant newPlant = new Plant(newRandomVector, this);
                         this.plants.put(newRandomVector, newPlant);
+                        generetedPlantsList.add(newPlant);
 //                    /////////////////////////////////////////////////////////////////
 //                    newGrass.addObserver(boundary);
 //                    boundary.put(newRandomVector);
@@ -276,12 +278,15 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
             }else { //prefer places
                 for(Vector2d position : sortedMap.keySet()){
                     if(!isOccupiedByPlant(position)){
-                        plants.put(position, new Plant(position, this));
+                        Plant newPlant = new Plant(position, this);
+                        plants.put(position, newPlant);
+                        generetedPlantsList.add(newPlant);
                         break;
                     }
                 }
             }
         }
+        return generetedPlantsList;
     }
 
     @Override

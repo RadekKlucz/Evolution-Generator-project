@@ -49,11 +49,11 @@ public class SimulationEngine implements IEngine {
                 for (IMapUpdateObserver observer : this.observers) {
                     observer.positionChanged();
                 }
-                try {
-                    Thread.sleep(moveDelay);
-                } catch (InterruptedException error) {
-                    out.println("Something goes wrong: " + error);
-                }
+//                try {
+//                    Thread.sleep(moveDelay);
+//                } catch (InterruptedException error) {
+//                    out.println("Something goes wrong: " + error);
+//                }
             }
 
 
@@ -81,11 +81,11 @@ public class SimulationEngine implements IEngine {
                         plant.positionChanged(plantPosition);
                         eatingAnimal.incrementGrassEaten();
                     }
-                    try {
-                        Thread.sleep(moveDelay);
-                    } catch (InterruptedException error) {
-                        out.println("Something goes wrong: " + error);
-                    }
+//                    try {
+//                        Thread.sleep(moveDelay);
+//                    } catch (InterruptedException error) {
+//                        out.println("Something goes wrong: " + error);
+//                    }
                 }
             }
             out.println("LICZBA PLANTÓW NA KONIEC FUKCJI JEDZENIA");
@@ -95,7 +95,11 @@ public class SimulationEngine implements IEngine {
             animals.addAll(newAnimals);
 
             //wzrastanie nowych roślin na wybranych polach mapy.
-            this.map.generateDailyPlants();
+            List<Plant> generetedPlantList = this.map.generateDailyPlants();
+            for(Plant plant : generetedPlantList){
+                this.plants.add(plant);
+            }
+
 
             //usunięcie martwych zwierząt z mapy,         ///////////////nie jestem pewny tego (czy to napewno iteruje po wszystkich zwierzętach?) trzeba jeszcze przemyśleć tą funkcję czy ona żeczywiście aktualizuje zwierzęta na mapie czy tylko lokalnie (listę animals)
             List<Animal> animalListCopy = List.copyOf(animals);

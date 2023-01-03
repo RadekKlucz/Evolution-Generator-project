@@ -29,58 +29,140 @@ public class Genes {
     }
 
     public void setChildGens(Animal fatherAnimal, Animal matherAnimal){
-        int fatherEnergy = fatherAnimal.getEnergy();
-        int matherEnergy = matherAnimal.getEnergy();
-        int sumEnergy = fatherEnergy + matherEnergy;
-        int gensSize = fatherAnimal.getGenes().lenght();
-
-        float percentFatherAnimalGenes = (fatherEnergy / sumEnergy) * gensSize;
-        float percentMatherAnimalGenes = (matherEnergy / sumEnergy) * gensSize;
-        int strongAnimal;
-        int weakAnimal;
-
-        ArrayList<Integer> fatherGens =  fatherAnimal.getGenes().getGenes();
-        ArrayList<Integer> matherGens =  fatherAnimal.getGenes().getGenes();
 
 
+        float fatherEnergy = fatherAnimal.getEnergy();
+        float matherEnergy = matherAnimal.getEnergy();
+
+        float strongAnimal;
+        float weakAnimal;
+
+        Animal strongerAnimalObject;
+        Animal weakerAnimalObject;
 
         if(fatherEnergy > matherEnergy){
             strongAnimal = fatherEnergy;
+            strongerAnimalObject = fatherAnimal;
             weakAnimal = matherEnergy;
+            weakerAnimalObject = matherAnimal;
         }else {
             strongAnimal = matherEnergy;
+            strongerAnimalObject = matherAnimal;
             weakAnimal = fatherEnergy;
+            weakerAnimalObject = fatherAnimal;
         }
 
+        float sumEnergy = fatherEnergy + matherEnergy;
+        int gensSize = fatherAnimal.getGenes().lenght();
+
+        System.out.println("PIERWSZE CZTERY WARTOŚCI:");
+        System.out.println(fatherEnergy);
+        System.out.println(matherEnergy);
+        System.out.println(sumEnergy);
+        System.out.println(gensSize);
+
+//        float percentFatherAnimalGenes = (fatherEnergy / sumEnergy) * gensSize;
+//        float percentMatherAnimalGenes = (matherEnergy / sumEnergy) * gensSize;
+//        percentFatherAnimalGenes = Math.round(percentFatherAnimalGenes);
+//        percentMatherAnimalGenes = Math.round(percentMatherAnimalGenes);
+
+        float StrongAnimalGenesNumber = ((strongAnimal / sumEnergy) * gensSize);
+        float WeakAnimalGenesNumber = ((weakAnimal / sumEnergy) * gensSize);
+        StrongAnimalGenesNumber = Math.round(StrongAnimalGenesNumber);
+        WeakAnimalGenesNumber = Math.round(WeakAnimalGenesNumber);
+
+
+//        if(StrongAnimalGenesNumber == WeakAnimalGenesNumber){
+//            StrongAnimalGenesNumber ++;
+//            WeakAnimalGenesNumber --;
+//        }
+
+        if(StrongAnimalGenesNumber + WeakAnimalGenesNumber > fatherAnimal.getGenes().lenght()){
+            StrongAnimalGenesNumber --;
+        }
+
+        System.out.println("PROCENTY:");
+        System.out.println(StrongAnimalGenesNumber);
+        System.out.println(WeakAnimalGenesNumber);
+
+//        float strongAnimal;
+//        float weakAnimal;
+
+        ArrayList<Integer> strongerAnimalGens =  strongerAnimalObject.getGenes().getGenes();
+        ArrayList<Integer> weakerAnimalGens =  weakerAnimalObject.getGenes().getGenes();
+
+        System.out.println("GENY FATHER AND MOTHER");
+        System.out.println(strongerAnimalGens);
+        System.out.println(weakerAnimalGens);
+        System.out.println(strongerAnimalGens.size());
+        System.out.println(weakerAnimalGens.size());
+
+
+//        if(fatherEnergy > matherEnergy){
+//            strongAnimal = fatherEnergy;
+//            weakAnimal = matherEnergy;
+//        }else {
+//            strongAnimal = matherEnergy;
+//            weakAnimal = fatherEnergy;
+//        }
 
         Random random = new Random();
         int side = random.nextInt(2);
-        if (side == 0){
-            if(fatherEnergy > matherEnergy){
 
-                for(int i=0; i<percentFatherAnimalGenes; i++){
-                    //pobież od ojca
-                    this.genes.add(fatherGens.get(i));
-
-                }
-                for(int i=gensSize; i>percentMatherAnimalGenes; i--){
-                    //pobież od matki
-                    this.genes.add(matherGens.get(i));
-                }
+        if(side == 0){
+            for(int i=0; i<StrongAnimalGenesNumber; i++){
+//                    //pobież od mocniejszego
+                    this.genes.add(strongerAnimalGens.get(i));
             }
-        }else {
-            if (matherEnergy > fatherEnergy) {
-                for (int i = 0; i < percentFatherAnimalGenes; i++) {
-                    //pobież od matki
-                    this.genes.add(matherGens.get(i));
 
+            for(int i=gensSize-1; i>((gensSize-1) - WeakAnimalGenesNumber); i--){
+                    //pobież od matki
+                    this.genes.add(weakerAnimalGens.get(i));
                 }
-                for (int i = gensSize; i > percentMatherAnimalGenes; i--) {
-                    //pobież od ojca
-                    this.genes.add(fatherGens.get(i));
-                }
+        }else {
+            for(int i=0; i<WeakAnimalGenesNumber; i++){
+                    //pobież od mocniejszego
+                this.genes.add(weakerAnimalGens.get(i));
+            }
+            for(int i=gensSize-1; i>((gensSize-1) - StrongAnimalGenesNumber); i--){
+                //pobież od matki
+                this.genes.add(strongerAnimalGens.get(i));
             }
         }
+
+
+
+
+//        Random random = new Random();
+//        int side = random.nextInt(2);
+//        if (side == 0){
+//            if(fatherEnergy > matherEnergy){
+//
+//                for(int i=0; i<percentFatherAnimalGenes; i++){
+//                    //pobież od ojca
+//                    this.genes.add(fatherGens.get(i));
+//
+//                }
+//                for(int i=gensSize; i>percentMatherAnimalGenes; i--){
+//                    //pobież od matki
+//                    this.genes.add(matherGens.get(i));
+//                }
+//            }
+//        }else {
+//            if (matherEnergy > fatherEnergy) {
+//                for (int i = 0; i < percentFatherAnimalGenes; i++) {
+//                    //pobież od matki
+//                    this.genes.add(matherGens.get(i));
+//
+//                }
+//                for (int i = gensSize; i > percentMatherAnimalGenes; i--) {
+//                    //pobież od ojca
+//                    this.genes.add(fatherGens.get(i));
+//                }
+//            }
+//        }
+        System.out.println("DLUGOSC GENOW SETCHILD GENS");
+        System.out.println(this.lenght());
     }
     public int getActiveGenIndex() { /// to chyba jednak w animal
         return activeGenIndex;
@@ -131,16 +213,29 @@ public class Genes {
     }
 
     public void mutation(){
-        Random random = new Random();
-        int n = random.nextInt(8);  /// wczytywane z pliku
-        int min = 0;
-        int max = 7;
+//        Random random = new Random();
+//        int n = random.nextInt(8);  /// wczytywane z pliku
+//        int min = 0;
+//        int max = 7;
 
-        IntStream stream = IntStream.generate(() -> new Random().nextInt((max - min) + 1)+min)
+//        IntStream stream = IntStream.generate(() -> new Random().nextInt((min - max) + 1)+min)
+//                .distinct()
+//                .limit(n);
+//        List<Integer> indexesList = stream.boxed().toList();
+
+
+        Random random = new Random();
+        int n = random.nextInt(1,8);
+        int min = 0;
+        int max = this.lenght();
+
+        IntStream stream = IntStream.generate(() -> random.nextInt((max - min) + 1) + min)
                 .distinct()
                 .limit(n);
         List<Integer> indexesList = stream.boxed().toList();
 
+        System.out.println("INDEX LIST:");
+        System.out.println(indexesList);
         for( int i: indexesList){
             int[] values = {-1,1};
             int index = random.nextInt(values.length);
@@ -148,7 +243,7 @@ public class Genes {
 
             System.out.println("GENES LENGHT");
             System.out.println(this.genes.size());
-            this.genes.set(i, this.genes.get(i) + v);
+            this.genes.set(i, this.genes.get(i) + v);  //////////////////////////////////////////
             if (this.genes.get(i) < 0){
                 this.genes.set(i, 7);
             }
