@@ -198,14 +198,20 @@ public class App extends Application implements IMapUpdateObserver {
         //Button to open file
         Button loadData = new Button("Load data from file");
         loadData.setOnAction(event -> {
-            JFileChooser fileChooser = new JFileChooser();
-            File plik = fileChooser.getSelectedFile();
-            String nazwaPliku = plik.getAbsolutePath();
+            // Utwórz obiekt FileChooser
+            FileChooser fileChooser = new FileChooser();
+
+            // Ustaw filtr plików na pliki JSON
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Files JSON", "*.json");
+            fileChooser.getExtensionFilters().add(filter);
+
+            // Pokaż okno wyboru pliku i pobierz wybrany plik
+            File selectedFile = fileChooser.showOpenDialog(null);
 
             // Wczytaj plik JSON i przetwórz go
             try {
                 // Utwórz obiekt reader, który będzie odczytywał dane z pliku
-                BufferedReader reader = new BufferedReader(new FileReader(nazwaPliku));
+                BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
 
                 // Utwórz obiekt JSONParser
                 JSONParser parser = new JSONParser();
@@ -213,14 +219,18 @@ public class App extends Application implements IMapUpdateObserver {
                 // Odczytaj plik JSON za pomocą obiektu JSONParser i przetwórz go na obiekt JSONObject
                 JSONObject json = (JSONObject) parser.parse(reader);
                 // Możesz teraz odczytywać poszczególne wartości z obiektu JSONObject według potrzeb
-                long szerokosc = (long) json.get("width");
-                out.println(szerokosc);
-                widthText.setText(String.valueOf(szerokosc));
-//
-//                    heightText.setText((String) json.get("height"));
-//                    amountOfAnimalsText.setText((String) json.get("amountOfAnimals"));
-//                    startEnergyText.setText((String) json.get("startEnergy"));
-//                    moveEnergyText.setText((String) json.get("moveEnergy"));
+                long width = (long) json.get("width");
+                long height = (long) json.get("height");
+                long amountOfAnimals = (long) json.get("amountOfAnimals");
+                long amountOfPlants = (long) json.get("amountOfPlants");
+                long startEnergy = (long) json.get("startEnergy");
+                long moveEnergy = (long) json.get("moveEnergy");
+                widthText.setText(String.valueOf(width));
+                heightText.setText(String.valueOf(height));
+                amountOfAnimalsText.setText(String.valueOf(amountOfAnimals));
+                amountOfPlantsText.setText(String.valueOf(amountOfPlants));
+                startEnergyText.setText(String.valueOf(startEnergy));
+                moveEnergyText.setText(String.valueOf(moveEnergy));
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }});
