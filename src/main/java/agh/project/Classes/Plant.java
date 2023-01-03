@@ -2,6 +2,7 @@ package agh.project.Classes;
 
 import agh.project.AbstractClasses.AbstractMapElement;
 import agh.project.Interfaces.IPositionChangeObserver;
+import agh.project.Interfaces.IWorldMap;
 
 
 import java.awt.Color;
@@ -9,9 +10,11 @@ import java.util.ArrayList;
 
 public class Plant extends AbstractMapElement {
     private final Vector2d position;
-
-    public Plant(Vector2d position) {
+    private IWorldMap map;
+    public Plant(Vector2d position, IWorldMap map) {
+        this.map = map;
         this.position = position;
+        addObserver(this.map);
     }
 
     private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();

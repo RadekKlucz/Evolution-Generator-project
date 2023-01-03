@@ -14,8 +14,8 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     protected int height;
     protected Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected Map<Vector2d, Plant> plants = new HashMap<>();
-    protected int startPlants = 30;
-    protected int startAnimals = 70;
+    protected int startPlants = 20;
+    protected int startAnimals = 10;
 //    protected int startEnergy = 100;
     protected Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
     protected Vector2d upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
@@ -172,6 +172,13 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 
     @Override
     public void addDeadPosition(Vector2d position) {
+//        if (this.deadPosition.get(position) != null){
+//            int value = this.deadPosition.get(position);
+//            value ++;
+//            this.deadPosition.put(position, value);
+//        }else {
+//            this.deadPosition.put(position, 1);
+//        }
         int value = this.deadPosition.get(position);
         value ++;
         this.deadPosition.put(position, value);
@@ -192,7 +199,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
             if (!isOccupiedByPlant(newRandomPositionForPlant)) {
 
                 start++;
-                Plant newPlant = new Plant(newRandomPositionForPlant);
+                Plant newPlant = new Plant(newRandomPositionForPlant, this);
 
                 plants.put(newRandomPositionForPlant, newPlant);
             }
@@ -220,6 +227,13 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
         }
     }
 
+    public void generateDeadPosition(){
+        for(int i = 0; i < this.width; i++){
+            for (int j = 0; j < this.height; j++){
+                deadPosition.put(new Vector2d(i,j), 0);
+            }
+        }
+    }
     public void generateDailyPlants(){
         //sorting deadPostion map to use in prefer places
         Map<Vector2d, Integer> sortedMap = deadPosition.entrySet()
@@ -251,7 +265,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
                         }
 
                     if (!repeat) {
-                        Plant newPlant = new Plant(newRandomVector);
+                        Plant newPlant = new Plant(newRandomVector, this);
                         this.plants.put(newRandomVector, newPlant);
 //                    /////////////////////////////////////////////////////////////////
 //                    newGrass.addObserver(boundary);
@@ -262,7 +276,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
             }else { //prefer places
                 for(Vector2d position : sortedMap.keySet()){
                     if(!isOccupiedByPlant(position)){
-                        plants.put(position, new Plant(position));
+                        plants.put(position, new Plant(position, this));
                         break;
                     }
                 }
@@ -311,6 +325,10 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
         System.out.println(allPlants);
 
         return allPlants;
+    }
+
+    public void removePlant(Vector2d position){
+        this.plants.remove(position);
     }
 
 

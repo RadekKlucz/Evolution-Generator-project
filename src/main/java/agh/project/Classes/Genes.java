@@ -57,6 +57,7 @@ public class Genes {
         int side = random.nextInt(2);
         if (side == 0){
             if(fatherEnergy > matherEnergy){
+
                 for(int i=0; i<percentFatherAnimalGenes; i++){
                     //pobież od ojca
                     this.genes.add(fatherGens.get(i));

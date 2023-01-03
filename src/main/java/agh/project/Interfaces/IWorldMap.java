@@ -77,4 +77,6 @@ public interface IWorldMap extends IPositionChangeObserver{
 
     List<Plant> listOfPlants();
 
+    void removePlant(Vector2d position);
+
 }

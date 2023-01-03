@@ -46,8 +46,19 @@ public class SimulationEngine implements IEngine {
         while (true) {
             for (Animal animal : animals) {
                 animal.move();
+                for (IMapUpdateObserver observer : this.observers) {
+                    observer.positionChanged();
+                }
+                try {
+                    Thread.sleep(moveDelay);
+                } catch (InterruptedException error) {
+                    out.println("Something goes wrong: " + error);
+                }
             }
 
+
+            out.println("LICZBA PLANTÓW PRZED FUKCJĄ JEDZENIA");
+            out.println(plants.size());
             //konsumpcja roślin na których pola weszły zwierzęta,
             List<Plant> plantsListCopy = List.copyOf(plants);
             for (Plant plant : plantsListCopy) {
@@ -59,15 +70,26 @@ public class SimulationEngine implements IEngine {
                         Animal eatingAnimal = this.map.priority(eatingAnimals);
                         eatingAnimal.addEnergy(500); //wczytywane z pliku na początku//
                         plants.remove(plant);
+                        this.map.removePlant(plantPosition);
+                        plant.positionChanged(plantPosition);
                         eatingAnimal.incrementGrassEaten();
                     }else {
                         Animal eatingAnimal = eatingAnimals.get(0);
                         eatingAnimal.addEnergy(500); //wczytywane z pliku na początku//
                         plants.remove(plant);
+                        this.map.removePlant(plantPosition);
+                        plant.positionChanged(plantPosition);
                         eatingAnimal.incrementGrassEaten();
+                    }
+                    try {
+                        Thread.sleep(moveDelay);
+                    } catch (InterruptedException error) {
+                        out.println("Something goes wrong: " + error);
                     }
                 }
             }
+            out.println("LICZBA PLANTÓW NA KONIEC FUKCJI JEDZENIA");
+            out.println(plants.size());
             //rozmnażanie się najedzonych zwierząt znajdujących się na tym samym polu,
             List<Animal> newAnimals = this.map.copulation();
             animals.addAll(newAnimals);

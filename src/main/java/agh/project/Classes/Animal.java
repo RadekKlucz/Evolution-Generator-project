@@ -108,7 +108,12 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
         this.genes.nextGen(activeGenIndex);
         this.ageIncrement();
         this.removeEnergy(10); ////// wartość z pliku
+        positionChanged(oldPosition);
 
+//        System.out.println("OLD POSITION");
+//        System.out.println(oldPosition);
+//        System.out.println("NEW POSITION");
+//        System.out.println(this.position);
     }
 
     public int getAge() {

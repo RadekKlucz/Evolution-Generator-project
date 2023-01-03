@@ -25,6 +25,7 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
         this.height = height;
         this.lowerLeftCorner = new Vector2d(0, 0);
         this.upperRightCorner = new Vector2d(width, height);
+        this.generateDeadPosition();
     }
 
     @Override
@@ -35,6 +36,7 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
 
         animal.position = new Vector2d(newRandomX, newRandomY);
         animal.removeEnergy(5); //// tutaj wartość równa energi potrzebnej do rozmnażania (mamy private w animalu)
+
     }
 
     @Override

@@ -33,6 +33,7 @@ public class EarthMap extends AbstractWorldMap implements IWorldMap, IPositionCh
         }
         this.width = width;
         this.height = height;
+        this.generateDeadPosition();
     }
 
 
