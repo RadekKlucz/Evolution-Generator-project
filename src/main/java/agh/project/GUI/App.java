@@ -34,7 +34,6 @@ public class App extends Application implements IMapUpdateObserver {
 
     public void initMaps() throws Exception {
 
-
         this.mapOfHell = new HellMap(20, 20);
         this.mapOfEarth = new EarthMap(20, 20);
         elementCreator = new GuiElement();
@@ -46,19 +45,6 @@ public class App extends Application implements IMapUpdateObserver {
         this.engineForHell.setMoveDelay(moveDelay);
         this.engineForEarth.setMoveDelay(moveDelay);
     }
-//    @Override
-//    public void init() throws Exception {
-//        this.mapOfHell = new HellMap(20, 20);
-//        this.mapOfEarth = new EarthMap(20, 20);
-//        elementCreator = new GuiElement();
-//        this.engineForHell = new SimulationEngine(this.mapOfHell);
-//        this.engineForEarth = new SimulationEngine(this.mapOfEarth);
-//        this.engineForHell.addObserver(this);
-//        this.engineForEarth.addObserver(this);
-//        int moveDelay = 3000;
-//        this.engineForHell.setMoveDelay(moveDelay);
-//        this.engineForEarth.setMoveDelay(moveDelay);
-//    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {

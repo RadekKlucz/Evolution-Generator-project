@@ -5,8 +5,6 @@ import agh.project.EnumClasses.MapDirection;
 import agh.project.Interfaces.IPositionChangeObserver;
 import agh.project.Interfaces.IWorldMap;
 
-import javax.swing.plaf.ColorUIResource;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +12,9 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
     private IWorldMap map;
     public MapDirection direction = MapDirection.getRandomPosition();
     public Vector2d position;
-    private int startEnergy = 100;
+    private int startAnimalEnergy = super.startAnimalEnergy;
     private int energy;
-    private int energyToCopulate = 10;
+    private int energyToCopulate = super.neededEnergyToCopulate;
     private Genes genes;
     private int grassEaten = 0;
     private int kids = 0;
@@ -30,7 +28,7 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
         this.energy = energy;
         this.genes = new Genes();
         addObserver(this.map);
-        dataReader data = new dataReader();
+        DataReader data = new DataReader();
         energyToCopulate = data.neededEnergyToCopulate;
     }
 
@@ -221,6 +219,6 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
     }
 
     public int getStartEnergy() {
-        return startEnergy;
+        return startAnimalEnergy;
     }
 }

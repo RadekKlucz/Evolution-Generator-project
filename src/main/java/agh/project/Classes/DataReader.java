@@ -1,8 +1,9 @@
 package agh.project.Classes;
 
 import javafx.scene.control.TextField;
+import agh.project.GUI.GuiElement;
 
-public class dataReader {
+public class DataReader {
 
     public int mapWidth;
     public int mapHeight;
@@ -19,6 +20,7 @@ public class dataReader {
     public void setMapWidth(TextField textField){
         try {
             this.mapWidth = Integer.parseInt(textField.getText());
+            System.out.println("wczytana szerokosc" + mapWidth);
         } catch (NumberFormatException e){
             System.out.println(e+ "Dane startowe nie poprawnie wpisane");
         }
@@ -27,6 +29,7 @@ public class dataReader {
     public void setMapHeight(TextField textField){
         try {
             this.mapHeight = Integer.parseInt(textField.getText());
+            System.out.println("wczytana wysokosc" + mapHeight);
         } catch (NumberFormatException e){
             System.out.println(e+ "Dane startowe nie poprawnie wpisane");
         }
@@ -102,5 +105,13 @@ public class dataReader {
         } catch (NumberFormatException e){
             System.out.println(e+ "Dane startowe nie poprawnie wpisane");
         }
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
     }
 }

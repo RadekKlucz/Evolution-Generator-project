@@ -2,13 +2,8 @@ package agh.project.Classes;
 
 import agh.project.AbstractClasses.AbstractWorldMap;
 import agh.project.EnumClasses.MapDirection;
-import agh.project.Interfaces.IMapElement;
 import agh.project.Interfaces.IPositionChangeObserver;
 import agh.project.Interfaces.IWorldMap;
-
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class EarthMap extends AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
@@ -28,12 +23,12 @@ public class EarthMap extends AbstractWorldMap implements IWorldMap, IPositionCh
         this.lowerLeftCorner = new Vector2d(0, 0);
         this.upperRightCorner = new Vector2d(width, height);
         this.generateDeadPosition();
-        dataReader data = new dataReader();
-        super.startPlants = data.startPlantsNumber;
-        super.startAnimals = data.startAnimalNumber;
-        super.startEnergy = data.startAnimalEnergy;
-        super.dailyPlants = data.numberOfNewDailyPlants;
-        super.gensLength = data.gensLength;
+//        DataReader data = new DataReader();
+//        super.startPlants = data.startPlantsNumber;
+//        super.startAnimals = data.startAnimalNumber;
+//        super.startEnergy = data.startAnimalEnergy;
+//        super.dailyPlants = data.numberOfNewDailyPlants;
+//        super.gensLength = data.gensLength;
 
     }
 

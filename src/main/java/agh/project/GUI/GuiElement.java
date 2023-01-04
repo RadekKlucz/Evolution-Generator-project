@@ -2,6 +2,7 @@ package agh.project.GUI;
 
 import agh.project.Classes.Animal;
 import agh.project.Classes.HellMap;
+import agh.project.Classes.DataReader;
 
 import agh.project.Classes.SimulationEngine;
 import agh.project.Classes.Vector2d;
@@ -31,7 +32,9 @@ import java.io.*;
 
 import static java.lang.System.out;
 
-public class GuiElement {
+public class GuiElement extends DataReader{
+    private TextField widthText1;
+    private TextField heightText1;
     private Image imageDarkRed = null;
     private Image imageRed = null;
     private Image imageOrange = null;
@@ -221,7 +224,7 @@ public class GuiElement {
                 long dailyPlantsNumber = (long) json.get("dailyPlantsNumber");
                 long energyToCopulate = (long) json.get("energyToCopulate");
                 long energyFromParent = (long) json.get("energyFromParent");
-                long lenghtGens = (long) json.get("lenghtGens");
+                long lengthGens = (long) json.get("lengthGens");
                 widthText.setText(String.valueOf(width));
                 heightText.setText(String.valueOf(height));
                 amountOfStartAnimalsText.setText(String.valueOf(amountOfAnimals));
@@ -232,17 +235,34 @@ public class GuiElement {
                 numberOfNewDailyPlantsText.setText(String.valueOf(dailyPlantsNumber));
                 neededEnergyToCopulateText.setText(String.valueOf(energyToCopulate));
                 parentEnergyToNewChildText.setText(String.valueOf(energyFromParent));
-                gensLenghtText.setText(String.valueOf(lenghtGens));
+                gensLenghtText.setText(String.valueOf(lengthGens));
+
+
+//                setStartAnimalEnergy(startAnimalEnergyText);
+//                dataReader.setStartAnimalNumber(amountOfStartAnimalsText);
+//                dataReader.setMoveEnergy(moveEnergyText);
+//                dataReader.setStartPlantsNumber(amountOfStartPlantsText);
+//                dataReader.setEnergyFromEating(energyFromEatingText);
+//                dataReader.setNumberOfNewDailyPlants(numberOfNewDailyPlantsText);
+//                dataReader.setNeededEnergyToCopulate(neededEnergyToCopulateText);
+//                dataReader.setParentEnergyToNewChild(parentEnergyToNewChildText);
+//                dataReader.setGensLenght(gensLenghtText);
+                this.widthText1 = widthText;
+                this.heightText1 = heightText;
+
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }});
+
+        this.widthText1 = widthText;
+        this.heightText1 = heightText;
 
         VBox controls = new VBox(new HBox(widthLabel, widthText), new HBox(heightLabel, heightText),
                 new HBox(amountOfAnimalsLabel, amountOfStartAnimalsText), new HBox(amountOfPlantsLebel, amountOfStartPlantsText),
                 new HBox(startEnergyLabel, startAnimalEnergyText), new HBox(moveEnergyLabel, moveEnergyText),
                 new HBox(energyFromEatingLabel, energyFromEatingText), new HBox(numberOfNewDailyPlantsLabel, numberOfNewDailyPlantsText),
                 new HBox(neededEnergyToCopulateLabel, neededEnergyToCopulateText),  new HBox(parentEnergyToNewChildLabel, parentEnergyToNewChildText),
-                new HBox(gensLenghtLabel, gensLenghtText), startSimulation, loadData, stop, resume, save);
+                new HBox(gensLenghtLabel, gensLenghtText), loadData, stop, resume, save);
 
         return controls;
     }
@@ -263,7 +283,7 @@ public class GuiElement {
         secondaryLayout.getChildren().addAll(vBox);
 
         // utworzenie nowej sceny z kontenerem jako głównym elementem oraz ustawienie jej wymiarów
-        Scene secondScene = new Scene(secondaryLayout, 300, 300);
+        Scene secondScene = new Scene(secondaryLayout, 400, 400);
         mapWindow.setScene(secondScene);
 
         // ustawienie pozycji okna względem okna głównego
@@ -277,5 +297,13 @@ public class GuiElement {
         }
         // wyświetlenie okna
         mapWindow.show();
+    }
+
+    public TextField getWidthText1() {
+        return widthText1;
+    }
+
+    public TextField getHeightText1() {
+        return heightText1;
     }
 }

@@ -4,5 +4,10 @@
    "amountOfAnimals": 50,
    "amountOfPlants":30,
    "startEnergy": 33,
-   "moveEnergy": 12
+   "moveEnergy": 12,
+   "eatingEnergy": 14,
+   "dailyPlantsNumber": 15,
+   "energyToCopulate": 20,
+   "energyFromParent": 10,
+   "lengthGens": 7
 }

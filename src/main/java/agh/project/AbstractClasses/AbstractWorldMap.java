@@ -10,19 +10,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AbstractWorldMap extends AbstractMapElement implements IWorldMap {
-    protected int width;
-    protected int height;
+    protected int width = getMapWidth();
+    protected int height = getMapHeight();
     protected Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected Map<Vector2d, Plant> plants = new HashMap<>();
-    protected int startPlants = 40;
-    protected int startAnimals = 3;
-    protected int startEnergy = 100;
+    protected int startPlants = super.startPlantsNumber;
+    protected int startAnimals = super.startAnimalNumber;
+    protected int startEnergy = super.startAnimalEnergy;
     protected Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
     protected Vector2d upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
     private Map<Vector2d, Integer> deadPosition = new HashMap<>();
-    protected int dailyPlants = 3;
+    protected int dailyPlants = super.numberOfNewDailyPlants;
 
-    protected int gensLength = 7;
+    protected int gensLength = super.gensLength;
 
 
     @Override

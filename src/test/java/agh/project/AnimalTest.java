@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 
 public class AnimalTest {
 
-    @Test
-    void checkMove(){
-        IWorldMap map = new EarthMap(10,15);
-        Vector2d vector = new Vector2d(2,2);
-        int energy = 20;
-        Animal animal = new Animal(map, vector, energy);
-        animal.getGenes().g
-    }
+//    @Test
+//    void checkMove(){
+//        IWorldMap map = new EarthMap(10,15);
+//        Vector2d vector = new Vector2d(2,2);
+//        int energy = 20;
+//        Animal animal = new Animal(map, vector, energy);
+//        animal.getGenes().g
+//    }
 
 }
