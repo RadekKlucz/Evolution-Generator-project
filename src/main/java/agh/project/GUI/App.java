@@ -28,12 +28,13 @@ public class App extends Application implements IMapUpdateObserver {
     private IWorldMap mapOfEarth;
     private final GridPane gridForHell = new GridPane();
     private final GridPane gridForEarth = new GridPane();
-
-    private GuiElement elementCreator;
+    private GuiElement elementCreator = new GuiElement();
     private IEngine engineForHell;
     private IEngine engineForEarth;
-    @Override
-    public void init() throws Exception {
+
+    public void initMaps() throws Exception {
+
+
         this.mapOfHell = new HellMap(20, 20);
         this.mapOfEarth = new EarthMap(20, 20);
         elementCreator = new GuiElement();
@@ -45,6 +46,19 @@ public class App extends Application implements IMapUpdateObserver {
         this.engineForHell.setMoveDelay(moveDelay);
         this.engineForEarth.setMoveDelay(moveDelay);
     }
+//    @Override
+//    public void init() throws Exception {
+//        this.mapOfHell = new HellMap(20, 20);
+//        this.mapOfEarth = new EarthMap(20, 20);
+//        elementCreator = new GuiElement();
+//        this.engineForHell = new SimulationEngine(this.mapOfHell);
+//        this.engineForEarth = new SimulationEngine(this.mapOfEarth);
+//        this.engineForHell.addObserver(this);
+//        this.engineForEarth.addObserver(this);
+//        int moveDelay = 3000;
+//        this.engineForHell.setMoveDelay(moveDelay);
+//        this.engineForEarth.setMoveDelay(moveDelay);
+//    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -118,6 +132,11 @@ public class App extends Application implements IMapUpdateObserver {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                try {
+                    initMaps();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 new Thread(() -> {
                     Platform.runLater(() -> {
                         if (typeOfMap.equals("Hell Map")) {
