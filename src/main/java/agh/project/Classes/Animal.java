@@ -30,6 +30,8 @@ public class Animal extends AbstractMapElement implements Comparable<Animal> {
         this.energy = energy;
         this.genes = new Genes();
         addObserver(this.map);
+        dataReader data = new dataReader();
+        energyToCopulate = data.neededEnergyToCopulate;
     }
 
     public int getActiveGenIndex(){ // tu trzeba się zastanowić
