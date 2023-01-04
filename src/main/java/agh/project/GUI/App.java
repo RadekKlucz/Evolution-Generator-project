@@ -21,9 +21,14 @@ import javafx.stage.Stage;
 
 
 public class App extends Application implements IMapUpdateObserver {
+
+    private int width = 5;
+    private int height = 5;
     private IWorldMap mapOfHell;
     private IWorldMap mapOfEarth;
-    private final GridPane grid = new GridPane();
+    private final GridPane gridForHell = new GridPane();
+    private final GridPane gridForEarth = new GridPane();
+
     private GuiElement elementCreator;
     private IEngine engineForHell;
     private IEngine engineForEarth;
@@ -113,32 +118,36 @@ public class App extends Application implements IMapUpdateObserver {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (typeOfMap.equals("Hell Map")) {
-                    Stage hellSimulation = new Stage();
-                    elementCreator.createGrid(mapOfHell, grid);
-                    Thread eThread = new Thread(engineForHell);
-                    eThread.start();
-                    Scene secondScene = new Scene(grid, 500, 500);
-                    hellSimulation.setTitle("Hell Simulation");
-                    hellSimulation.setScene(secondScene);
+                new Thread(() -> {
+                    Platform.runLater(() -> {
+                        if (typeOfMap.equals("Hell Map")) {
+                            Stage hellSimulation = new Stage();
+                            elementCreator.createGrid(mapOfHell, gridForHell);
+                            Thread eThread = new Thread(engineForHell);
+                            eThread.start();
+                            Scene secondScene = new Scene(gridForHell, 500, 500);
+                            hellSimulation.setTitle("Hell Simulation");
+                            hellSimulation.setScene(secondScene);
 
 //              Set position of second window, related to primary window.
-                    hellSimulation.setX(primaryStage.getX() + 300);
-                    hellSimulation.setY(primaryStage.getY());
-                    hellSimulation.show();
-                } else {
-                    Stage earthSimulation = new Stage();
-                    elementCreator.createGrid(mapOfHell, grid);
-                    Thread eThread = new Thread(engineForHell);
-                    eThread.start();
-                    Scene secondScene = new Scene(grid, 500, 500);
-                    earthSimulation.setTitle("Earth Simulation");
-                    earthSimulation.setScene(secondScene);
+                            hellSimulation.setX(primaryStage.getX() - 500);
+                            hellSimulation.setY(primaryStage.getY());
+                            hellSimulation.show();
+                        } else {
+                            Stage earthSimulation = new Stage();
+                            elementCreator.createGrid(mapOfEarth, gridForEarth);
+                            Thread eThread = new Thread(engineForEarth);
+                            eThread.start();
+                            Scene secondScene = new Scene(gridForEarth, 500, 500);
+                            earthSimulation.setTitle("Earth Simulation");
+                            earthSimulation.setScene(secondScene);
 //              Set position of second window, related to primary window.
-                    earthSimulation.setX(primaryStage.getX() + 300 );
-                    earthSimulation.setY(primaryStage.getY());
-                    earthSimulation.show();
-                }
+                            earthSimulation.setX(primaryStage.getX() + 500);
+                            earthSimulation.setY(primaryStage.getY());
+                            earthSimulation.show();
+                        }
+                    });
+                }).start();
             }
         });
         hBox.getChildren().add(startButton);
@@ -148,9 +157,10 @@ public class App extends Application implements IMapUpdateObserver {
     @Override
     public void positionChanged() {
         Platform.runLater(() -> {
-            grid.getChildren().clear();
-            elementCreator.createGrid(mapOfHell, grid);
-            elementCreator.createGrid(mapOfEarth, grid);
+            gridForHell.getChildren().clear();
+            gridForEarth.getChildren().clear();
+            elementCreator.createGrid(mapOfHell, gridForHell);
+            elementCreator.createGrid(mapOfEarth, gridForEarth);
         });
     }
 }
