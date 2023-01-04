@@ -1,6 +1,7 @@
 package agh.project.GUI;
 
 import agh.project.Classes.Animal;
+import agh.project.Classes.HellMap;
 import agh.project.Classes.Vector2d;
 import agh.project.Interfaces.IEngine;
 import agh.project.Interfaces.IMapElement;
@@ -158,25 +159,48 @@ public class GuiElement {
         });
         Label widthLabel = new Label("Width of map: ");
         TextField widthText = new TextField();
-        widthText.setText("100");
+        widthText.setText("50");
+
         Label heightLabel = new Label("Height of map: ");
         TextField heightText = new TextField();
-        heightText.setText("100");
-        Label amountOfPlantsLabel = new Label("Amount of plants: ");
-        TextField amountOfPlantsText = new TextField();
-        amountOfPlantsText.setText("20");
-        Label amountOfAnimalsLabel = new Label("Amount of animals: ");
-        TextField amountOfAnimalsText = new TextField();
-        amountOfAnimalsText.setText("30");
-        Label startEnergyLabel = new Label("Start energy: ");
-        TextField startEnergyText = new TextField();
-        startEnergyText.setText("15");
+        heightText.setText("70");
+
+        Label amountOfAnimalsLabel = new Label("Amount of start animals: ");
+        TextField amountOfStartAnimalsText = new TextField();
+        amountOfStartAnimalsText.setText("20");
+
+        Label amountOfPlantsLebel = new Label("Amount of start plants: ");
+        TextField amountOfStartPlantsText = new TextField();
+        amountOfStartPlantsText.setText("30");
+
+        Label startEnergyLabel = new Label("Start animal energy: ");
+        TextField startAnimalEnergyText = new TextField();
+        startAnimalEnergyText.setText("40");
+
         Label moveEnergyLabel = new Label("Move energy: ");
         TextField moveEnergyText = new TextField();
-        moveEnergyText.setText("2");
-        Label jungleRatioLabel = new Label("Jungle Ratio: ");
-        TextField jungleRatioText = new TextField();
-        jungleRatioText.setText("0.25");
+        moveEnergyText.setText("1");
+
+        Label energyFromEatingLabel = new Label("Energy from eating: ");
+        TextField energyFromEatingText = new TextField();
+        energyFromEatingText.setText("1");
+
+        Label numberOfNewDailyPlantsLabel = new Label("Daily new plant number: ");
+        TextField numberOfNewDailyPlantsText = new TextField();
+        numberOfNewDailyPlantsText.setText("5");
+
+        Label neededEnergyToCopulateLabel = new Label("Energy to copulate: ");
+        TextField neededEnergyToCopulateText = new TextField();
+        neededEnergyToCopulateText.setText("20");
+
+        Label parentEnergyToNewChildLabel = new Label("Energy from parent to child: ");
+        TextField parentEnergyToNewChildText = new TextField();
+        parentEnergyToNewChildText.setText("10");
+
+        Label gensLenghtLabel = new Label("Gens length: ");
+        TextField gensLenghtText = new TextField();
+        gensLenghtText.setText("8");
+
         Button stop = new Button("Stop");
         Button resume = new Button("Resume");
         Button save = new Button("Save stats");
@@ -211,20 +235,32 @@ public class GuiElement {
                 long amountOfPlants = (long) json.get("amountOfPlants");
                 long startEnergy = (long) json.get("startEnergy");
                 long moveEnergy = (long) json.get("moveEnergy");
+                long eatingEnergy = (long) json.get("eatingEnergy");
+                long dailyPlantsNumber = (long) json.get("dailyPlantsNumber");
+                long energyToCopulate = (long) json.get("energyToCopulate");
+                long energyFromParent = (long) json.get("energyFromParent");
+                long lenghtGens = (long) json.get("lenghtGens");
                 widthText.setText(String.valueOf(width));
                 heightText.setText(String.valueOf(height));
-                amountOfAnimalsText.setText(String.valueOf(amountOfAnimals));
-                amountOfPlantsText.setText(String.valueOf(amountOfPlants));
-                startEnergyText.setText(String.valueOf(startEnergy));
+                amountOfStartAnimalsText.setText(String.valueOf(amountOfAnimals));
+                amountOfStartPlantsText.setText(String.valueOf(amountOfPlants));
+                startAnimalEnergyText.setText(String.valueOf(startEnergy));
                 moveEnergyText.setText(String.valueOf(moveEnergy));
+                energyFromEatingText.setText(String.valueOf(eatingEnergy));
+                numberOfNewDailyPlantsText.setText(String.valueOf(dailyPlantsNumber));
+                neededEnergyToCopulateText.setText(String.valueOf(energyToCopulate));
+                parentEnergyToNewChildText.setText(String.valueOf(energyFromParent));
+                gensLenghtText.setText(String.valueOf(lenghtGens));
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }});
 
         VBox controls = new VBox(new HBox(widthLabel, widthText), new HBox(heightLabel, heightText),
-                new HBox(amountOfAnimalsLabel, amountOfAnimalsText), new HBox(amountOfPlantsLabel, amountOfPlantsText),
-                new HBox(startEnergyLabel, startEnergyText), new HBox(moveEnergyLabel, moveEnergyText),
-                new HBox(jungleRatioLabel, jungleRatioText), startSimulation, loadData, stop, resume, save);
+                new HBox(amountOfAnimalsLabel, amountOfStartAnimalsText), new HBox(amountOfPlantsLebel, amountOfStartPlantsText),
+                new HBox(startEnergyLabel, startAnimalEnergyText), new HBox(moveEnergyLabel, moveEnergyText),
+                new HBox(energyFromEatingLabel, energyFromEatingText), new HBox(numberOfNewDailyPlantsLabel, numberOfNewDailyPlantsText),
+                new HBox(neededEnergyToCopulateLabel, neededEnergyToCopulateText),  new HBox(parentEnergyToNewChildLabel, parentEnergyToNewChildText),
+                new HBox(gensLenghtLabel, gensLenghtText), startSimulation, loadData, stop, resume, save);
         return controls;
     }
 

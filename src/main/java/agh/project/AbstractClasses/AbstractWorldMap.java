@@ -20,7 +20,9 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     protected Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
     protected Vector2d upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
     private Map<Vector2d, Integer> deadPosition = new HashMap<>();
-    private int dailyPlants = 3;
+    protected int dailyPlants = 3;
+
+    protected int gensLength = 7;
 
 
     @Override
@@ -232,8 +234,8 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 //            System.out.println(this.height);
             Vector2d newRandomVector = new Vector2d(random.nextInt(this.width), random.nextInt(this.height));
 
-            Animal newAnimal = new Animal(this, newRandomVector, startEnergy);    ////// start energy wczytywane z pliku
-            newAnimal.getGenes().setStartGenes(7);////////////////////////////////////////////////zamienić ilość genów na wczytywane z pliku
+            Animal newAnimal = new Animal(this, newRandomVector, startEnergy);
+            newAnimal.getGenes().setStartGenes(gensLength);
             System.out.println("GENY:");
             System.out.println(newAnimal.getGenes().toString());
 

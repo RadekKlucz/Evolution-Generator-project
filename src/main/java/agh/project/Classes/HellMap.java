@@ -12,7 +12,7 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
 
 //    int width;
 //    int height;
-
+    int energyToCopulate;
     public HellMap(int width, int height) {
         if (width <= 0 || height <= 0) {
             try {
@@ -26,6 +26,13 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
         this.lowerLeftCorner = new Vector2d(0, 0);
         this.upperRightCorner = new Vector2d(width, height);
         this.generateDeadPosition();
+        dataReader data = new dataReader();
+        energyToCopulate = data.neededEnergyToCopulate;
+        super.startPlants = data.startPlantsNumber;
+        super.startAnimals = data.startAnimalNumber;
+        super.startEnergy = data.startAnimalEnergy;
+        super.dailyPlants = data.numberOfNewDailyPlants;
+        super.gensLength = data.gensLength;
     }
 
     @Override
@@ -35,7 +42,7 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
         int newRandomY = random.nextInt(height);
 
         animal.position = new Vector2d(newRandomX, newRandomY);
-        animal.removeEnergy(5); //// tutaj wartość równa energi potrzebnej do rozmnażania (mamy private w animalu)
+        animal.removeEnergy(energyToCopulate);
 
     }
 
