@@ -2,10 +2,13 @@ package agh.project.GUI;
 
 import agh.project.Classes.Animal;
 import agh.project.Classes.HellMap;
+
+import agh.project.Classes.SimulationEngine;
 import agh.project.Classes.Vector2d;
 import agh.project.Interfaces.IEngine;
 import agh.project.Interfaces.IMapElement;
 import agh.project.Interfaces.IWorldMap;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -19,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import junit.framework.TestResult;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -57,7 +61,7 @@ public class GuiElement {
         ImageView imageView;
         if(element instanceof Animal) {
             var energy = ((Animal) element).getEnergy();
-            var startEnergy =        ((Animal) element).getStartEnergy();
+            var startEnergy = ((Animal) element).getStartEnergy();
             if (energy == 0) {
                 imageView = new ImageView(imageDarkRed);
             } else if (energy <= startEnergy * 0.3) {
@@ -83,8 +87,8 @@ public class GuiElement {
         return verticalBox;
     }
 
-    public void createGrid(IWorldMap map, GridPane grid, GuiElement elementCreator) {
-        int cellSize = 2;
+    public void createGrid(IWorldMap map, GridPane grid) {
+        int cellSize = 21;
 
         Vector2d[] corners = map.getCorners();
         int left = corners[0].x;
@@ -123,7 +127,7 @@ public class GuiElement {
                 IMapElement object = map.objectAt(new Vector2d(left + j - 1, up - i + 1));
 //                out.println(object);
                 if(object != null) {
-                    VBox element = elementCreator.showElement(object);
+                    VBox element = showElement(object);
                     GridPane.setHalignment(element, HPos.CENTER);
                     grid.add(element, j, i, 1, 1);
                 } else {
@@ -135,28 +139,6 @@ public class GuiElement {
     }
 
     public VBox buttonsForMaps() {
-
-        Button startSimulation = new Button("Start Simulation");
-        startSimulation.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-//                /* tutaj napisac do do odpalenia map jakis warunek
-//                 * np jesli actualStage is equal Hell Map run Hell map i odwrotnie
-//                 */
-////                GridPane grid = createGrid();
-//                Stage hellGridWindow = new Stage();
-////                createGrid();
-//                Thread eThread = new Thread(engine);
-//                eThread.start();
-//                Scene secondScene = new Scene(grid, 500, 500);
-//                hellGridWindow.setScene(secondScene);
-//
-//                // Set position of second window, related to primary window.
-//                hellGridWindow.setX(actualStage.getX() );
-//                hellGridWindow.setY(actualStage.getY());
-//                hellGridWindow.show();
-            }
-        });
         Label widthLabel = new Label("Width of map: ");
         TextField widthText = new TextField();
         widthText.setText("50");
@@ -261,10 +243,11 @@ public class GuiElement {
                 new HBox(energyFromEatingLabel, energyFromEatingText), new HBox(numberOfNewDailyPlantsLabel, numberOfNewDailyPlantsText),
                 new HBox(neededEnergyToCopulateLabel, neededEnergyToCopulateText),  new HBox(parentEnergyToNewChildLabel, parentEnergyToNewChildText),
                 new HBox(gensLenghtLabel, gensLenghtText), startSimulation, loadData, stop, resume, save);
+
         return controls;
     }
 
-    public void openMapWindow(Stage primaryStage, String title) {
+    public void openMapWindow(Stage primaryStage, HBox startSimulation, String title) {
         // utworzenie nowego okna "Earth Map"
         Stage mapWindow = new Stage();
         if (title.equals("Earth Map")) {
@@ -275,13 +258,15 @@ public class GuiElement {
 
         // utworzenie kontenera typu StackPane oraz przycisków
         StackPane secondaryLayout  = new StackPane();
-        secondaryLayout.getChildren().add(buttonsForMaps());
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(buttonsForMaps(), startSimulation);
+        secondaryLayout.getChildren().addAll(vBox);
 
         // utworzenie nowej sceny z kontenerem jako głównym elementem oraz ustawienie jej wymiarów
         Scene secondScene = new Scene(secondaryLayout, 300, 300);
         mapWindow.setScene(secondScene);
 
-        // ustawienie pozycji okna "Earth Map" względem okna głównego
+        // ustawienie pozycji okna względem okna głównego
 
         if (title.equals("Earth Map")) {
             mapWindow.setX(primaryStage.getX() - 300);
@@ -290,9 +275,7 @@ public class GuiElement {
             mapWindow.setX(primaryStage.getX() - 300);
             mapWindow.setY(primaryStage.getY() - 200);
         }
-        // wyświetlenie okna "Earth Map"
+        // wyświetlenie okna
         mapWindow.show();
     }
-
-
 }
