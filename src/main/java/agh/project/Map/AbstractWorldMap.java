@@ -1,10 +1,11 @@
-package agh.project.AbstractClasses;
+package agh.project.Map;
 
-import agh.project.Classes.Animal;
-import agh.project.Classes.Plant;
-import agh.project.Classes.Vector2d;
-import agh.project.Interfaces.IMapElement;
-import agh.project.Interfaces.IWorldMap;
+import agh.project.Elements.Animal;
+import agh.project.Elements.Plant;
+import agh.project.Elements.Vector2d;
+import agh.project.Elements.AbstractMapElement;
+import agh.project.Elements.IMapElement;
+import agh.project.Map.IWorldMap;
 
 import java.util.*;
 import java.util.stream.Collectors;

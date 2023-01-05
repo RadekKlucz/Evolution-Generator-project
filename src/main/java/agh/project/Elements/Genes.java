@@ -1,4 +1,6 @@
-package agh.project.Classes;
+package agh.project.Elements;
+
+import agh.project.Elements.Animal;
 
 import java.util.ArrayList;
 import java.util.List;

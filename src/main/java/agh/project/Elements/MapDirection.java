@@ -1,6 +1,4 @@
-package agh.project.EnumClasses;
-
-import agh.project.Classes.Vector2d;
+package agh.project.Elements;
 
 import java.util.Random;
 

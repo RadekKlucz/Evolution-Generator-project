@@ -1,9 +1,8 @@
-package agh.project.Classes;
+package agh.project.Elements;
 
-import agh.project.AbstractClasses.AbstractWorldMap;
-import agh.project.EnumClasses.MapDirection;
-import agh.project.Interfaces.IPositionChangeObserver;
-import agh.project.Interfaces.IWorldMap;
+import agh.project.Map.AbstractWorldMap;
+import agh.project.Engine.IPositionChangeObserver;
+import agh.project.Map.IWorldMap;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
-package agh.project.Interfaces;
+package agh.project.Engine;
 
-import agh.project.Classes.Animal;
-import agh.project.Classes.Vector2d;
+import agh.project.Elements.Animal;
+import agh.project.Elements.Vector2d;
 
 public interface IPositionChangeObserver {
     void animalPositionChanged(Vector2d oldPosition, Vector2d newPosition, Animal animal);

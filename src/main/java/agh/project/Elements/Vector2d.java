@@ -1,4 +1,4 @@
-package agh.project.Classes;
+package agh.project.Elements;
 
 import java.util.Objects;
 

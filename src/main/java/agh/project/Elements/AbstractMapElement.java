@@ -1,8 +1,4 @@
-package agh.project.AbstractClasses;
-
-import agh.project.Classes.DataReader;
-import agh.project.Classes.Vector2d;
-import agh.project.Interfaces.IMapElement;
+package agh.project.Elements;
 
 public abstract class AbstractMapElement extends DataReader implements IMapElement {
     protected Vector2d position;

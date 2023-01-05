@@ -1,4 +1,6 @@
-package agh.project.Interfaces;
+package agh.project.Engine;
+
+import agh.project.Map.IMapUpdateObserver;
 
 public interface IEngine extends Runnable {
     void run();

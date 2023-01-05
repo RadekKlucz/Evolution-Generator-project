@@ -1,9 +1,9 @@
-package agh.project.Classes;
+package agh.project.Map;
 
-import agh.project.AbstractClasses.AbstractWorldMap;
-import agh.project.EnumClasses.MapDirection;
-import agh.project.Interfaces.IPositionChangeObserver;
-import agh.project.Interfaces.IWorldMap;
+import agh.project.Elements.Vector2d;
+import agh.project.Elements.Animal;
+import agh.project.Elements.MapDirection;
+import agh.project.Engine.IPositionChangeObserver;
 
 public class EarthMap extends AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 

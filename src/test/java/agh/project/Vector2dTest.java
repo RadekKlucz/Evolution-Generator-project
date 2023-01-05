@@ -1,5 +1,5 @@
 package agh.project;
-import agh.project.Classes.Vector2d;
+import agh.project.Elements.Vector2d;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

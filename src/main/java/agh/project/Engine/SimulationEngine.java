@@ -1,9 +1,11 @@
-package agh.project.Classes;
+package agh.project.Engine;
 
-import agh.project.AbstractClasses.AbstractWorldMap;
-import agh.project.Interfaces.IEngine;
-import agh.project.Interfaces.IMapUpdateObserver;
-import agh.project.Interfaces.IWorldMap;
+import agh.project.Elements.Animal;
+import agh.project.Elements.Plant;
+import agh.project.Elements.Vector2d;
+import agh.project.Map.AbstractWorldMap;
+import agh.project.Map.IMapUpdateObserver;
+import agh.project.Map.IWorldMap;
 
 import java.util.*;
 

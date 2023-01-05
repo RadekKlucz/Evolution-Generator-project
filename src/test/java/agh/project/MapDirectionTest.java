@@ -1,6 +1,6 @@
 package agh.project;
 
-import agh.project.EnumClasses.MapDirection;
+import agh.project.Elements.MapDirection;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

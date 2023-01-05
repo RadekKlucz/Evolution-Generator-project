@@ -1,11 +1,11 @@
 package agh.project.GUI;
 
-import agh.project.Classes.EarthMap;
-import agh.project.Classes.HellMap;
-import agh.project.Classes.SimulationEngine;
-import agh.project.Interfaces.IEngine;
-import agh.project.Interfaces.IMapUpdateObserver;
-import agh.project.Interfaces.IWorldMap;
+import agh.project.Map.EarthMap;
+import agh.project.Map.HellMap;
+import agh.project.Engine.SimulationEngine;
+import agh.project.Engine.IEngine;
+import agh.project.Map.IMapUpdateObserver;
+import agh.project.Map.IWorldMap;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

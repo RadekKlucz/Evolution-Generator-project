@@ -1,4 +1,4 @@
-package agh.project.EnumClasses;
+package agh.project.Elements;
 
 public enum MoveDirection {
     FORWARD,

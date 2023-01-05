@@ -1,8 +1,10 @@
-package agh.project.Interfaces;
+package agh.project.Map;
 
-import agh.project.Classes.Animal;
-import agh.project.Classes.Plant;
-import agh.project.Classes.Vector2d;
+import agh.project.Elements.Animal;
+import agh.project.Elements.Plant;
+import agh.project.Elements.Vector2d;
+import agh.project.Elements.IMapElement;
+import agh.project.Engine.IPositionChangeObserver;
 
 import java.util.List;
 

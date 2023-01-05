@@ -1,4 +1,4 @@
-package agh.project.Classes;
+package agh.project.Elements;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

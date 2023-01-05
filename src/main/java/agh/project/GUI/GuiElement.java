@@ -1,10 +1,10 @@
 package agh.project.GUI;
 
-import agh.project.AbstractClasses.AbstractWorldMap;
-import agh.project.Classes.Animal;
-import agh.project.Classes.Vector2d;
-import agh.project.Interfaces.IMapElement;
-import agh.project.Interfaces.IWorldMap;
+import agh.project.Map.AbstractWorldMap;
+import agh.project.Elements.Animal;
+import agh.project.Elements.Vector2d;
+import agh.project.Elements.IMapElement;
+import agh.project.Map.IWorldMap;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
