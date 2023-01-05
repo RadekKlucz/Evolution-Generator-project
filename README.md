@@ -6,9 +6,18 @@ Projekt uruchamia sie z wykorzystaniem Gradle'a, gdzie główną klasą inicjuj�
 
 ### Dodatkowe informacje odnoście projektu 
 
-Początkowa konfiguracja świata jest wczytywana po uruchomieniu aplikacji. Chcąc zmienić rozmiary mapy, liczbę zwierząch należy zmienić wartości w pliku configuration.json znajdującym się w katalogu resources. 
+Początkowa konfiguracja świata jest wczytywana po uruchomieniu aplikacji. Chcąc zmienić rozmiary mapy, liczbę zwierząch należy zmienić wartości w pliku configuration.json znajdującym się w katalogu resources. Na konfiguracje są nałożone ograniczenia takie jak: 
+
+- maksymalne rozmiary siatki to 65 wysokości oraz 126 szerokości,
+- maksymalna liczba zwierząt zależna od rozmiarów siatki oraz liczby początkowych roślin, 
+- maksymalna liczba roślin zależna od rozmiarów siatki oraz liczby początkowych zwierząt, 
+- minimalna liczba startowych roślin równa 5,
+- maksymalna liczba nowych roślin rosnąca codziennie zależna od rozmiarów siatki oraz liczby początkowych roślin i zwierząt, 
+- maksymalna liczba nowych roślin rosnąca codziennie ustawiona na maksimum 100 w przypadku pełnych rozmiarów siatki.
+
 
 Dane symulacji po każdym dniu są zapisywane do pliku csv również w katalogu resources w formacie dzień, liczba zwierząt, liczba roślin, liczba wolnych pozycji na siatce. 
+
 
 
 
