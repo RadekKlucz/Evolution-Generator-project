@@ -154,7 +154,8 @@ public class Animal extends AbstractWorldMap implements Comparable<Animal> {
         if ((this.energyToCopulate < this.energy) && (this.energyToCopulate < secondParent.energy)) {
             childEnergy = 2 * this.energyToCopulate;
             this.energy -= this.energyToCopulate; // można za pomocą funkcji remove energy
-            secondParent.energy -= this.energyToCopulate; // można za pomocą funkcji remove energy
+            secondParent.energy -= this.energyToCopulate; // można za pomocą funkcji remove e
+            // nergy
 
             Animal child = new Animal(this.map, this.position, childEnergy);
             child.genes.setChildGens(this, secondParent);

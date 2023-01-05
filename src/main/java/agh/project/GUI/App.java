@@ -126,36 +126,38 @@ public class App extends Application implements IMapUpdateObserver {
                     throw new RuntimeException(e);
                 }
                 new Thread(() -> {
-                    Platform.runLater(() -> {
                         if (typeOfMap.equals("Hell Map")) {
-                            Stage hellSimulation = new Stage();
-                            elementCreator.createGrid(mapOfHell, gridForHell);
-                            Thread eThread = new Thread(engineForHell);
-                            eThread.start();
-                            Scene secondScene = new Scene(gridForHell);
-                            gridForHell.setPrefSize(hellSimulation.getWidth(), hellSimulation.getHeight());
-                            hellSimulation.setTitle("Hell Simulation");
-                            hellSimulation.setScene(secondScene);
+                            Platform.runLater(() -> {
+                                Stage hellSimulation = new Stage();
+                                elementCreator.createGrid(mapOfHell, gridForHell);
+                                Thread eThread = new Thread(engineForHell);
+                                eThread.start();
+                                Scene secondScene = new Scene(gridForHell);
+                                gridForHell.setPrefSize(hellSimulation.getWidth(), hellSimulation.getHeight());
+                                hellSimulation.setTitle("Hell Simulation");
+                                hellSimulation.setScene(secondScene);
 
 //              Set position of second window, related to primary window.
-                            hellSimulation.setX(primaryStage.getX() - 500);
-                            hellSimulation.setY(primaryStage.getY());
-                            hellSimulation.show();
+                                hellSimulation.setX(primaryStage.getX() - 500);
+                                hellSimulation.setY(primaryStage.getY());
+                                hellSimulation.show();
+                            });
                         } else {
-                            Stage earthSimulation = new Stage();
-                            elementCreator.createGrid(mapOfEarth, gridForEarth);
-                            Thread eThread = new Thread(engineForEarth);
-                            eThread.start();
-                            Scene secondScene = new Scene(gridForEarth);
-                            gridForEarth.setPrefSize(earthSimulation.getWidth(), earthSimulation.getHeight());
-                            earthSimulation.setTitle("Earth Simulation");
-                            earthSimulation.setScene(secondScene);
+                            Platform.runLater(() -> {
+                                Stage earthSimulation = new Stage();
+                                elementCreator.createGrid(mapOfEarth, gridForEarth);
+                                Thread eThread = new Thread(engineForEarth);
+                                eThread.start();
+                                Scene secondScene = new Scene(gridForEarth);
+                                gridForEarth.setPrefSize(earthSimulation.getWidth(), earthSimulation.getHeight());
+                                earthSimulation.setTitle("Earth Simulation");
+                                earthSimulation.setScene(secondScene);
 //              Set position of second window, related to primary window.
-                            earthSimulation.setX(primaryStage.getX() + 500);
-                            earthSimulation.setY(primaryStage.getY());
-                            earthSimulation.show();
+                                earthSimulation.setX(primaryStage.getX() + 500);
+                                earthSimulation.setY(primaryStage.getY());
+                                earthSimulation.show();
+                            });
                         }
-                    });
                 }).start();
             }
         });

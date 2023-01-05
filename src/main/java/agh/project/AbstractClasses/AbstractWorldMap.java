@@ -451,5 +451,3 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
         this.gensLength = gensLength;
     }
 }
-
-

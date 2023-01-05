@@ -18,6 +18,7 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
     private final IWorldMap map;
     private List<IMapUpdateObserver> observers;
     private boolean paused = false;
+    private int day = 0;
 
     public SimulationEngine(IWorldMap map) {
         this.map = map;
@@ -134,8 +135,11 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
                 out.println("LICZBA ZWIERZAT PO USUNIECIU ZWIERZAT");
                 out.println(animals.size());
 
-                /////////////////////////////
 
+                /////////////////////////////
+                int freeCells = this.map.freePositionsNumber();
+                day++;
+                saveDataToCsvFile(day, animals.size(), plants.size(), freeCells);
 
             }
 
@@ -147,7 +151,6 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
             for (IMapUpdateObserver observer : this.observers) {
                 observer.positionChanged();
             }
-            int number = this.map.freePositionsNumber();
             out.println("LICZBA ANIMALI NA KONIEC DNIA");
             out.println(animals.size());
         }

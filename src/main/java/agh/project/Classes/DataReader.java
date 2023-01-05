@@ -62,16 +62,14 @@ public class DataReader {
     }
 
     public void saveDataToCsvFile(int day, int numberOfAnimals, int numberOfPants, int numberOfFreeCells) {
-        int[] list = {day, numberOfAnimals, numberOfPants, numberOfFreeCells};
+        String dataLine = String.valueOf(day) + ";" + String.valueOf(numberOfAnimals) + ";" + String.valueOf(numberOfPants) + ";" + String.valueOf(numberOfFreeCells) + "\n";
         try {
-            FileWriter writer = new FileWriter("data.csv", true);
-            for (int line : list) {
-                writer.write(line);
-            }
+            FileWriter writer = new FileWriter("src/main/resources/data.csv", true);
+            writer.append(dataLine);
+
             writer.close();
         } catch (IOException e) {
             System.out.println("The file wasn't saved correctly" + e.getMessage());
         }
     }
-
 }
