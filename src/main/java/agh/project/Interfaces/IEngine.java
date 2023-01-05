@@ -1,9 +1,5 @@
 package agh.project.Interfaces;
 
-import agh.project.EnumClasses.MoveDirection;
-
-import java.util.List;
-
 public interface IEngine extends Runnable {
     void run();
 
