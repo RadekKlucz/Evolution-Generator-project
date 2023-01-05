@@ -37,8 +37,33 @@ public class DataReader {
             long energyToCopulate = (long) json.get("energyToCopulate");
             long lengthGens = (long) json.get("lengthGens");
 
+            // Condition checking correct value in all field
+            if (width < 0 || height < 0 || amountOfAnimals < 0 || amountOfPlants < 0
+                    || startEnergy < 0 || moveEnergy < 0 || eatingEnergy < 0 || dailyPlantsNumber < 0 ||
+                    energyToCopulate < 0 || lengthGens < 0) {
+                throw new IllegalAccessException("Unexpected values");
+            }
+
+            // Condition checking maximum size for map
             if (width > 126 || height > 65) {
                 throw new IllegalAccessException("Unexpected values height and width");
+            }
+
+            // Condition for maximum amount of animals at map
+            if (amountOfAnimals > ((width * height) - amountOfPlants)) {
+                throw new IllegalAccessException("Unexpected values: start animals");
+            }
+
+            // Condition for minimum amount of plants at map
+            // Condition for maximum amount plant at map
+            if ((amountOfPlants <= 5) || (amountOfPlants > ((width * height) - amountOfAnimals))) {
+                throw new IllegalAccessException("Unexpected values: start plants");
+
+            }
+
+            // Condition for maximum amount new daily plants
+            if ((dailyPlantsNumber > ((width * height) - amountOfAnimals - amountOfPlants) || (dailyPlantsNumber > 100))) {
+                throw new IllegalAccessException("Unexpected values: daily plants");
             }
 
 

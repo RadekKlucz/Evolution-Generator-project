@@ -30,7 +30,6 @@ public class App extends Application implements IMapUpdateObserver {
     private IEngine engineForEarth;
 
     public void initMaps() throws Exception {
-        elementCreator = new GuiElement();
         this.mapOfHell = new HellMap(elementCreator.width, elementCreator.height);
         this.mapOfEarth = new EarthMap(elementCreator.width, elementCreator.height);
         this.engineForHell = new SimulationEngine(this.mapOfHell);
@@ -60,9 +59,13 @@ public class App extends Application implements IMapUpdateObserver {
         hellMapButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String typeOfMap = "Hell Map";
-                elementCreator.openMapWindow(primaryStage, startSimulationButton(primaryStage, typeOfMap),
+                new Thread(() -> {
+                    Platform.runLater(() -> {
+                    String typeOfMap = "Hell Map";
+                    elementCreator.openMapWindow(primaryStage, startSimulationButtons(primaryStage, typeOfMap),
                         elementCreator.createDescription(), typeOfMap);
+                    });
+                }).start();
             }
         });
 
@@ -70,11 +73,13 @@ public class App extends Application implements IMapUpdateObserver {
         earthMapButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Platform.runLater(() -> {
+                new Thread(() -> {
+                    Platform.runLater(() -> {
                     String typeOfMap = "Earth Map";
-                    elementCreator.openMapWindow(primaryStage, startSimulationButton(primaryStage, typeOfMap),
+                    elementCreator.openMapWindow(primaryStage, startSimulationButtons(primaryStage, typeOfMap),
                             elementCreator.createDescription(), typeOfMap);
-                });
+                    });
+                }).start();
             }
         });
         HBox buttons = new HBox(borderPaneToLabel, hellMapButton, earthMapButton);
@@ -109,7 +114,7 @@ public class App extends Application implements IMapUpdateObserver {
         primaryStage.show();
     }
 
-    private HBox startSimulationButton(Stage primaryStage, String typeOfMap) {
+    private HBox startSimulationButtons(Stage primaryStage, String typeOfMap) {
         HBox hBox = new HBox();
         Button startButton = new Button("Start Simulation");
         startButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -120,9 +125,9 @@ public class App extends Application implements IMapUpdateObserver {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                new Thread(() -> {
                     if (typeOfMap.equals("Hell Map")) {
-                        Platform.runLater(() -> {
+                        new Thread(() -> {
+                            Platform.runLater(() -> {
                             Stage hellSimulation = new Stage();
                             elementCreator.createGrid(mapOfHell, gridForHell);
                             Thread eThread = new Thread(engineForHell);
@@ -137,8 +142,11 @@ public class App extends Application implements IMapUpdateObserver {
                             hellSimulation.setY(primaryStage.getY() - 200);
                             hellSimulation.show();
                         });
-                    } else {
-                        Platform.runLater(() -> {
+                    }).start();
+
+                } else {
+                        new Thread(() -> {
+                            Platform.runLater(() -> {
                             Stage earthSimulation = new Stage();
                             elementCreator.createGrid(mapOfEarth, gridForEarth);
                             Thread eThread = new Thread(engineForEarth);
@@ -152,8 +160,8 @@ public class App extends Application implements IMapUpdateObserver {
                             earthSimulation.setY(primaryStage.getY() + 200);
                             earthSimulation.show();
                         });
+                        }).start();
                     }
-                }).start();
             }
         });
 
@@ -187,6 +195,7 @@ public class App extends Application implements IMapUpdateObserver {
             }
         });
         hBox.getChildren().addAll(startButton, stop, resume);
+        hBox.setSpacing(6);
         return hBox;
     }
 

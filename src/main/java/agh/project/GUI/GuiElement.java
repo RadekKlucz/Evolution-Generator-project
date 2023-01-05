@@ -119,16 +119,23 @@ public class GuiElement extends AbstractWorldMap {
         }
     }
 
-    public VBox buttonsForMaps() {
+    public VBox buttonsForMaps(String typeOfMap) {
         Label widthLabel = new Label("Width of map: ");
         TextField widthText = new TextField();
-        widthText.setText(String.valueOf(width));
         widthLabel.setTextFill(Color.WHITE);
 
         Label heightLabel = new Label("Height of map: ");
         TextField heightText = new TextField();
-        heightText.setText(String.valueOf(height));
         heightLabel.setTextFill(Color.WHITE);
+
+        if (typeOfMap.equals("Hell Map")) {
+            widthText.setText(String.valueOf(width));
+            heightText.setText(String.valueOf(height));
+        } else {
+            widthText.setText(String.valueOf(width));
+            heightText.setText(String.valueOf(height));
+        }
+
 
         Label amountOfAnimalsLabel = new Label("Amount of start animals: ");
         TextField amountOfStartAnimalsText = new TextField();
@@ -180,7 +187,7 @@ public class GuiElement extends AbstractWorldMap {
         return controls;
     }
 
-    public VBox createDescription() {
+    public Label createDescription() {
         ImageView redAnimal = new ImageView(imageRed);
         redAnimal.setFitHeight(15);
         redAnimal.setFitWidth(15);
@@ -198,23 +205,23 @@ public class GuiElement extends AbstractWorldMap {
         brownAnimal.setFitWidth(15);
 
         Label redLabel = new Label("  Actual energy < 0.3");
-        redLabel.setTextFill(Color.WHITE);
         Label orangeLabel = new Label("  0.3 < Actual energy <= 0.5");
-        orangeLabel.setTextFill(Color.WHITE);
         Label lightOrangeLabel = new Label("  0.5 < Actual energy <= 0.7");
-        lightOrangeLabel.setTextFill(Color.WHITE);
         Label goldLabel = new Label("  0.7 < Actual energy <= Start energy");
-        goldLabel.setTextFill(Color.WHITE);
         Label brownLabel = new Label("  Actual energy > Start energy");
-        brownLabel.setTextFill(Color.WHITE);
 
         VBox description = new VBox(new HBox(redAnimal, redLabel), new HBox(orangeAnimal, orangeLabel),
                 new HBox(lightOrangeAnimal, lightOrangeLabel), new HBox(goldAnimal, goldLabel),
                 new HBox(brownAnimal, brownLabel));
-        return description;
+
+        Label labelWithDescription = new Label();
+        labelWithDescription.setStyle("-fx-background-color: white");
+        labelWithDescription.setOpacity(0.8);
+        labelWithDescription.setGraphic(description);
+        return labelWithDescription;
     }
 
-    public void openMapWindow(Stage primaryStage, HBox startSimulation, VBox createDescription, String title) {
+    public void openMapWindow(Stage primaryStage, HBox startSimulation, Label createDescription, String title) {
         Stage mapWindow = new Stage();
         Image imageBackground;
         if (title.equals("Earth Map")) {
@@ -242,7 +249,7 @@ public class GuiElement extends AbstractWorldMap {
                 backgroundSize)));
 
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(buttonsForMaps(), startSimulation, createDescription);
+        vBox.getChildren().addAll(buttonsForMaps(title), startSimulation, createDescription);
         secondaryLayout.getChildren().addAll(vBox);
 
         Scene secondScene = new Scene(secondaryLayout, 400, 400);
