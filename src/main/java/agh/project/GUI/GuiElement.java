@@ -22,24 +22,20 @@ import java.io.*;
 import static java.lang.System.out;
 
 public class GuiElement extends AbstractWorldMap {
-    private Image imageDarkRed = null;
     private Image imageRed = null;
     private Image imageOrange = null;
     private Image imageLightOrange = null;
     private Image imageGold = null;
     private Image imageBrown = null;
-    private Image imageBlack = null;
     private Image imageGreen = null;
 
     public GuiElement() {
         try {
-            this.imageDarkRed = new Image(new FileInputStream("src/main/resources/darkRed.png"));
             this.imageRed = new Image(new FileInputStream("src/main/resources/red.png"));
             this.imageOrange = new Image(new FileInputStream("src/main/resources/orange.png"));
             this.imageLightOrange = new Image(new FileInputStream("src/main/resources/lightOrange.png"));
             this.imageGold = new Image(new FileInputStream("src/main/resources/gold.png"));
             this.imageBrown = new Image(new FileInputStream("src/main/resources/brown.png"));
-            this.imageBlack = new Image(new FileInputStream("src/main/resources/black.png"));
             this.imageGreen = new Image(new FileInputStream("src/main/resources/grass.png"));
         } catch (FileNotFoundException e) {
             out.println("File not found or file could not load" + e);
@@ -48,13 +44,11 @@ public class GuiElement extends AbstractWorldMap {
 
 
     public VBox showElement(IMapElement element) {
-        ImageView imageView;
+        ImageView imageView = null;
         if(element instanceof Animal) {
             var energy = ((Animal) element).getEnergy();
             var startEnergy = getStartEnergy();
-            if (energy == 0) {
-                imageView = new ImageView(imageDarkRed);
-            } else if (energy <= startEnergy * 0.3) {
+            if (energy <= startEnergy * 0.3) {
                 imageView = new ImageView(imageRed);
             } else if ((energy <= startEnergy * 0.5) && (energy > startEnergy * 0.3)) {
                 imageView = new ImageView(imageOrange);
@@ -64,12 +58,11 @@ public class GuiElement extends AbstractWorldMap {
                 imageView = new ImageView(imageGold);
             } else if (energy > startEnergy) {
                 imageView = new ImageView(imageBrown);
-            } else {
-                imageView = new ImageView(imageBlack);
             }
         } else {
             imageView = new ImageView(imageGreen);
         }
+
         imageView.setFitHeight(20);
         imageView.setFitWidth(20);
         VBox verticalBox = new VBox(imageView);
@@ -169,22 +162,46 @@ public class GuiElement extends AbstractWorldMap {
         TextField gensLengthText = new TextField();
         gensLengthText.setText(String.valueOf(gensLength));
 
-        Button stop = new Button("Stop");
-        Button resume = new Button("Resume");
-        Button save = new Button("Save stats");
-
 
         VBox controls = new VBox(new HBox(widthLabel, widthText), new HBox(heightLabel, heightText),
                 new HBox(amountOfAnimalsLabel, amountOfStartAnimalsText), new HBox(amountOfPlantsLabel, amountOfStartPlantsText),
                 new HBox(startEnergyLabel, startAnimalEnergyText), new HBox(moveEnergyLabel, moveEnergyText),
                 new HBox(energyFromEatingLabel, energyFromEatingText), new HBox(numberOfNewDailyPlantsLabel, numberOfNewDailyPlantsText),
                 new HBox(neededEnergyToCopulateLabel, neededEnergyToCopulateText),
-                new HBox(gensLenghtLabel, gensLengthText), stop, resume, save);
+                new HBox(gensLenghtLabel, gensLengthText));
 
         return controls;
     }
 
-    public void openMapWindow(Stage primaryStage, HBox startSimulation, String title) {
+    public VBox createDescription() {
+        ImageView redAnimal = new ImageView(imageRed);
+        redAnimal.setFitHeight(15);
+        redAnimal.setFitWidth(15);
+        ImageView orangeAnimal = new ImageView(imageOrange);
+        orangeAnimal.setFitHeight(15);
+        orangeAnimal.setFitWidth(15);
+        ImageView lightOrangeAnimal = new ImageView(imageLightOrange);
+        lightOrangeAnimal.setFitHeight(15);
+        lightOrangeAnimal.setFitWidth(15);
+        ImageView goldAnimal = new ImageView(imageGold);
+        goldAnimal.setFitHeight(15);
+        goldAnimal.setFitWidth(15);
+        ImageView brownAnimal = new ImageView(imageBrown);
+        brownAnimal.setFitHeight(15);
+        brownAnimal.setFitWidth(15);
+        Label redLabel = new Label("  Actual energy < 0.3");
+        Label orangeLabel = new Label("  0.3 < Actual energy <= 0.5");
+        Label lightOrangeLabel = new Label("  0.5 < Actual energy <= 0.7");
+        Label goldLabel = new Label("  0.7 < Actual energy <= Start energy");
+        Label brownLabel = new Label("  Actual energy > Start energy");
+
+        VBox description = new VBox(new HBox(redAnimal, redLabel), new HBox(orangeAnimal, orangeLabel),
+                new HBox(lightOrangeAnimal, lightOrangeLabel), new HBox(goldAnimal, goldLabel),
+                new HBox(brownAnimal, brownLabel));
+        return description;
+    }
+
+    public void openMapWindow(Stage primaryStage, HBox startSimulation, VBox createDescription, String title) {
         Stage mapWindow = new Stage();
         if (title.equals("Earth Map")) {
             mapWindow.setTitle("Earth Map");
@@ -194,7 +211,7 @@ public class GuiElement extends AbstractWorldMap {
 
         StackPane secondaryLayout  = new StackPane();
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(buttonsForMaps(), startSimulation);
+        vBox.getChildren().addAll(buttonsForMaps(), startSimulation, createDescription);
         secondaryLayout.getChildren().addAll(vBox);
 
         Scene secondScene = new Scene(secondaryLayout, 400, 400);
