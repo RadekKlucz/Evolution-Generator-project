@@ -1,17 +1,10 @@
 package agh.project.GUI;
 
+import agh.project.AbstractClasses.AbstractWorldMap;
 import agh.project.Classes.Animal;
-import agh.project.Classes.HellMap;
-import agh.project.Classes.DataReader;
-
-import agh.project.Classes.SimulationEngine;
 import agh.project.Classes.Vector2d;
-import agh.project.Interfaces.IEngine;
 import agh.project.Interfaces.IMapElement;
 import agh.project.Interfaces.IWorldMap;
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,20 +14,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import junit.framework.TestResult;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 
 import java.io.*;
 
 import static java.lang.System.out;
 
-public class GuiElement extends DataReader{
-    private TextField widthText1;
-    private TextField heightText1;
+public class GuiElement extends AbstractWorldMap {
     private Image imageDarkRed = null;
     private Image imageRed = null;
     private Image imageOrange = null;
@@ -64,7 +51,7 @@ public class GuiElement extends DataReader{
         ImageView imageView;
         if(element instanceof Animal) {
             var energy = ((Animal) element).getEnergy();
-            var startEnergy = ((Animal) element).getStartEnergy();
+            var startEnergy = getStartEnergy();
             if (energy == 0) {
                 imageView = new ImageView(imageDarkRed);
             } else if (energy <= startEnergy * 0.3) {
@@ -144,131 +131,60 @@ public class GuiElement extends DataReader{
     public VBox buttonsForMaps() {
         Label widthLabel = new Label("Width of map: ");
         TextField widthText = new TextField();
-        widthText.setText("50");
+        widthText.setText(String.valueOf(width));
 
         Label heightLabel = new Label("Height of map: ");
         TextField heightText = new TextField();
-        heightText.setText("70");
+        heightText.setText(String.valueOf(height));
 
         Label amountOfAnimalsLabel = new Label("Amount of start animals: ");
         TextField amountOfStartAnimalsText = new TextField();
-        amountOfStartAnimalsText.setText("20");
+        amountOfStartAnimalsText.setText(String.valueOf(startAnimals));
 
-        Label amountOfPlantsLebel = new Label("Amount of start plants: ");
+        Label amountOfPlantsLabel = new Label("Amount of start plants: ");
         TextField amountOfStartPlantsText = new TextField();
-        amountOfStartPlantsText.setText("30");
+        amountOfStartPlantsText.setText(String.valueOf(startPlants));
 
         Label startEnergyLabel = new Label("Start animal energy: ");
         TextField startAnimalEnergyText = new TextField();
-        startAnimalEnergyText.setText("40");
+        startAnimalEnergyText.setText(String.valueOf(startEnergy));
 
         Label moveEnergyLabel = new Label("Move energy: ");
         TextField moveEnergyText = new TextField();
-        moveEnergyText.setText("1");
+        moveEnergyText.setText(String.valueOf(moveEnergy));
 
         Label energyFromEatingLabel = new Label("Energy from eating: ");
         TextField energyFromEatingText = new TextField();
-        energyFromEatingText.setText("1");
+        energyFromEatingText.setText(String.valueOf(energyFromEating));
 
         Label numberOfNewDailyPlantsLabel = new Label("Daily new plant number: ");
         TextField numberOfNewDailyPlantsText = new TextField();
-        numberOfNewDailyPlantsText.setText("5");
+        numberOfNewDailyPlantsText.setText(String.valueOf(dailyPlants));
 
         Label neededEnergyToCopulateLabel = new Label("Energy to copulate: ");
         TextField neededEnergyToCopulateText = new TextField();
-        neededEnergyToCopulateText.setText("20");
-
-        Label parentEnergyToNewChildLabel = new Label("Energy from parent to child: ");
-        TextField parentEnergyToNewChildText = new TextField();
-        parentEnergyToNewChildText.setText("10");
+        neededEnergyToCopulateText.setText(String.valueOf(energyToCopulate));
 
         Label gensLenghtLabel = new Label("Gens length: ");
-        TextField gensLenghtText = new TextField();
-        gensLenghtText.setText("8");
+        TextField gensLengthText = new TextField();
+        gensLengthText.setText(String.valueOf(gensLength));
 
         Button stop = new Button("Stop");
         Button resume = new Button("Resume");
         Button save = new Button("Save stats");
 
-        //Button to open file
-        Button loadData = new Button("Load data from file");
-        loadData.setOnAction(event -> {
-            // Utwórz obiekt FileChooser
-            FileChooser fileChooser = new FileChooser();
-
-            // Ustaw filtr plików na pliki JSON
-            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Files JSON", "*.json");
-            fileChooser.getExtensionFilters().add(filter);
-
-            // Pokaż okno wyboru pliku i pobierz wybrany plik
-            File selectedFile = fileChooser.showOpenDialog(null);
-
-            // Wczytaj plik JSON i przetwórz go
-            try {
-                // Utwórz obiekt reader, który będzie odczytywał dane z pliku
-                BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
-
-                // Utwórz obiekt JSONParser
-                JSONParser parser = new JSONParser();
-
-                // Odczytaj plik JSON za pomocą obiektu JSONParser i przetwórz go na obiekt JSONObject
-                JSONObject json = (JSONObject) parser.parse(reader);
-                // Możesz teraz odczytywać poszczególne wartości z obiektu JSONObject według potrzeb
-                long width = (long) json.get("width");
-                long height = (long) json.get("height");
-                long amountOfAnimals = (long) json.get("amountOfAnimals");
-                long amountOfPlants = (long) json.get("amountOfPlants");
-                long startEnergy = (long) json.get("startEnergy");
-                long moveEnergy = (long) json.get("moveEnergy");
-                long eatingEnergy = (long) json.get("eatingEnergy");
-                long dailyPlantsNumber = (long) json.get("dailyPlantsNumber");
-                long energyToCopulate = (long) json.get("energyToCopulate");
-                long energyFromParent = (long) json.get("energyFromParent");
-                long lengthGens = (long) json.get("lengthGens");
-                widthText.setText(String.valueOf(width));
-                heightText.setText(String.valueOf(height));
-                amountOfStartAnimalsText.setText(String.valueOf(amountOfAnimals));
-                amountOfStartPlantsText.setText(String.valueOf(amountOfPlants));
-                startAnimalEnergyText.setText(String.valueOf(startEnergy));
-                moveEnergyText.setText(String.valueOf(moveEnergy));
-                energyFromEatingText.setText(String.valueOf(eatingEnergy));
-                numberOfNewDailyPlantsText.setText(String.valueOf(dailyPlantsNumber));
-                neededEnergyToCopulateText.setText(String.valueOf(energyToCopulate));
-                parentEnergyToNewChildText.setText(String.valueOf(energyFromParent));
-                gensLenghtText.setText(String.valueOf(lengthGens));
-
-
-//                setStartAnimalEnergy(startAnimalEnergyText);
-//                dataReader.setStartAnimalNumber(amountOfStartAnimalsText);
-//                dataReader.setMoveEnergy(moveEnergyText);
-//                dataReader.setStartPlantsNumber(amountOfStartPlantsText);
-//                dataReader.setEnergyFromEating(energyFromEatingText);
-//                dataReader.setNumberOfNewDailyPlants(numberOfNewDailyPlantsText);
-//                dataReader.setNeededEnergyToCopulate(neededEnergyToCopulateText);
-//                dataReader.setParentEnergyToNewChild(parentEnergyToNewChildText);
-//                dataReader.setGensLenght(gensLenghtText);
-                this.widthText1 = widthText;
-                this.heightText1 = heightText;
-
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }});
-
-        this.widthText1 = widthText;
-        this.heightText1 = heightText;
 
         VBox controls = new VBox(new HBox(widthLabel, widthText), new HBox(heightLabel, heightText),
-                new HBox(amountOfAnimalsLabel, amountOfStartAnimalsText), new HBox(amountOfPlantsLebel, amountOfStartPlantsText),
+                new HBox(amountOfAnimalsLabel, amountOfStartAnimalsText), new HBox(amountOfPlantsLabel, amountOfStartPlantsText),
                 new HBox(startEnergyLabel, startAnimalEnergyText), new HBox(moveEnergyLabel, moveEnergyText),
                 new HBox(energyFromEatingLabel, energyFromEatingText), new HBox(numberOfNewDailyPlantsLabel, numberOfNewDailyPlantsText),
-                new HBox(neededEnergyToCopulateLabel, neededEnergyToCopulateText),  new HBox(parentEnergyToNewChildLabel, parentEnergyToNewChildText),
-                new HBox(gensLenghtLabel, gensLenghtText), loadData, stop, resume, save);
+                new HBox(neededEnergyToCopulateLabel, neededEnergyToCopulateText),
+                new HBox(gensLenghtLabel, gensLengthText), stop, resume, save);
 
         return controls;
     }
 
     public void openMapWindow(Stage primaryStage, HBox startSimulation, String title) {
-        // utworzenie nowego okna "Earth Map"
         Stage mapWindow = new Stage();
         if (title.equals("Earth Map")) {
             mapWindow.setTitle("Earth Map");
@@ -276,17 +192,13 @@ public class GuiElement extends DataReader{
             mapWindow.setTitle("Hell Map");
         }
 
-        // utworzenie kontenera typu StackPane oraz przycisków
         StackPane secondaryLayout  = new StackPane();
         VBox vBox = new VBox();
         vBox.getChildren().addAll(buttonsForMaps(), startSimulation);
         secondaryLayout.getChildren().addAll(vBox);
 
-        // utworzenie nowej sceny z kontenerem jako głównym elementem oraz ustawienie jej wymiarów
         Scene secondScene = new Scene(secondaryLayout, 400, 400);
         mapWindow.setScene(secondScene);
-
-        // ustawienie pozycji okna względem okna głównego
 
         if (title.equals("Earth Map")) {
             mapWindow.setX(primaryStage.getX() - 300);
@@ -295,15 +207,6 @@ public class GuiElement extends DataReader{
             mapWindow.setX(primaryStage.getX() - 300);
             mapWindow.setY(primaryStage.getY() - 200);
         }
-        // wyświetlenie okna
         mapWindow.show();
-    }
-
-    public TextField getWidthText1() {
-        return widthText1;
-    }
-
-    public TextField getHeightText1() {
-        return heightText1;
     }
 }

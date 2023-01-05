@@ -1,117 +1,59 @@
 package agh.project.Classes;
 
-import javafx.scene.control.TextField;
-import agh.project.GUI.GuiElement;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.*;
 
 public class DataReader {
 
-    public int mapWidth;
-    public int mapHeight;
-    public int startAnimalNumber;
-    public int startPlantsNumber;
-    public int startAnimalEnergy;
-    public int moveEnergy;
-    public int energyFromEating;
-    public int numberOfNewDailyPlants;
-    public int neededEnergyToCopulate;
-    public int parentEnergyToNewChild;
-    public int gensLength;
+    public int width;
+    public int height;
+    protected int startAnimals;
+    protected int startPlants;
+    protected int startEnergy;
+    protected int moveEnergy;
+    protected int energyFromEating;
+    protected int dailyPlants;
+    protected int energyToCopulate;
+    protected int gensLength;
 
-    public void setMapWidth(TextField textField){
+    public DataReader() {
+        File selectedFile = new File("src/main/resources/configuration.json");
         try {
-            this.mapWidth = Integer.parseInt(textField.getText());
-            System.out.println("wczytana szerokosc" + mapWidth);
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
+            BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
+
+            JSONParser parser = new JSONParser();
+            JSONObject json = (JSONObject) parser.parse(reader);
+            long width = (long) json.get("width");
+            long height = (long) json.get("height");
+            long amountOfAnimals = (long) json.get("amountOfAnimals");
+            long amountOfPlants = (long) json.get("amountOfPlants");
+            long startEnergy = (long) json.get("startEnergy");
+            long moveEnergy = (long) json.get("moveEnergy");
+            long eatingEnergy = (long) json.get("eatingEnergy");
+            long dailyPlantsNumber = (long) json.get("dailyPlantsNumber");
+            long energyToCopulate = (long) json.get("energyToCopulate");
+            long lengthGens = (long) json.get("lengthGens");
+
+            this.width = (int) width;
+            this.height = (int) height;
+            this.startAnimals = (int) amountOfAnimals;
+            this.startPlants = (int) amountOfPlants;
+            this.startEnergy = (int) startEnergy;
+            this.moveEnergy = (int) moveEnergy;
+            this.energyFromEating = (int) eatingEnergy;
+            this.dailyPlants = (int) dailyPlantsNumber;
+            this.energyToCopulate = (int) energyToCopulate;
+            this.gensLength = (int) lengthGens;
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 
-    public void setMapHeight(TextField textField){
-        try {
-            this.mapHeight = Integer.parseInt(textField.getText());
-            System.out.println("wczytana wysokosc" + mapHeight);
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setStartAnimalNumber(TextField textField){
-        try {
-            this.startAnimalNumber = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setMoveEnergy(TextField textField){
-        try {
-            this.moveEnergy = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setStartPlantsNumber(TextField textField){
-        try {
-            this.startPlantsNumber = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setEnergyFromEating(TextField textField){
-        try {
-            this.energyFromEating = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setStartAnimalEnergy(TextField textField){
-        try {
-            this.startAnimalEnergy = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setNumberOfNewDailyPlants(TextField textField){
-        try {
-            this.numberOfNewDailyPlants = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setNeededEnergyToCopulate(TextField textField){
-        try {
-            this.neededEnergyToCopulate = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setParentEnergyToNewChild(TextField textField){
-        try {
-            this.parentEnergyToNewChild = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public void setGensLenght(TextField textField){
-        try {
-            this.gensLength = Integer.parseInt(textField.getText());
-        } catch (NumberFormatException e){
-            System.out.println(e+ "Dane startowe nie poprawnie wpisane");
-        }
-    }
-
-    public int getMapWidth() {
-        return mapWidth;
-    }
-
-    public int getMapHeight() {
-        return mapHeight;
-    }
 }

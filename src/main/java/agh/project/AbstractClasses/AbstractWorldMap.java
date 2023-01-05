@@ -1,6 +1,7 @@
 package agh.project.AbstractClasses;
 
 import agh.project.Classes.Animal;
+import agh.project.Classes.DataReader;
 import agh.project.Classes.Plant;
 import agh.project.Classes.Vector2d;
 import agh.project.Interfaces.IMapElement;
@@ -10,20 +11,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AbstractWorldMap extends AbstractMapElement implements IWorldMap {
-    protected int width = getMapWidth();
-    protected int height = getMapHeight();
     protected Map<Vector2d, List<Animal>> animals = new HashMap<>();
     protected Map<Vector2d, Plant> plants = new HashMap<>();
-    protected int startPlants = super.startPlantsNumber;
-    protected int startAnimals = super.startAnimalNumber;
-    protected int startEnergy = super.startAnimalEnergy;
     protected Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
     protected Vector2d upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
     private Map<Vector2d, Integer> deadPosition = new HashMap<>();
-    protected int dailyPlants = super.numberOfNewDailyPlants;
-
-    protected int gensLength = super.gensLength;
-
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -44,14 +36,14 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     public IMapElement objectAt(Vector2d position) {
 //        System.out.println("POSITION OBJECT AT:");
 //        System.out.println(position);
-        if (this.isOccupiedByAnimal(position)){
+        if (this.isOccupiedByAnimal(position)) {
             List<Animal> animalsList = animals.get(position);
 //            System.out.println("ANIMALS LIST ABJECT AT");
 //            System.out.println(animalsList);
             return animalsList.get(0);
         } else if (this.isOccupiedByPlant(position)) {
             return plants.get(position);
-        }else {
+        } else {
             return null;
         }
 
@@ -95,44 +87,44 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 
     @Override
     public List<Animal> animalsAt(Vector2d position) {
-        if (this.isOccupiedByAnimal(position)){
+        if (this.isOccupiedByAnimal(position)) {
             return this.animals.get(position);
         }
         return null;
     }
 
     @Override
-    public List<Animal> copulation(){
+    public List<Animal> copulation() {
         List<Animal> newAnimals = new ArrayList<>();
 
 
-        for (List<Animal> animalList: animals.values()){
+        for (List<Animal> animalList : animals.values()) {
             boolean CanCopulate = true;
 
-            if(animalList.size() > 1){
+            if (animalList.size() > 1) {
                 List<Animal> temporary = new ArrayList<>();
-                for(Animal animal : animalList){
-                    if(animal.getEnergy() > 10){//wartość wczytana z pliku (energia konieczna do rozmnażania)
+                for (Animal animal : animalList) {
+                    if (animal.getEnergy() > 10) {//wartość wczytana z pliku (energia konieczna do rozmnażania)
                         temporary.add(animal);
                     }
                 }
                 Animal animal1 = null;
                 Animal animal2 = null;
-                if(temporary.size()>2){
+                if (temporary.size() > 2) {
                     animal1 = this.priority(temporary);
                     temporary.remove(animal1);
                     animal2 = this.priority(temporary);
-                }else if (temporary.size() == 2) {
+                } else if (temporary.size() == 2) {
                     animal1 = temporary.get(0);
                     animal2 = temporary.get(1);
-                }else {
+                } else {
                     CanCopulate = false;
                 }
 //                Animal animal1 = this.priority(temporary);
 //                temporary.remove(animal1);
 //                Animal animal2 = this.priority(temporary);
-                if(CanCopulate){
-                    Animal newAnimal =  animal1.copulation(animal2);
+                if (CanCopulate) {
+                    Animal newAnimal = animal1.copulation(animal2);
                     newAnimals.add(newAnimal);
                 }
 //                Animal newAnimal =  animal1.copulation(animal2);
@@ -149,39 +141,38 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
         Collections.sort(animalsList);
         System.out.println("SORTED ANIMALS LIST");
         System.out.println(animalsList);
-        if (animalsList.get(0).getEnergy() == animalsList.get(1).getEnergy()){
+        if (animalsList.get(0).getEnergy() == animalsList.get(1).getEnergy()) {
             Collections.sort(animalsList, new Comparator<Animal>() {
                 @Override
                 public int compare(Animal animal1, Animal animal2) {
                     return animal1.getAge() - animal2.getAge();
                 }
             });
-            if(animalsList.get(0).getAge() == animalsList.get(1).getAge()){
+            if (animalsList.get(0).getAge() == animalsList.get(1).getAge()) {
                 Collections.sort(animalsList, new Comparator<Animal>() {
                     @Override
                     public int compare(Animal animal1, Animal animal2) {
                         return animal1.getKids() - animal2.getKids();
                     }
                 });
-                if(animalsList.get(0).getKids() == animalsList.get(1).getKids()){
+                if (animalsList.get(0).getKids() == animalsList.get(1).getKids()) {
                     List<Animal> temporary = new ArrayList<>();
-                    for (Animal animal: animalsList){
-                        if(animal.getKids() == animalsList.get(0).getKids()){
+                    for (Animal animal : animalsList) {
+                        if (animal.getKids() == animalsList.get(0).getKids()) {
                             temporary.add(animal);
-                        }else {
+                        } else {
                             break;
                         }
                     }
                     Random random = new Random();
                     return temporary.get(random.nextInt(temporary.size()));
-                }else {
+                } else {
                     return animalsList.get(0);
                 }
-            }
-            else {
+            } else {
                 return animalsList.get(0);
             }
-        }else {
+        } else {
             return animalsList.get(0);
         }
     }
@@ -198,7 +189,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 //        }
 
         int value = this.deadPosition.get(position);
-        value ++;
+        value++;
         this.deadPosition.put(position, value);
     }
 
@@ -239,10 +230,10 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
             System.out.println("GENY:");
             System.out.println(newAnimal.getGenes().toString());
 
-            if(isOccupiedByAnimal(newRandomVector)){
+            if (isOccupiedByAnimal(newRandomVector)) {
                 List<Animal> animalsList = animals.get(newRandomVector);
                 animalsList.add(newAnimal);
-            }else {
+            } else {
                 animals.put(newRandomVector, new ArrayList<>());
                 animals.get(newRandomVector).add(newAnimal);
             }
@@ -253,27 +244,28 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     }
 
     @Override
-    public void AddNewAnimalToMap(List<Animal> animalsList){
-        for(Animal animal : animalsList){
-            if (isOccupiedByAnimal(animal.position)){
+    public void AddNewAnimalToMap(List<Animal> animalsList) {
+        for (Animal animal : animalsList) {
+            if (isOccupiedByAnimal(animal.position)) {
                 List<Animal> animalsCopyList = this.animals.get(animal.position);
                 animalsCopyList.add(animal);
-            }else {
+            } else {
                 List<Animal> newList = new ArrayList<>();
                 newList.add(animal);
-                animals.put(animal.position,newList );
+                animals.put(animal.position, newList);
             }
         }
     }
 
-    public void generateDeadPosition(){
-        for(int i = 0; i < this.width; i++){
-            for (int j = 0; j < this.height; j++){
-                deadPosition.put(new Vector2d(i,j), 0);
+    public void generateDeadPosition() {
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                deadPosition.put(new Vector2d(i, j), 0);
             }
         }
     }
-    public List<Plant> generateDailyPlants(){
+
+    public List<Plant> generateDailyPlants() {
         List<Plant> generetedPlantsList = new ArrayList<>();
         //sorting deadPostion map to use in prefer places
         Map<Vector2d, Integer> sortedMap = deadPosition.entrySet()
@@ -285,13 +277,13 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
                         (e1, e2) -> e1,
                         LinkedHashMap::new
                 ));
-        for(int i = 0; i < dailyPlants; i++){
+        for (int i = 0; i < dailyPlants; i++) {
             Random random = new Random();
             int xRandom;
             int yRandom;
 
             //random place
-            if(random.nextDouble() < 0.2){
+            if (random.nextDouble() < 0.2) {
                 while (true) {
                     boolean repeat = false;
                     xRandom = random.nextInt(this.width);
@@ -314,9 +306,9 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
                         break;
                     }
                 }
-            }else { //prefer places
-                for(Vector2d position : sortedMap.keySet()){
-                    if(!isOccupiedByPlant(position)){
+            } else { //prefer places
+                for (Vector2d position : sortedMap.keySet()) {
+                    if (!isOccupiedByPlant(position)) {
                         Plant newPlant = new Plant(position, this);
                         plants.put(position, newPlant);
                         generetedPlantsList.add(newPlant);
@@ -330,16 +322,16 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 
     @Override
     public void animalPositionChanged(Vector2d oldPosition, Vector2d newPosition, Animal animal) {
-        if (animals.get(oldPosition).size() > 1){
+        if (animals.get(oldPosition).size() > 1) {
             animals.get(oldPosition).remove(animal);
-        }else{
+        } else {
             animals.remove(oldPosition);
         }
 
-        if(!isOccupiedByAnimal(newPosition)){
+        if (!isOccupiedByAnimal(newPosition)) {
             animals.put(newPosition, new ArrayList<>());
             animals.get(newPosition).add(animal);
-        }else {
+        } else {
             animals.get(newPosition).add(animal);
         }
     }
@@ -351,7 +343,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     }
 
 
-    public List<Animal> listOfAnimals(){
+    public List<Animal> listOfAnimals() {
         int animalCount = animals.values().stream().mapToInt(List::size).sum();
         System.out.println("AKTUALNY TEST LICZBA ANIMALI");
         System.out.println(animalCount);
@@ -364,7 +356,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
         return allAnimals;
     }
 
-    public List<Plant> listOfPlants(){
+    public List<Plant> listOfPlants() {
         List<Plant> allPlants = new ArrayList<>(plants.values());
 //        Collection<Plant> values = plants.values();
 //        List<Plant> allPlants = new ArrayList<>(values);
@@ -374,13 +366,13 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
         return allPlants;
     }
 
-    public void removePlant(Vector2d position){
+    public void removePlant(Vector2d position) {
         this.plants.remove(position);
     }
 
-    public void removeAnimal(Vector2d position, Animal animal){
+    public void removeAnimal(Vector2d position, Animal animal) {
         this.animals.get(position).remove(animal);
-        if(animals.get(position).size() == 0){
+        if (animals.get(position).size() == 0) {
             animals.remove(position);
         }
     }
@@ -389,4 +381,46 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     public Vector2d[] getCorners() {
         return new Vector2d[]{this.lowerLeftCorner, this.upperRightCorner};
     }
+
+    public int getStartAnimals() {
+        return startAnimals;
+    }
+
+    public int getStartEnergy() {
+        return startEnergy;
+    }
+
+    public void setStartAnimals(int startAnimals) {
+        this.startAnimals = startAnimals;
+    }
+
+    public void setStartPlants(int startPlants) {
+        this.startPlants = startPlants;
+    }
+
+    public void setStartEnergy(int startEnergy) {
+        this.startEnergy = startEnergy;
+    }
+
+    public void setMoveEnergy(int moveEnergy) {
+        this.moveEnergy = moveEnergy;
+    }
+
+    public void setEnergyFromEating(int energyFromEating) {
+        this.energyFromEating = energyFromEating;
+    }
+
+    public void setEnergyToCopulate(int energyToCopulate) {
+        this.energyToCopulate = energyToCopulate;
+    }
+
+    public void setDailyPlants(int dailyPlants) {
+        this.dailyPlants = dailyPlants;
+    }
+
+    public void setGensLength(int gensLength) {
+        this.gensLength = gensLength;
+    }
 }
+
+

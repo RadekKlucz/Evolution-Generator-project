@@ -1,5 +1,6 @@
 package agh.project.Classes;
 
+import agh.project.AbstractClasses.AbstractWorldMap;
 import agh.project.EnumClasses.MoveDirection;
 import agh.project.Interfaces.IEngine;
 import agh.project.Interfaces.IMapUpdateObserver;
@@ -10,24 +11,21 @@ import java.util.*;
 
 import static java.lang.System.out;
 
-public class SimulationEngine implements IEngine {
+public class SimulationEngine extends AbstractWorldMap implements IEngine {
     private List<Animal> animals;
     private List<Plant> plants;
-
     private int moveDelay = 0;
     private final IWorldMap map;
     private List<IMapUpdateObserver> observers;
 
-
-    public SimulationEngine(IWorldMap map){
+    public SimulationEngine(IWorldMap map) {
         this.map = map;
         this.observers = new ArrayList<>();
         addAnimalToMap();
         addPlantToMap();
     }
 
-
-    private void addAnimalToMap(){
+    private void addAnimalToMap() {
         out.println("TEST1");
         this.map.addAnimal();
         out.println("TEST2");
@@ -35,14 +33,16 @@ public class SimulationEngine implements IEngine {
 
         out.println("TEST3");
     }
-    private void addPlantToMap(){
+
+    private void addPlantToMap() {
         out.println("TEST4");
         this.map.addPlant();
         out.println("TEST5");
         plants = this.map.listOfPlants();
         out.println("TEST6");
     }
-    public void run(){
+
+    public void run() {
         //skręt i przemieszczenie każdego zwierzęcia,
         while (true) {
             out.println("LICZBA ANIMALI NA POCZĄTEK DNIA::");
@@ -71,14 +71,14 @@ public class SimulationEngine implements IEngine {
 
                     if (eatingAnimals != null && eatingAnimals.size() >= 2) {
                         Animal eatingAnimal = this.map.priority(eatingAnimals);
-                        eatingAnimal.addEnergy(10); //wczytywane z pliku na początku//
+                        eatingAnimal.addEnergy(energyFromEating); //wczytywane z pliku na początku jedzenie rośliny//
                         plants.remove(plant);
                         this.map.removePlant(plantPosition);
                         plant.positionChanged(plantPosition);
                         eatingAnimal.incrementGrassEaten();
-                    }else {
+                    } else {
                         Animal eatingAnimal = eatingAnimals.get(0);
-                        eatingAnimal.addEnergy(10); //wczytywane z pliku na początku//
+                        eatingAnimal.addEnergy(energyFromEating); //wczytywane z pliku na początku jedzenie rośliny//
                         plants.remove(plant);
                         this.map.removePlant(plantPosition);
                         plant.positionChanged(plantPosition);
@@ -97,8 +97,8 @@ public class SimulationEngine implements IEngine {
 
             //rozmnażanie się najedzonych zwierząt znajdujących się na tym samym polu,
             List<Animal> newAnimals = this.map.copulation();
-            if(newAnimals.size()>0){
-                for(Animal animal: newAnimals){
+            if (newAnimals.size() > 0) {
+                for (Animal animal : newAnimals) {
                     animals.add(animal);
                 }
                 this.map.AddNewAnimalToMap(newAnimals);
@@ -112,7 +112,7 @@ public class SimulationEngine implements IEngine {
 
             //wzrastanie nowych roślin na wybranych polach mapy.
             List<Plant> generetedPlantList = this.map.generateDailyPlants();
-            for(Plant plant : generetedPlantList){
+            for (Plant plant : generetedPlantList) {
                 this.plants.add(plant);
             }
 
@@ -126,7 +126,7 @@ public class SimulationEngine implements IEngine {
 //                    this.map.addDeadPosition(animal.position);
                 }
             }
-            if(animals.size() <= 0){
+            if (animals.size() <= 0) {
                 break;
             }
             out.println("LICZBA ZWIERZAT PO USUNIECIU ZWIERZAT");
@@ -148,51 +148,11 @@ public class SimulationEngine implements IEngine {
 
     @Override
     public void addObserver(IMapUpdateObserver observer) {
-            observers.add(observer);
+        observers.add(observer);
     }
 
     @Override
     public void setMoveDelay(int moveDelay) {
         this.moveDelay = moveDelay;
     }
-
-//    private Animal priority(List<Animal> animalsList){
-//        Collections.sort(animalsList);
-//        if (animalsList.get(0).getEnergy() == animalsList.get(1).getEnergy()){
-//            Collections.sort(animalsList, new Comparator<Animal>() {
-//                @Override
-//                public int compare(Animal animal1, Animal animal2) {
-//                    return animal1.getAge() - animal2.getAge();
-//                }
-//            });
-//            if(animalsList.get(0).getAge() == animalsList.get(1).getAge()){
-//                Collections.sort(animalsList, new Comparator<Animal>() {
-//                    @Override
-//                    public int compare(Animal animal1, Animal animal2) {
-//                        return animal1.getKids() - animal2.getKids();
-//                    }
-//                });
-//                if(animalsList.get(0).getKids() == animalsList.get(1).getKids()){
-//                    List<Animal> temporary = new ArrayList<>();
-//                    for (Animal animal: animalsList){
-//                        if(animal.getKids() == animalsList.get(0).getKids()){
-//                            temporary.add(animal);
-//                        }else {
-//                            break;
-//                        }
-//                    }
-//                    Random random = new Random();
-//                    return temporary.get(random.nextInt(temporary.size()));
-//                }else {
-//                    return animalsList.get(0);
-//                }
-//            }
-//            else {
-//                return animalsList.get(0);
-//            }
-//        }else {
-//            return animalsList.get(0);
-//        }
-//    }
-
 }

@@ -16,10 +16,15 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-    implementation 'com.opencsv:opencsv:5.7.1'
+    implementation 'org.openjfx:javafx-base:$javafx_version'
+    implementation 'org.openjfx:javafx-graphics:$javafx_version'
+    implementation 'org.openjfx:javafx-controls:$javafx_version'
+    implementation 'org.openjfx:javafx-fxml:$javafx_version'
+    implementation 'org.openjfx:javafx-media:$javafx_version'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'com.opencsv:opencsv:5.7.1'
 }
 
 test {

@@ -1,13 +1,12 @@
 {
-   "width": 20,
-   "height": 40,
-   "amountOfAnimals": 50,
-   "amountOfPlants":30,
-   "startEnergy": 33,
-   "moveEnergy": 12,
-   "eatingEnergy": 14,
-   "dailyPlantsNumber": 15,
+   "width": 10,
+   "height": 10,
+   "amountOfAnimals": 15,
+   "amountOfPlants":10,
+   "startEnergy": 50,
+   "moveEnergy": 15,
+   "eatingEnergy": 20,
+   "dailyPlantsNumber": 5,
    "energyToCopulate": 20,
-   "energyFromParent": 10,
-   "lengthGens": 7
+   "lengthGens": 9
 }
