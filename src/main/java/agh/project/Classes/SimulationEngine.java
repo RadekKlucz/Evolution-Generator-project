@@ -1,10 +1,8 @@
 package agh.project.Classes;
 
 import agh.project.AbstractClasses.AbstractWorldMap;
-import agh.project.EnumClasses.MoveDirection;
 import agh.project.Interfaces.IEngine;
 import agh.project.Interfaces.IMapUpdateObserver;
-import agh.project.Interfaces.IPositionChangeObserver;
 import agh.project.Interfaces.IWorldMap;
 
 import java.util.*;
@@ -28,43 +26,22 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
     }
 
     private void addAnimalToMap() {
-        out.println("TEST1");
         this.map.addAnimal();
-        out.println("TEST2");
         animals = this.map.listOfAnimals();
-
-        out.println("TEST3");
     }
 
     private void addPlantToMap() {
-        out.println("TEST4");
         this.map.addPlant();
-        out.println("TEST5");
         plants = this.map.listOfPlants();
-        out.println("TEST6");
     }
 
     public void run() {
         //skręt i przemieszczenie każdego zwierzęcia,
         while (true) {
             if (!paused) {
-                out.println("LICZBA ANIMALI NA POCZĄTEK DNIA::");
-                out.println(animals.size());
                 for (Animal animal : animals) {
                     animal.move();
-                    //                for (IMapUpdateObserver observer : this.observers) {
-                    //                    observer.positionChanged();
-                    //                }
-                    //                try {
-                    //                    Thread.sleep(moveDelay);
-                    //                } catch (InterruptedException error) {
-                    //                    out.println("Something goes wrong: " + error);
-                    //                }
                 }
-
-
-                out.println("LICZBA PLANTÓW PRZED FUKCJĄ JEDZENIA");
-                out.println(plants.size());
                 //konsumpcja roślin na których pola weszły zwierzęta,
                 List<Plant> plantsListCopy = List.copyOf(plants);
                 for (Plant plant : plantsListCopy) {
@@ -74,29 +51,21 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
 
                         if (eatingAnimals != null && eatingAnimals.size() >= 2) {
                             Animal eatingAnimal = this.map.priority(eatingAnimals);
-                            eatingAnimal.addEnergy(energyFromEating); //wczytywane z pliku na początku jedzenie rośliny//
+                            eatingAnimal.addEnergy(energyFromEating);
                             plants.remove(plant);
                             this.map.removePlant(plantPosition);
                             plant.positionChanged(plantPosition);
                             eatingAnimal.incrementGrassEaten();
                         } else {
                             Animal eatingAnimal = eatingAnimals.get(0);
-                            eatingAnimal.addEnergy(energyFromEating); //wczytywane z pliku na początku jedzenie rośliny//
+                            eatingAnimal.addEnergy(energyFromEating);
                             plants.remove(plant);
                             this.map.removePlant(plantPosition);
                             plant.positionChanged(plantPosition);
                             eatingAnimal.incrementGrassEaten();
                         }
-                        //                    try {
-                        //                        Thread.sleep(moveDelay);
-                        //                    } catch (InterruptedException error) {
-                        //                        out.println("Something goes wrong: " + error);
-                        //                    }
                     }
                 }
-                out.println("LICZBA PLANTÓW NA KONIEC FUKCJI JEDZENIA");
-                out.println(plants.size());
-
 
                 //rozmnażanie się najedzonych zwierząt znajdujących się na tym samym polu,
                 List<Animal> newAnimals = this.map.copulation();
@@ -110,9 +79,6 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
                     }
                 }
 
-                out.println("LICZBA ANIMALI W ŚRODKU DNIA");
-                out.println(animals.size());
-
                 //wzrastanie nowych roślin na wybranych polach mapy.
                 List<Plant> generetedPlantList = this.map.generateDailyPlants();
                 for (Plant plant : generetedPlantList) {
@@ -120,23 +86,18 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
                 }
 
 
-                //usunięcie martwych zwierząt z mapy,         ///////////////nie jestem pewny tego (czy to napewno iteruje po wszystkich zwierzętach?) trzeba jeszcze przemyśleć tą funkcję czy ona żeczywiście aktualizuje zwierzęta na mapie czy tylko lokalnie (listę animals)
+                //usunięcie martwych zwierząt z mapy
                 List<Animal> animalListCopy = List.copyOf(animals);
                 for (Animal animal : animalListCopy) {
                     if (animal.getEnergy() <= 0) {
                         animals.remove(animal);
                         this.map.removeAnimal(animal.position, animal);
-                        //                    this.map.addDeadPosition(animal.position);
                     }
                 }
                 if (animals.size() <= 0) {
                     break;
                 }
-                out.println("LICZBA ZWIERZAT PO USUNIECIU ZWIERZAT");
-                out.println(animals.size());
 
-
-                /////////////////////////////
                 int freeCells = this.map.freePositionsNumber();
                 day++;
                 saveDataToCsvFile(day, animals.size(), plants.size(), freeCells);
@@ -151,8 +112,6 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
             for (IMapUpdateObserver observer : this.observers) {
                 observer.positionChanged();
             }
-            out.println("LICZBA ANIMALI NA KONIEC DNIA");
-            out.println(animals.size());
         }
     }
 

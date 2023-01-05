@@ -1,6 +1,5 @@
 package agh.project.Classes;
 
-import agh.project.AbstractClasses.AbstractMapElement;
 import agh.project.AbstractClasses.AbstractWorldMap;
 import agh.project.EnumClasses.MapDirection;
 import agh.project.Interfaces.IPositionChangeObserver;
@@ -39,9 +38,6 @@ public class Animal extends AbstractWorldMap implements Comparable<Animal> {
         List<Integer> genesList = genes.getGenes();
         int genIndex = this.genes.getActiveGenIndex();
         int gen = genesList.get(genIndex);
-//        int gen = (int) genesList.get(genes.getActiveGenIndex());
-//        System.out.println("INDEX");
-//        System.out.println(genes.getActiveGenIndex());
 
         //temporary position
         Vector2d tempPosition = this.position;
@@ -53,43 +49,34 @@ public class Animal extends AbstractWorldMap implements Comparable<Animal> {
             case 0 -> position.add(this.direction.toUnitVector());
             case 1 -> {
                 direction.next();
-//                position.add(this.direction.toUnitVector());
                 tempPosition = tempPosition.add(this.direction.toUnitVector());
 
             }
             case 2 -> {
                 direction.next().next();
-//                position.add(this.direction.toUnitVector());
                 tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 3 -> {
                 direction.next().next().next();
-//                position.add(this.direction.toUnitVector());
                 tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 4 -> {
-//                position.subtract(this.direction.toUnitVector());
                 tempPosition = tempPosition.subtract(this.direction.toUnitVector());
             }
             case 5 -> {
                 direction.previous().previous().previous();
-//                position.add(this.direction.toUnitVector());
                 tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 6 -> {
                 direction.previous().previous();
-//                position.add(this.direction.toUnitVector());
                 tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
             case 7 -> {
                 direction.previous();
-//                position.add(this.direction.toUnitVector());
                 tempPosition = tempPosition.add(this.direction.toUnitVector());
             }
         }
-        // bez sprawdzania czy można się ruszyć(było)
 
-        //dodaje nowy mechanizm
         //jeżeli nie może się ruczyć w dane miejsce(chce wyjść poza mapę)
         if (!this.map.canMoveTo(this.position)) {
 
@@ -100,18 +87,11 @@ public class Animal extends AbstractWorldMap implements Comparable<Animal> {
             this.position = tempPosition;
         }
 
-//        System.out.println("MOVED!!!");
-//        positionChanged(oldPosition);
         int activeGenIndex = this.getActiveGenIndex();
         this.genes.nextGen(activeGenIndex);
         this.ageIncrement();
-        this.removeEnergy(moveEnergy); ////// wartość z pliku do poruszania się
+        this.removeEnergy(moveEnergy);
         positionChanged(oldPosition);
-
-//        System.out.println("OLD POSITION");
-//        System.out.println(oldPosition);
-//        System.out.println("NEW POSITION");
-//        System.out.println(this.position);
     }
 
     public int getAge() {
@@ -153,9 +133,8 @@ public class Animal extends AbstractWorldMap implements Comparable<Animal> {
         int childEnergy;
         if ((this.energyToCopulate < this.energy) && (this.energyToCopulate < secondParent.energy)) {
             childEnergy = 2 * this.energyToCopulate;
-            this.energy -= this.energyToCopulate; // można za pomocą funkcji remove energy
-            secondParent.energy -= this.energyToCopulate; // można za pomocą funkcji remove e
-            // nergy
+            this.energy -= this.energyToCopulate;
+            secondParent.energy -= this.energyToCopulate;
 
             Animal child = new Animal(this.map, this.position, childEnergy);
             child.genes.setChildGens(this, secondParent);
@@ -163,14 +142,11 @@ public class Animal extends AbstractWorldMap implements Comparable<Animal> {
 
             this.kidsIncrement();
             secondParent.kidsIncrement();
-            System.out.println("DZIECKO SIE RODZI");
-            System.out.println("DZIECKO SIe RODZI");
             return child;
         }
         return null;
     }
 
-    //energy false usuń
     public boolean checkEnergy() {
         return energy >= 0;
     }

@@ -39,8 +39,8 @@ public class DataReader {
 
             if (width > 126 || height > 65) {
                 throw new IllegalAccessException("Unexpected values height and width");
-                }
-            
+            }
+
 
             this.width = (int) width;
             this.height = (int) height;

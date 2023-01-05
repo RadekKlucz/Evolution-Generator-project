@@ -8,7 +8,6 @@ import java.util.*;
 
 public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
-
     public HellMap(int width, int height) {
         if (width <= 0 || height <= 0) {
             try {
@@ -31,7 +30,7 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
         int newRandomY = random.nextInt(height);
 
         animal.position = new Vector2d(newRandomX, newRandomY);
-        animal.removeEnergy(energyToCopulate); // to
+        animal.removeEnergy(energyToCopulate);
 
     }
 
