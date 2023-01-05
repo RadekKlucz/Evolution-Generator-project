@@ -133,6 +133,10 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
                 }
                 out.println("LICZBA ZWIERZAT PO USUNIECIU ZWIERZAT");
                 out.println(animals.size());
+
+                /////////////////////////////
+
+
             }
 
             try {

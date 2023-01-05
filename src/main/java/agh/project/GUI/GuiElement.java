@@ -64,15 +64,15 @@ public class GuiElement extends AbstractWorldMap {
             imageView = new ImageView(imageGreen);
         }
 
-        imageView.setFitHeight(20);
-        imageView.setFitWidth(20);
+        imageView.setFitHeight(13);
+        imageView.setFitWidth(13); // rozmiar animal
         VBox verticalBox = new VBox(imageView);
         verticalBox.setAlignment(Pos.CENTER);
         return verticalBox;
     }
 
     public void createGrid(IWorldMap map, GridPane grid) {
-        int cellSize = 21;
+        int cellSize = 15; //rozmiar siatki
 
         Vector2d[] corners = map.getCorners();
         int left = corners[0].x;

@@ -37,6 +37,11 @@ public class DataReader {
             long energyToCopulate = (long) json.get("energyToCopulate");
             long lengthGens = (long) json.get("lengthGens");
 
+            if (width > 126 || height > 65) {
+                throw new IllegalAccessException("Unexpected values height and width");
+                }
+            
+
             this.width = (int) width;
             this.height = (int) height;
             this.startAnimals = (int) amountOfAnimals;
@@ -49,10 +54,23 @@ public class DataReader {
             this.gensLength = (int) lengthGens;
 
 
-        } catch (IOException e) {
+        } catch (IOException | IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void saveDataToCsvFile(int day, int numberOfAnimals, int numberOfPants, int numberOfFreeCells) {
+        int[] list = {day, numberOfAnimals, numberOfPants, numberOfFreeCells};
+        try {
+            FileWriter writer = new FileWriter("data.csv", true);
+            for (int line : list) {
+                writer.write(line);
+            }
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("The file wasn't saved correctly" + e.getMessage());
         }
     }
 

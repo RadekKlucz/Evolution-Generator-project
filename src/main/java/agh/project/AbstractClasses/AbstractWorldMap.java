@@ -125,7 +125,9 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
 //                Animal animal2 = this.priority(temporary);
                 if (CanCopulate) {
                     Animal newAnimal = animal1.copulation(animal2);
-                    newAnimals.add(newAnimal);
+                    if (newAnimal != null) {
+                        newAnimals.add(newAnimal);
+                    }
                 }
 //                Animal newAnimal =  animal1.copulation(animal2);
 //                newAnimals.add(newAnimal);
@@ -246,7 +248,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     @Override
     public void AddNewAnimalToMap(List<Animal> animalsList) {
         for (Animal animal : animalsList) {
-            if (isOccupiedByAnimal(animal.position)) { // tutaj wyskakuje taki błąd: [null]
+            if (isOccupiedByAnimal(animal.position)) { // tutaj wyskakuje taki błąd:  [null]
                 List<Animal> animalsCopyList = this.animals.get(animal.position);
                 animalsCopyList.add(animal);
             } else {
