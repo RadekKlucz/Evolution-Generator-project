@@ -9,6 +9,7 @@ import agh.project.Interfaces.IWorldMap;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractWorldMap extends AbstractMapElement implements IWorldMap {
     protected Map<Vector2d, List<Animal>> animals = new HashMap<>();
@@ -382,6 +383,32 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
         return new Vector2d[]{this.lowerLeftCorner, this.upperRightCorner};
     }
 
+
+    public int freePositionsNumber(){
+        int number;
+        int freePositions;
+
+        Set<Vector2d> animalsKeys = animals.keySet();
+        List<Vector2d> animalsVectors = new ArrayList<>(animalsKeys);
+
+        Set<Vector2d> plantsKeys = plants.keySet();
+        List<Vector2d> plantsVectors = new ArrayList<>(plantsKeys);
+
+        List<Vector2d> uniqVectors = Stream.concat(animalsVectors.stream(), plantsVectors.stream())
+                .distinct()
+                .collect(Collectors.toList());
+        number = uniqVectors.size();
+
+//        System.out.println("NUMBER");
+//        System.out.println(number);
+
+        freePositions = (this.width * this.height) - number;
+
+//        System.out.println("FREE POSITIONS");
+//        System.out.println(freePositions);
+
+        return freePositions;
+    }
     public int getStartAnimals() {
         return startAnimals;
     }

@@ -143,6 +143,7 @@ public class SimulationEngine extends AbstractWorldMap implements IEngine {
             for (IMapUpdateObserver observer : this.observers) {
                 observer.positionChanged();
             }
+            int number = this.map.freePositionsNumber();
             out.println("LICZBA ANIMALI NA KONIEC DNIA");
             out.println(animals.size());
         }

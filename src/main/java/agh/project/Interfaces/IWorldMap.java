@@ -82,4 +82,6 @@ public interface IWorldMap extends IPositionChangeObserver{
 
     void removeAnimal(Vector2d position, Animal animal);
 
+    int freePositionsNumber();
+
 }
