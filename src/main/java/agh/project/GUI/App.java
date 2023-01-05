@@ -1,5 +1,6 @@
 package agh.project.GUI;
 
+import agh.project.Classes.DataReader;
 import agh.project.Classes.EarthMap;
 import agh.project.Classes.HellMap;
 import agh.project.Classes.SimulationEngine;
@@ -33,10 +34,9 @@ public class App extends Application implements IMapUpdateObserver {
     private IEngine engineForEarth;
 
     public void initMaps() throws Exception {
-
-        this.mapOfHell = new HellMap(20, 20);
-        this.mapOfEarth = new EarthMap(20, 20);
         elementCreator = new GuiElement();
+        this.mapOfHell = new HellMap(elementCreator.width, elementCreator.height);
+        this.mapOfEarth = new EarthMap(elementCreator.width, elementCreator.height);
         this.engineForHell = new SimulationEngine(this.mapOfHell);
         this.engineForEarth = new SimulationEngine(this.mapOfEarth);
         this.engineForHell.addObserver(this);

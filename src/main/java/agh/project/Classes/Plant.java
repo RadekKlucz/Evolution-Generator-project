@@ -5,12 +5,12 @@ import agh.project.Interfaces.IPositionChangeObserver;
 import agh.project.Interfaces.IWorldMap;
 
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 public class Plant extends AbstractMapElement {
     private final Vector2d position;
     private IWorldMap map;
+
     public Plant(Vector2d position, IWorldMap map) {
         this.map = map;
         this.position = position;
@@ -19,17 +19,17 @@ public class Plant extends AbstractMapElement {
 
     private ArrayList<IPositionChangeObserver> observers = new ArrayList<>();
 
-    public void addObserver(IPositionChangeObserver observer){
+    public void addObserver(IPositionChangeObserver observer) {
         observers.add(observer);
     }
 
-    public void removeObserver(IPositionChangeObserver observer){
+    public void removeObserver(IPositionChangeObserver observer) {
         observers.remove(observer);
     }
 
-    public void positionChanged(Vector2d oldPosition){
-        for (IPositionChangeObserver observer: observers){
-            observer.positionChanged(oldPosition,this.position);
+    public void positionChanged(Vector2d oldPosition) {
+        for (IPositionChangeObserver observer : observers) {
+            observer.positionChanged(oldPosition, this.position);
         }
     }
 
@@ -38,13 +38,4 @@ public class Plant extends AbstractMapElement {
         return position;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Position" + position.toString();
-//    }
-
-//    @Override
-//    public Color getColor() {
-//        return new Color(47, 241, 6);
-//    }
 }

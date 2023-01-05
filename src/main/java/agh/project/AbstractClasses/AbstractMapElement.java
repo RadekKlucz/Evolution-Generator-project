@@ -7,19 +7,13 @@ import agh.project.Interfaces.IMapElement;
 
 import java.awt.*;
 
-public abstract class AbstractMapElement extends GuiElement implements IMapElement {
+public abstract class AbstractMapElement extends DataReader implements IMapElement {
     protected Vector2d position;
     protected int energy;
-
     @Override
     public Vector2d getPosition() {
         return position;
     }
-
-//    @Override
-//    public Color getColor() {
-//        return null;
-//    }
 
     public int getEnergy() {
         return energy;

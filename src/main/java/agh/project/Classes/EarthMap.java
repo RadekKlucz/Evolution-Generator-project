@@ -23,13 +23,6 @@ public class EarthMap extends AbstractWorldMap implements IWorldMap, IPositionCh
         this.lowerLeftCorner = new Vector2d(0, 0);
         this.upperRightCorner = new Vector2d(width, height);
         this.generateDeadPosition();
-//        DataReader data = new DataReader();
-//        super.startPlants = data.startPlantsNumber;
-//        super.startAnimals = data.startAnimalNumber;
-//        super.startEnergy = data.startAnimalEnergy;
-//        super.dailyPlants = data.numberOfNewDailyPlants;
-//        super.gensLength = data.gensLength;
-
     }
 
     public void specialMoves(Animal animal, Vector2d checkVector) {

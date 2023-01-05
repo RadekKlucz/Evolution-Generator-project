@@ -8,7 +8,6 @@ import java.util.*;
 
 public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
 
-    int energyToCopulate = super.neededEnergyToCopulate;
 
     public HellMap(int width, int height) {
         if (width <= 0 || height <= 0) {
@@ -23,13 +22,6 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
         this.lowerLeftCorner = new Vector2d(0, 0);
         this.upperRightCorner = new Vector2d(width, height);
         this.generateDeadPosition();
-//        DataReader data = new DataReader();
-//        energyToCopulate = data.neededEnergyToCopulate;
-//        super.startPlants = data.startPlantsNumber;
-//        super.startAnimals = data.startAnimalNumber;
-//        super.startEnergy = data.startAnimalEnergy;
-//        super.dailyPlants = data.numberOfNewDailyPlants;
-//        super.gensLength = data.gensLength;
     }
 
     @Override
@@ -39,7 +31,7 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
         int newRandomY = random.nextInt(height);
 
         animal.position = new Vector2d(newRandomX, newRandomY);
-        animal.removeEnergy(energyToCopulate);
+        animal.removeEnergy(energyToCopulate); // to
 
     }
 
