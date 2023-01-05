@@ -1,6 +1,6 @@
 {
-   "width": 20,
-   "height": 20,
+   "width": 128,
+   "height": 65,
    "amountOfAnimals": 15,
    "amountOfPlants":10,
    "startEnergy": 50,
