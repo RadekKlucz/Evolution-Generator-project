@@ -65,7 +65,8 @@ public class App extends Application implements IMapUpdateObserver {
             @Override
             public void handle(ActionEvent event) {
                 String typeOfMap = "Hell Map";
-                elementCreator.openMapWindow(primaryStage, startSimulationButton(primaryStage, typeOfMap), typeOfMap);
+                elementCreator.openMapWindow(primaryStage, startSimulationButton(primaryStage, typeOfMap),
+                        elementCreator.createDescription(), typeOfMap);
             }
         });
 
@@ -75,7 +76,8 @@ public class App extends Application implements IMapUpdateObserver {
             public void handle(ActionEvent event) {
                 Platform.runLater(() -> {
                     String typeOfMap = "Earth Map";
-                    elementCreator.openMapWindow(primaryStage, startSimulationButton(primaryStage, typeOfMap), typeOfMap);
+                    elementCreator.openMapWindow(primaryStage, startSimulationButton(primaryStage, typeOfMap),
+                            elementCreator.createDescription(), typeOfMap);
                 });
             }
         });
@@ -130,7 +132,8 @@ public class App extends Application implements IMapUpdateObserver {
                             elementCreator.createGrid(mapOfHell, gridForHell);
                             Thread eThread = new Thread(engineForHell);
                             eThread.start();
-                            Scene secondScene = new Scene(gridForHell, 500, 500);
+                            Scene secondScene = new Scene(gridForHell);
+                            gridForHell.setPrefSize(hellSimulation.getWidth(), hellSimulation.getHeight());
                             hellSimulation.setTitle("Hell Simulation");
                             hellSimulation.setScene(secondScene);
 
@@ -143,7 +146,8 @@ public class App extends Application implements IMapUpdateObserver {
                             elementCreator.createGrid(mapOfEarth, gridForEarth);
                             Thread eThread = new Thread(engineForEarth);
                             eThread.start();
-                            Scene secondScene = new Scene(gridForEarth, 500, 500);
+                            Scene secondScene = new Scene(gridForEarth);
+                            gridForEarth.setPrefSize(earthSimulation.getWidth(), earthSimulation.getHeight());
                             earthSimulation.setTitle("Earth Simulation");
                             earthSimulation.setScene(secondScene);
 //              Set position of second window, related to primary window.
@@ -155,7 +159,40 @@ public class App extends Application implements IMapUpdateObserver {
                 }).start();
             }
         });
-        hBox.getChildren().add(startButton);
+
+        Button stop = new Button("Stop");
+
+        stop.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(typeOfMap.equals("Hell Map")) {
+                    engineForHell.pause();
+                } else {
+                    engineForEarth.pause();
+                }
+            }
+        });
+
+        Button resume = new Button("Resume");
+
+        resume.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (typeOfMap.equals("Hell Map")) {
+                    Platform.runLater(()-> {
+                        engineForHell.resume();
+                    });
+                } else {
+                    Platform.runLater(()-> {
+                        engineForEarth.resume();
+                    });
+                }
+            }
+        });
+
+        Button save = new Button("Save stats");
+
+        hBox.getChildren().addAll(startButton, stop, resume, save);
         return hBox;
     }
 

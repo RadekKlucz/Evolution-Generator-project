@@ -246,7 +246,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
     @Override
     public void AddNewAnimalToMap(List<Animal> animalsList) {
         for (Animal animal : animalsList) {
-            if (isOccupiedByAnimal(animal.position)) {
+            if (isOccupiedByAnimal(animal.position)) { // tutaj wyskakuje taki błąd: [null]
                 List<Animal> animalsCopyList = this.animals.get(animal.position);
                 animalsCopyList.add(animal);
             } else {

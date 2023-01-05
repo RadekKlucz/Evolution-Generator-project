@@ -11,5 +11,8 @@ public interface IEngine extends Runnable {
 
     void setMoveDelay(int moveDelay);
 
-//    void setDirections(List<MoveDirection> directions);
+    void pause();
+
+    void resume();
+
 }
