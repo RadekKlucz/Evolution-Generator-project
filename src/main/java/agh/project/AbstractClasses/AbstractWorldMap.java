@@ -79,6 +79,7 @@ public abstract class AbstractWorldMap extends AbstractMapElement implements IWo
                 List<Animal> temporary = new ArrayList<>();
                 for (Animal animal : animalList) {
                     if (animal.getEnergy() > energyToCopulate) {
+                    if (animal.getEnergy() > energyToCopulate) {//wartość wczytana z pliku (energia konieczna do rozmnażania)
                         temporary.add(animal);
                     }
                 }

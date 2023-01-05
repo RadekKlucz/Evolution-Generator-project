@@ -1,6 +1,5 @@
 package agh.project.GUI;
 
-import agh.project.Classes.DataReader;
 import agh.project.Classes.EarthMap;
 import agh.project.Classes.HellMap;
 import agh.project.Classes.SimulationEngine;
@@ -22,9 +21,6 @@ import javafx.stage.Stage;
 
 
 public class App extends Application implements IMapUpdateObserver {
-
-    private int width = 5;
-    private int height = 5;
     private IWorldMap mapOfHell;
     private IWorldMap mapOfEarth;
     private final GridPane gridForHell = new GridPane();
@@ -41,7 +37,7 @@ public class App extends Application implements IMapUpdateObserver {
         this.engineForEarth = new SimulationEngine(this.mapOfEarth);
         this.engineForHell.addObserver(this);
         this.engineForEarth.addObserver(this);
-        int moveDelay = 3000;
+        int moveDelay = 1000; // the value to set how long is a day in the simulation
         this.engineForHell.setMoveDelay(moveDelay);
         this.engineForEarth.setMoveDelay(moveDelay);
     }
@@ -81,7 +77,6 @@ public class App extends Application implements IMapUpdateObserver {
                 });
             }
         });
-        // add HBox
         HBox buttons = new HBox(borderPaneToLabel, hellMapButton, earthMapButton);
         buttons.setAlignment(Pos.TOP_LEFT);
         buttons.setSpacing(20);
@@ -89,7 +84,7 @@ public class App extends Application implements IMapUpdateObserver {
         StackPane main = new StackPane();
         main.getChildren().addAll(buttons);
 
-        // add background
+        // Add background
         Image background = new Image("file:src/main/resources/backgroundImage.jpg");
         BackgroundSize backgroundSize = new BackgroundSize(
                 BackgroundSize.AUTO,
@@ -126,38 +121,38 @@ public class App extends Application implements IMapUpdateObserver {
                     throw new RuntimeException(e);
                 }
                 new Thread(() -> {
-                        if (typeOfMap.equals("Hell Map")) {
-                            Platform.runLater(() -> {
-                                Stage hellSimulation = new Stage();
-                                elementCreator.createGrid(mapOfHell, gridForHell);
-                                Thread eThread = new Thread(engineForHell);
-                                eThread.start();
-                                Scene secondScene = new Scene(gridForHell);
-                                gridForHell.setPrefSize(hellSimulation.getWidth(), hellSimulation.getHeight());
-                                hellSimulation.setTitle("Hell Simulation");
-                                hellSimulation.setScene(secondScene);
+                    if (typeOfMap.equals("Hell Map")) {
+                        Platform.runLater(() -> {
+                            Stage hellSimulation = new Stage();
+                            elementCreator.createGrid(mapOfHell, gridForHell);
+                            Thread eThread = new Thread(engineForHell);
+                            eThread.start();
+                            Scene secondScene = new Scene(gridForHell);
+                            gridForHell.setPrefSize(hellSimulation.getWidth(), hellSimulation.getHeight());
+                            hellSimulation.setTitle("Hell Simulation");
+                            hellSimulation.setScene(secondScene);
 
-//              Set position of second window, related to primary window.
-                                hellSimulation.setX(primaryStage.getX() - 500);
-                                hellSimulation.setY(primaryStage.getY());
-                                hellSimulation.show();
-                            });
-                        } else {
-                            Platform.runLater(() -> {
-                                Stage earthSimulation = new Stage();
-                                elementCreator.createGrid(mapOfEarth, gridForEarth);
-                                Thread eThread = new Thread(engineForEarth);
-                                eThread.start();
-                                Scene secondScene = new Scene(gridForEarth);
-                                gridForEarth.setPrefSize(earthSimulation.getWidth(), earthSimulation.getHeight());
-                                earthSimulation.setTitle("Earth Simulation");
-                                earthSimulation.setScene(secondScene);
-//              Set position of second window, related to primary window.
-                                earthSimulation.setX(primaryStage.getX() + 500);
-                                earthSimulation.setY(primaryStage.getY());
-                                earthSimulation.show();
-                            });
-                        }
+                            // Set position of second window, related to primary window.
+                            hellSimulation.setX(primaryStage.getX() + 500);
+                            hellSimulation.setY(primaryStage.getY() - 200);
+                            hellSimulation.show();
+                        });
+                    } else {
+                        Platform.runLater(() -> {
+                            Stage earthSimulation = new Stage();
+                            elementCreator.createGrid(mapOfEarth, gridForEarth);
+                            Thread eThread = new Thread(engineForEarth);
+                            eThread.start();
+                            Scene secondScene = new Scene(gridForEarth);
+                            gridForEarth.setPrefSize(earthSimulation.getWidth(), earthSimulation.getHeight());
+                            earthSimulation.setTitle("Earth Simulation");
+                            earthSimulation.setScene(secondScene);
+                            // Set position of second window, related to primary window.
+                            earthSimulation.setX(primaryStage.getX() + 500);
+                            earthSimulation.setY(primaryStage.getY() + 200);
+                            earthSimulation.show();
+                        });
+                    }
                 }).start();
             }
         });
@@ -167,7 +162,7 @@ public class App extends Application implements IMapUpdateObserver {
         stop.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(typeOfMap.equals("Hell Map")) {
+                if (typeOfMap.equals("Hell Map")) {
                     engineForHell.pause();
                 } else {
                     engineForEarth.pause();
@@ -181,20 +176,17 @@ public class App extends Application implements IMapUpdateObserver {
             @Override
             public void handle(ActionEvent event) {
                 if (typeOfMap.equals("Hell Map")) {
-                    Platform.runLater(()-> {
+                    Platform.runLater(() -> {
                         engineForHell.resume();
                     });
                 } else {
-                    Platform.runLater(()-> {
+                    Platform.runLater(() -> {
                         engineForEarth.resume();
                     });
                 }
             }
         });
-
-        Button save = new Button("Save stats");
-
-        hBox.getChildren().addAll(startButton, stop, resume, save);
+        hBox.getChildren().addAll(startButton, stop, resume);
         return hBox;
     }
 

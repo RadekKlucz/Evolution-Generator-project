@@ -17,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
-import java.awt.*;
 import java.io.*;
 
 import static java.lang.System.out;
@@ -46,14 +45,14 @@ public class GuiElement extends AbstractWorldMap {
 
     public VBox showElement(IMapElement element) {
         ImageView imageView = null;
-        if(element instanceof Animal) {
+        if (element instanceof Animal) {
             var energy = ((Animal) element).getEnergy();
             var startEnergy = getStartEnergy();
             if (energy <= startEnergy * 0.3) {
                 imageView = new ImageView(imageRed);
             } else if ((energy <= startEnergy * 0.5) && (energy > startEnergy * 0.3)) {
                 imageView = new ImageView(imageOrange);
-            } else if ((energy <= startEnergy *0.7) && (energy > startEnergy * 0.5)) {
+            } else if ((energy <= startEnergy * 0.7) && (energy > startEnergy * 0.5)) {
                 imageView = new ImageView(imageLightOrange);
             } else if ((energy <= startEnergy) && (energy > startEnergy * 0.7)) {
                 imageView = new ImageView(imageGold);
@@ -65,14 +64,14 @@ public class GuiElement extends AbstractWorldMap {
         }
 
         imageView.setFitHeight(13);
-        imageView.setFitWidth(13); // rozmiar animal
+        imageView.setFitWidth(13); // size of animal
         VBox verticalBox = new VBox(imageView);
         verticalBox.setAlignment(Pos.CENTER);
         return verticalBox;
     }
 
     public void createGrid(IWorldMap map, GridPane grid) {
-        int cellSize = 15; //rozmiar siatki
+        int cellSize = 15; // size of grid
 
         Vector2d[] corners = map.getCorners();
         int left = corners[0].x;
@@ -107,16 +106,14 @@ public class GuiElement extends AbstractWorldMap {
 
         for (int i = 1; i <= up - down + 1; i++) {
             for (int j = 1; j <= right - left + 1; j++) {
-//                out.println("test");
                 IMapElement object = map.objectAt(new Vector2d(left + j - 1, up - i + 1));
-//                out.println(object);
-                if(object != null) {
+                if (object != null) {
                     VBox element = showElement(object);
                     GridPane.setHalignment(element, HPos.CENTER);
                     grid.add(element, j, i, 1, 1);
                 } else {
                     Label label = new Label("");
-                    grid.add(label,  j, i, 1, 1);
+                    grid.add(label, j, i, 1, 1);
                 }
             }
         }
@@ -128,12 +125,10 @@ public class GuiElement extends AbstractWorldMap {
         widthText.setText(String.valueOf(width));
         widthLabel.setTextFill(Color.WHITE);
 
-
         Label heightLabel = new Label("Height of map: ");
         TextField heightText = new TextField();
         heightText.setText(String.valueOf(height));
         heightLabel.setTextFill(Color.WHITE);
-
 
         Label amountOfAnimalsLabel = new Label("Amount of start animals: ");
         TextField amountOfStartAnimalsText = new TextField();
@@ -175,7 +170,6 @@ public class GuiElement extends AbstractWorldMap {
         gensLengthText.setText(String.valueOf(gensLength));
         gensLenghtLabel.setTextFill(Color.WHITE);
 
-
         VBox controls = new VBox(new HBox(widthLabel, widthText), new HBox(heightLabel, heightText),
                 new HBox(amountOfAnimalsLabel, amountOfStartAnimalsText), new HBox(amountOfPlantsLabel, amountOfStartPlantsText),
                 new HBox(startEnergyLabel, startAnimalEnergyText), new HBox(moveEnergyLabel, moveEnergyText),
@@ -202,6 +196,7 @@ public class GuiElement extends AbstractWorldMap {
         ImageView brownAnimal = new ImageView(imageBrown);
         brownAnimal.setFitHeight(15);
         brownAnimal.setFitWidth(15);
+
         Label redLabel = new Label("  Actual energy < 0.3");
         redLabel.setTextFill(Color.WHITE);
         Label orangeLabel = new Label("  0.3 < Actual energy <= 0.5");
@@ -230,7 +225,7 @@ public class GuiElement extends AbstractWorldMap {
             imageBackground = new Image("file:src/main/resources/Hell.jpg");
         }
 
-        StackPane secondaryLayout  = new StackPane();
+        StackPane secondaryLayout = new StackPane();
         BackgroundSize backgroundSize = new BackgroundSize(
                 BackgroundSize.AUTO,
                 BackgroundSize.AUTO,

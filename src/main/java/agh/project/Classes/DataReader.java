@@ -66,7 +66,6 @@ public class DataReader {
         try {
             FileWriter writer = new FileWriter("src/main/resources/data.csv", true);
             writer.append(dataLine);
-
             writer.close();
         } catch (IOException e) {
             System.out.println("The file wasn't saved correctly" + e.getMessage());
