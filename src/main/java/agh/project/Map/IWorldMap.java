@@ -12,7 +12,7 @@ import java.util.List;
  * The interface responsible for interacting with the map of the world.
  * Assumes that Vector2d and MoveDirection classes are defined.
  *
- * @author apohllo
+ * @author Radosław Kluczewski, Szczepan Polak, apohllo
  */
 public interface IWorldMap extends IPositionChangeObserver {
     /**

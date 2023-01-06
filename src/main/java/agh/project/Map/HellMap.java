@@ -19,7 +19,7 @@ public class HellMap extends AbstractWorldMap implements IWorldMap, IPositionCha
         this.width = width;
         this.height = height;
         this.lowerLeftCorner = new Vector2d(0, 0);
-        this.upperRightCorner = new Vector2d(width, height);
+        this.upperRightCorner = new Vector2d(width - 1, height - 1);
         this.generateDeadPosition();
     }
 
