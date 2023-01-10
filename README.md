@@ -1,4 +1,4 @@
-# java-project
+# Evolution-Generator-project
 
 ## Jak uruchomić aplikację 
 
