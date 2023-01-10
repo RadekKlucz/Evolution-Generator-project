@@ -6,7 +6,7 @@ Projekt uruchamia sie z wykorzystaniem Gradle'a, gdzie główną klasą inicjuj�
 
 ### Dodatkowe informacje odnoście projektu 
 
-Początkowa konfiguracja świata jest wczytywana po uruchomieniu aplikacji. Chcąc zmienić rozmiary mapy, liczbę zwierząch należy zmienić wartości w pliku configuration.json znajdującym się w katalogu resources. Na konfiguracje są nałożone ograniczenia takie jak: 
+Początkowa konfiguracja świata jest wczytywana po uruchomieniu aplikacji z folderu resources. Chcąc zmienić rozmiary mapy, liczbę zwierząch należy zmienić wartości w pliku configuration.json znajdującym się w katalogu resources. Na konfiguracje są nałożone ograniczenia takie jak: 
 
 - maksymalne rozmiary siatki to 65 wysokości oraz 126 szerokości,
 - maksymalna liczba zwierząt zależna od rozmiarów siatki oraz liczby początkowych roślin, 
