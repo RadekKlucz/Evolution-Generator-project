@@ -1,0 +1,14 @@
+{
+   "width": 20,
+   "height": 20,
+   "widthForEarth": 20,
+   "heightForEarth": 20,
+   "amountOfAnimals": 40,
+   "amountOfPlants":30,
+   "startEnergy": 100,
+   "moveEnergy": 5,
+   "eatingEnergy": 10,
+   "dailyPlantsNumber": 5,
+   "energyToCopulate": 20,
+   "lengthGens": 10
+}
